@@ -51,8 +51,9 @@ build: .phonywin configure
 .PHONY: test
 test: .phonywin build
 	ctest --test-dir $(BUILD_DIR) --output-on-failure --timeout 120 # --verbose
-	# alternatively, for debugging information run:
-	# $(BUILD_DIR)/bin/fuzzylite-tests --reporter console
+	@echo
+	@echo "alternatively, for debugging information run:"
+	@echo "$(BUILD_DIR)/bin/fuzzylite-tests --reporter console"
 
 install: build
 	cmake --build $(BUILD_DIR) --target install
@@ -81,7 +82,7 @@ coverage: python
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
 			$(BUILD_DIR)/CMakeFiles/testTarget.dir
-	# open build/coverage.html
+	@echo "open build/coverage.html"
 
 clean-coverage:
 	find $(BUILD_DIR)/CMakeFiles/testTarget.dir -type f -name '*.gcda' -print0 | xargs -0 rm
