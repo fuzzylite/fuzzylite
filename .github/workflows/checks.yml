@@ -31,7 +31,7 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          file: build/debug/coveralls.json
+          file: build/coveralls.json
 
   documentation:
     runs-on: ubuntu-24.04
