@@ -21,7 +21,10 @@ DOWNLOAD_PREFIX = .local/src
 CONTAINER = docker
 ## CLANG_FORMAT: lint and format source code
 CLANG_FORMAT=clang-format --style=file:.clang-format -i
-
+## ENTRYPOINT: entrypoint for ubuntu
+ENTRYPOINT=""
+## JOBS: number of jobs to use when building in parallel
+JOBS=4
 
 # Tasks
 .phonywin:
@@ -46,7 +49,7 @@ configure:
 
 .PHONY: build
 build: .phonywin
-	cmake --build $(BUILD_DIR) --parallel
+	cmake --build $(BUILD_DIR) --parallel $(JOBS)
 
 .PHONY: test
 test: .phonywin
@@ -100,9 +103,10 @@ jupyter:
 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-xeus jupyter notebook --allow-root --ip 0.0.0.0
 
 ubuntu:
+	echo "*\n`git ls-files | xargs -r printf -- '!%s\n'`" > tools/docker/ubuntu-2404.Dockerfile.dockerignore
 	$(CONTAINER) --version
 	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu .
-	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
+	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu $(ENTRYPOINT)
 
 format: python
 	@echo
