@@ -182,7 +182,7 @@ if (FL_BUILD_BINARY)
     list(APPEND fl-targets binaryTarget)
 endif ()
 
-if (FL_BUILD_TESTS)
+if (FL_BUILD_TESTS AND NOT CMAKE_CXX_STANDARD EQUAL 98)
     message(CHECK_START "Detecting Catch2 library in system")
     # `make install-catch2` will install Catch2 under `.local`
     find_package(Catch2 3 QUIET HINTS .local/)
@@ -204,9 +204,10 @@ if (FL_BUILD_TESTS)
                 GIT_TAG ${FL_CATCH_TAG}
         )
         fetchcontent_makeavailable(Catch2)
-        list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
         message(CHECK_PASS "fetched")
     endif ()
+
+    include(Catch)
 
     if (FL_BUILD_COVERAGE)
         add_executable(testTarget ${fl-headers} ${fl-sources} ${fl-tests})
@@ -224,13 +225,12 @@ if (FL_BUILD_TESTS)
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
 
     # Catch2 v3 minimum CXX is 14, but we set to 23 to use latest features in testing
-    set_target_properties(testTarget PROPERTIES CXX_STANDARD 23)
+    set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
 
     # disable creation of test targets for nightly, continuous and experimental builds
     set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED ON)
 
     include(CTest)
-    include(Catch)
 
     enable_testing()
 
