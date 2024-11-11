@@ -3,18 +3,38 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "fuzzylite-devtools"
+name = "fuzzylite_devtools"
 version = "7.0.0"
-description = ""
+description = "developer tools for fuzzylite"
 license = "Proprietary"
 keywords = ["fuzzy logic control", "soft computing", "artificial intelligence"]
 authors = ["Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>"]
 maintainers = ["Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>"]
 repository = "https://github.com/fuzzylite/fuzzylite.git"
 package-mode = true
+include = [
+    "fuzzylite_devtools/",
+    "tests/",
+    "pyproject.toml"
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+
 
 [[tool.poetry.packages]]
-include = "fuzzylite-devtools"
+include = "fuzzylite_devtools"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -52,7 +72,7 @@ search = '"version {current_version}"'
 replace = '"version {new_version}"'
 
 [tool.pyright]
-include = ["noxfile.py"]
+include = ["noxfile.py", "fuzzylite_devtools/", "tests/"]
 
 [tool.ruff]
 target-version = "py39"
