@@ -20,25 +20,28 @@ Examples:
 
 from __future__ import annotations
 
-import nox
 import platform
 import shutil
-from fuzzylite_devtools import Configuration, Tools
 from pathlib import Path
+
+import nox
+
+from fuzzylite_devtools import Configuration, Tools
 
 # use the virtual environment from which nox was called
 nox.options.force_venv_backend = "none"
-nox.options.sessions = ["initialize", "configure", "build", "test", "coverage"]
+nox.options.sessions = ["configure", "build", "test"]
 
 
 ## Sessions
 @nox.session
-def initialize(session: nox.Session) -> None:
-    """Initialize developer tools"""
+def setup_poetry(session: nox.Session) -> None:
+    """Set up poetry"""
     session.log(platform.python_version())
     session.run(*"poetry config virtualenvs.create false".split())
     session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
     session.run(*f"poetry show -T -C {Tools.poetry_directory()}".split())
+    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
 
 
 @nox.session
@@ -65,7 +68,6 @@ cmake
 @nox.session
 def build(session: nox.Session) -> None:
     """Build fuzzylite. Args: `jobs=3` and `cmake --build` options."""
-    # TODO: jobs=3 --verbose won't work
     c = Configuration.for_session(session)
     cmd = f"""\
 cmake 
@@ -218,7 +220,6 @@ def lint_py(session: nox.Session) -> None:
     # session.notify(lint_py_black.__name__)
     session.notify(lint_py_ruff.__name__)
     session.notify(lint_py_right.__name__)
-    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
 
 
 @nox.session
