@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Lint
-        run: make lint
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: |
+          pip install tools/dev
+          nox -e lint
 
   coverage:
     runs-on: ubuntu-24.04
@@ -20,18 +24,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build fuzzylite
-        env:
-          CXX_STANDARD: 11
         run: |
-          make configure BUILD=debug TESTS=ON COVERAGE=ON
-          make build
-          make test
-          make coverage
+          pip install tools/dev
+          nox -e configure build test -- build=debug coverage=on
+          nox -e coverage
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          file: build/coveralls.json
+          file: build/debug/coveralls.json
 
   documentation:
     runs-on: ubuntu-24.04
