@@ -5,6 +5,7 @@ Repository: https://github.com/fuzzylite/fuzzylite/
 License: FuzzyLite License
 Copyright: FuzzyLite by Juan Rada-Vilela. All rights reserved.
 """
+
 from __future__ import annotations
 
 import dataclasses
@@ -83,7 +84,7 @@ class Configuration:
 
     def override(self, posargs: list[str]) -> Configuration:
         """Override the configuration with the session arguments.
-        
+
         The session arguments can be `cxx_standard=20` or `--verbose`
 
         Args:
@@ -109,37 +110,34 @@ class Configuration:
         return self
 
     def to_env(self) -> str:
-        export = [
-            f"{key}={value}"
-            for key, value in vars(self).items()
-            if not key.startswith("_")
-        ]
+        """Export configuration as environment variables."""
+        export = [f"{key}={value}" for key, value in vars(self).items() if not key.startswith("_")]
         if self.posargs():
             export.append(f"posargs={self.posargs()}")
         return "\n".join(export)
 
     def to_json(self) -> str:
-        export = {
-            key: value for key, value in vars(self).items() if not key.startswith("_")
-        }
+        """Export configuration as json text."""
+        export = {key: value for key, value in vars(self).items() if not key.startswith("_")}
         return json.dumps(export)
 
     @staticmethod
     def from_json(json_text: str) -> Configuration:
+        """Load configuration from json text."""
         return Configuration(**json.loads(json_text))
 
     def save(self) -> None:
-        """Save the configuration file"""
+        """Save the configuration file."""
         Tools.configuration_file().write_text(self.to_json())
 
     @staticmethod
     def load() -> Configuration:
-        """Load the configuration file"""
+        """Load the configuration file."""
         return Configuration.from_json(Tools.configuration_file().read_text())
 
     @staticmethod
     def for_session(
-            session: nox.Session, from_file: bool = True, posargs: bool = True, log: bool = False
+        session: nox.Session, from_file: bool = True, posargs: bool = True, log: bool = False
     ) -> Configuration:
         """Load the default configuration, overriding with the configuration file and the session arguments.
 
@@ -160,13 +158,13 @@ class Configuration:
         if posargs:
             configuration.override(session.posargs)
         if log:
-            session.log(
-                "\nConfiguration:\n" + textwrap.indent(configuration.to_env(), prefix="\t")
-            )
+            session.log("\nConfiguration:\n" + textwrap.indent(configuration.to_env(), prefix="\t"))
         return configuration
 
 
 class Tools:
+    """Tools to help with configuration."""
+
     @staticmethod
     def base_build() -> Path:
         """Return the path to the base build folder (ie, `./build`).
@@ -178,6 +176,7 @@ class Tools:
 
     @staticmethod
     def configuration_file() -> Path:
+        """Return path to configuration file."""
         return Tools.base_build() / "fuzzylite.json"
 
     @staticmethod
@@ -192,16 +191,14 @@ class Tools:
     @staticmethod
     def create_temporal_directory(name: str) -> Path:
         """Create a temporal directory in the form `com.fuzzylite.{name}.{yyyy/MM/dd}`.
-        
+
         Args:
             name: partial name of the temporal directory
 
         Returns:
             a temporal directory
         """
-        now = re.sub(
-            r"\W", "", datetime.datetime.now().replace(microsecond=0).isoformat()
-        )
+        now = re.sub(r"\W", "", datetime.datetime.now().replace(microsecond=0).isoformat())
         temporal_directory = tempfile.mkdtemp(prefix=f"com.fuzzylite.{name}.{now}.")
         return Path(temporal_directory)
 

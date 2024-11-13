@@ -15,17 +15,18 @@ from unittest.mock import MagicMock
 
 import nox
 import nox.registry
+from fuzzylite_devtools import Tools
 
 import noxfile
-from fuzzylite_devtools import Tools
 
 
 class AssertThat:
     def __init__(self, session: nox.registry.F) -> None:
         self.session = session
 
-    def runs(self, command: str | list[str] | None = None, *, posargs: list[str] | None = None) -> MagicMock[
-        nox.Session]:
+    def runs(
+        self, command: str | list[str] | None = None, *, posargs: list[str] | None = None
+    ) -> MagicMock[nox.Session]:
         mock_session = mock.Mock(spec=nox.Session)
         mock_session.posargs = posargs or []
         mock_session.run = MagicMock()
@@ -42,7 +43,7 @@ class TestSessions(unittest.TestCase):
     def setUp(self) -> None:
         Tools.base_build().mkdir(parents=True, exist_ok=True)
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(Tools.base_build(), ignore_errors=True)
 
     def test_configure(self) -> None:
@@ -75,57 +76,69 @@ cmake
         -DFL_USE_FLOAT=True
         --verbose
     """
-        posargs = ["build=debug", "cxx_standard=23", "install_prefix=/tmp", "strict=OFF", "tests=off", "coverage=ON",
-                   "use_float=ON", "--verbose"]
+        posargs = [
+            "build=debug",
+            "cxx_standard=23",
+            "install_prefix=/tmp",
+            "strict=OFF",
+            "tests=off",
+            "coverage=ON",
+            "use_float=ON",
+            "--verbose",
+        ]
         AssertThat(noxfile.configure).runs(expected, posargs=posargs)
 
     def test_build(self) -> None:
-        AssertThat(noxfile.build).runs("cmake --build build/relwithdebinfo --parallel 1",
-                                       posargs=["jobs=1"])
+        AssertThat(noxfile.build).runs(
+            "cmake --build build/relwithdebinfo --parallel 1", posargs=["jobs=1"]
+        )
 
     def test_build_with_configure(self) -> None:
         AssertThat(noxfile.configure).runs(posargs=["build=debug", "jobs=999"])
         AssertThat(noxfile.build).runs("cmake --build build/debug --parallel 999")
 
     def test_test(self) -> None:
-        AssertThat(noxfile.test).runs("ctest --test-dir build/relwithdebinfo --output-on-failure --timeout 120")
+        AssertThat(noxfile.test).runs(
+            "ctest --test-dir build/relwithdebinfo --output-on-failure --timeout 120"
+        )
 
     def test_test_with_configure_and_args(self) -> None:
         AssertThat(noxfile.configure).runs(posargs=["build=debug"])
         AssertThat(noxfile.test).runs(
             "ctest --test-dir build/debug --output-on-failure --timeout 120 --verbose",
-            posargs=["--verbose"])
+            posargs=["--verbose"],
+        )
 
     def test_coverage(self) -> None:
-        expected = f"""\
-gcovr -r . 
-    --filter src/ 
-    --filter fuzzylite/ 
-    --coveralls build/relwithdebinfo/coveralls.json 
-    --html build/relwithdebinfo/coverage.html 
-    --html-details 
-    --html-single-page 
-    --sort uncovered-percent 
-    --html-theme github.dark-blue 
-    --txt --txt-summary 
+        expected = """\
+gcovr -r .
+    --filter src/
+    --filter fuzzylite/
+    --coveralls build/relwithdebinfo/coveralls.json
+    --html build/relwithdebinfo/coverage.html
+    --html-details
+    --html-single-page
+    --sort uncovered-percent
+    --html-theme github.dark-blue
+    --txt --txt-summary
 	build/relwithdebinfo/CMakeFiles/testTarget.dir"""
         AssertThat(noxfile.coverage).runs(expected)
 
     def test_coverage_with_configuration_and_posargs(self) -> None:
         AssertThat(noxfile.configure).runs(posargs=["build=debug"])
-        expected = f"""\
-        gcovr -r . 
-            --filter src/ 
-            --filter fuzzylite/ 
-            --coveralls build/debug/coveralls.json 
-            --html build/debug/coverage.html 
-            --html-details 
-            --html-single-page 
-            --sort uncovered-percent 
-            --html-theme github.dark-blue 
-            --txt --txt-summary 
+        expected = """\
+        gcovr -r .
+            --filter src/
+            --filter fuzzylite/
+            --coveralls build/debug/coveralls.json
+            --html build/debug/coverage.html
+            --html-details
+            --html-single-page
+            --sort uncovered-percent
+            --html-theme github.dark-blue
+            --txt --txt-summary
             --verbose
-        	build/debug/CMakeFiles/testTarget.dir"""
+        build/debug/CMakeFiles/testTarget.dir"""
         AssertThat(noxfile.coverage).runs(expected, posargs=["--verbose"])
 
     def test_install(self) -> None:
@@ -133,7 +146,9 @@ gcovr -r .
 
     def test_install_with_configuration_and_posargs(self) -> None:
         AssertThat(noxfile.configure).runs(posargs=["build=debug"])
-        AssertThat(noxfile.install).runs("cmake --build build/debug --target install --verbose", posargs=["--verbose"])
+        AssertThat(noxfile.install).runs(
+            "cmake --build build/debug --target install --verbose", posargs=["--verbose"]
+        )
 
     def test_docs(self) -> None:
         AssertThat(noxfile.docs).runs("doxygen Doxyfile")

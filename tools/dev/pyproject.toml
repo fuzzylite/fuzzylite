@@ -118,7 +118,6 @@ fixable = [
     "F", # pyflakes
     "I", # isort
     "ICN", # flake8-import-conventions
-    "ISC", # flake8-implicit-str-concat
     "N", # pep8 naming
     "NPY", # NumPy-specific rules
     # "PD", # pandas-vet
@@ -129,6 +128,7 @@ fixable = [
     "SIM", # flake8-simplify
     # "TRY", # tryceratops
     "W", # pycodestyle warnings
+    "W291", #  Trailing whitespace
 ]
 
 ignore = [
@@ -143,6 +143,7 @@ ignore = [
     "D104", # Missing docstring in public package
     # "D212", # Multi-line docstring summary should start at the first line
     # "D400", # First line should end with a period
+    "D412", # No blank lines allowed between a section header and its content
     # "D415", # First line should end with a period, question mark, or exclamation point
     # "D205", # 1 blank line required between summary line and description"
     # "D213",   # `no-blank-line-before-class`, `multi-line-summary-second-line`
@@ -151,6 +152,7 @@ ignore = [
     # "F401", #  imported but unused
     "F405", # Imports from star
     "F403", # Detect names from star imports
+    "ISC", # flake8-implicit-str-concat
     # "N817", # CamelCase imported as acronym
     "N999", # Invalid module name
     # "N812", # Lowercase  imported as non-lowercase
@@ -175,6 +177,7 @@ unfixable = [
 
 exclude = []
 
+
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
@@ -183,6 +186,9 @@ max-complexity = 10
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tools/dev/tests/*" = ["D"]
 
 [tool.pymarkdown]
 plugins.line-length.enabled = true

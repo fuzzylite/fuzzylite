@@ -24,5 +24,3 @@ use_float=False
 jobs=3
 container=docker"""
         assert expected == Configuration().to_env()
-
-

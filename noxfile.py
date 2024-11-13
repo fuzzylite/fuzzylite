@@ -5,26 +5,27 @@
 # License: FuzzyLite License
 # Copyright: FuzzyLite by Juan Rada-Vilela. All rights reserved.
 
-"""fuzzylite-devtools: developer tools for fuzzylite
+"""fuzzylite-devtools: developer tools for fuzzylite.
 
 by Juan Rada-Vilela, PhD.
 
 Examples:
-`nox`: execute tasks to configure, build, test, and coverage of fuzzylite with default settings
-`nox -l`: list available tasks
-`nox -e configure -- strict=ON cxx_standard=23`: configure strict build of fuzzylite with C++23
-`nox -e build -- jobs=1`: build previously configured fuzzylite without parallelization
-`nox -e clean`: clean the `build/` directory
-`nox --help`: show help about using nox
+
+- `nox`    execute tasks to configure, build, test, and coverage of fuzzylite with default settings
+- `nox -l`    list available tasks
+- `nox -e configure -- strict=ON cxx_standard=23`    configure strict build of fuzzylite with C++23
+- `nox -e build -- jobs=1`    build previously configured fuzzylite without parallelization
+- `nox -e clean`    removes the `build/` directory
+- `nox --help`    show help about using nox
 """
 
 from __future__ import annotations
 
-import nox
 import platform
 import shutil
 from pathlib import Path
 
+import nox
 from fuzzylite_devtools import Configuration, Tools
 
 # use the virtual environment from which nox was called
@@ -35,7 +36,7 @@ nox.options.sessions = ["configure", "build", "test"]
 ## Sessions
 @nox.session
 def setup_poetry(session: nox.Session) -> None:
-    """Set up poetry"""
+    """Set up poetry."""
     session.log(platform.python_version())
     session.run(*"poetry config virtualenvs.create false".split())
     session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
@@ -44,8 +45,8 @@ def setup_poetry(session: nox.Session) -> None:
 
 
 @nox.session
-def configure(session: nox.Session):
-    """Prepare to build fuzzylite. Args: `build=relwithdebinfo cxx_standard=11 install_prefix=.local strict=OFF tests=ON coverage=ON use_float=OFF`"""
+def configure(session: nox.Session) -> None:
+    """Prepare to build fuzzylite. Args: `build=relwithdebinfo cxx_standard=11 install_prefix=.local strict=OFF tests=ON coverage=ON use_float=OFF`."""
     c = Configuration.for_session(session, from_file=False)
     cmd = f"""\
 cmake
@@ -69,8 +70,8 @@ def build(session: nox.Session) -> None:
     """Build fuzzylite. Args: `jobs=3` and `cmake --build` options."""
     c = Configuration.for_session(session)
     cmd = f"""\
-cmake 
-    --build {c.build_path()} 
+cmake
+    --build {c.build_path()}
     --parallel {c.jobs}
     {c.posargs()}
 """
@@ -79,12 +80,12 @@ cmake
 
 @nox.session
 def test(session: nox.Session) -> None:
-    """Run tests. Args: `ctest --help` options"""
+    """Run tests. Args: `ctest --help` options."""
     c = Configuration.for_session(session)
     cmd = f"""\
-ctest 
-    --test-dir {c.build_path()} 
-    --output-on-failure 
+ctest
+    --test-dir {c.build_path()}
+    --output-on-failure
     --timeout 120
     {c.posargs()}
 """
@@ -99,19 +100,19 @@ alternatively, for debugging information run:
 
 @nox.session
 def coverage(session: nox.Session) -> None:
-    """Report coverage. Args: `gcovr --help` options"""
+    """Report coverage. Args: `gcovr --help` options."""
     c = Configuration.for_session(session)
     cmd = f"""\
-gcovr -r . 
-    --filter src/ 
-    --filter fuzzylite/ 
-    --coveralls {c.build_path()}/coveralls.json 
-    --html {c.build_path()}/coverage.html 
-    --html-details 
-    --html-single-page 
-    --sort uncovered-percent 
-    --html-theme github.dark-blue 
-    --txt --txt-summary 
+gcovr -r .
+    --filter src/
+    --filter fuzzylite/
+    --coveralls {c.build_path()}/coveralls.json
+    --html {c.build_path()}/coverage.html
+    --html-details
+    --html-single-page
+    --sort uncovered-percent
+    --html-theme github.dark-blue
+    --txt --txt-summary
     {c.posargs()}
 	{c.build_path()}/CMakeFiles/testTarget.dir
 """
@@ -121,11 +122,11 @@ gcovr -r .
 
 @nox.session
 def install(session: nox.Session) -> None:
-    """Install fuzzylite. Args: `cmake --build` options"""
+    """Install fuzzylite. Args: `cmake --build` options."""
     c = Configuration.for_session(session)
     cmd = f"""\
-cmake 
-    --build {c.build_path()} 
+cmake
+    --build {c.build_path()}
     --target install
     {c.posargs()}
 """
@@ -134,7 +135,7 @@ cmake
 
 @nox.session
 def docs(session: nox.Session) -> None:
-    """Build documentation. Args: `doxygen -h` options"""
+    """Build documentation. Args: `doxygen -h` options."""
     c = Configuration.for_session(session, from_file=False)
     session.run(*"doxygen --version".split())
     session.run(*f"doxygen Doxyfile {c.posargs()}".split())
@@ -146,9 +147,7 @@ def clean(session: nox.Session) -> None:
     """Clean the project (default `all`). Args: `[all|last|coverage]` to remove `build/` folder, last build (eg, `build/release`),  and *.gcda coverage files."""
     c = Configuration.for_session(session)
     args = set(c.posargs().split())
-    error_message = (
-        f"expected one of {['all', 'last', 'coverage']}, but found: {c.posargs()}"
-    )
+    error_message = f"expected one of {['all', 'last', 'coverage']}, but found: {c.posargs()}"
     if len(args) > 1:
         raise ValueError(error_message)
 
@@ -187,7 +186,7 @@ def clean_coverage(session: nox.Session) -> None:
 ## Linting and formating
 @nox.session
 def lint(session: nox.Session) -> None:
-    """Lint the project: CMakelists.txt, noxfile.py, Markdown files, C++ headers and sources"""
+    """Lint the project: CMakelists.txt, noxfile.py, Markdown files, C++ headers and sources."""
     session.notify(lint_cmake.__name__)
     session.notify(lint_py.__name__)
     session.notify(lint_md.__name__)
@@ -196,26 +195,26 @@ def lint(session: nox.Session) -> None:
 
 @nox.session
 def lint_cmake(session: nox.Session) -> None:
-    """Lint CMakeLists.txt"""
+    """Lint CMakeLists.txt."""
     session.run(*"cmakelint CMakeLists.txt".split())
 
 
 @nox.session
 def lint_cpp(session: nox.Session) -> None:
-    """Lint C++ headers and sources"""
+    """Lint C++ headers and sources."""
     Tools.clang_format("lint", session)
 
 
 @nox.session
 def lint_md(session: nox.Session) -> None:
-    """Lint Markdown files"""
+    """Lint Markdown files."""
     # poetry = Tools.poetry_directory()
     # session.run(*f"pymarkdown --config {poetry}/pyproject.toml scan README.md".split())
 
 
 @nox.session
 def lint_py(session: nox.Session) -> None:
-    """Lint noxfile.py and checks the poetry fuzzylite-devtools project"""
+    """Lint noxfile.py and checks the poetry fuzzylite-devtools project."""
     # session.notify(lint_py_black.__name__)
     session.notify(lint_py_ruff.__name__)
     session.notify(lint_py_right.__name__)
@@ -223,21 +222,21 @@ def lint_py(session: nox.Session) -> None:
 
 @nox.session
 def lint_py_right(session: nox.Session) -> None:
-    """Lint noxfile.py for static code analysis"""
+    """Lint noxfile.py for static code analysis."""
     configuration = Tools.poetry_directory() / "pyproject.toml"
     session.run(*f"pyright -p {configuration} noxfile.py".split())
 
 
 @nox.session
 def lint_py_ruff(session: nox.Session) -> None:
-    """Lint noxfile.py for code formatting"""
+    """Lint noxfile.py for code formatting."""
     configuration = Tools.poetry_directory() / "pyproject.toml"
-    session.run(*f"ruff --config {configuration} check noxfile.py tools/dev/".split())
+    session.run(*f"ruff --config {configuration} check noxfile.py tools/dev".split())
 
 
 @nox.session
 def format(session: nox.Session) -> None:
-    """Format the project: Markdown files, noxfile.py, and C++ header and source files"""
+    """Format the project: Markdown files, noxfile.py, and C++ header and source files."""
     session.notify(format_md.__name__)
     session.notify(format_py.__name__)
     session.notify(format_cpp.__name__)
@@ -245,49 +244,50 @@ def format(session: nox.Session) -> None:
 
 @nox.session
 def format_cpp(session: nox.Session) -> None:
-    """Format C++ header and source files"""
+    """Format C++ header and source files."""
     Tools.clang_format("format", session)
 
 
 @nox.session
 def format_md(session: nox.Session) -> None:
-    """Format Markdown files"""
+    """Format Markdown files."""
     # poetry = Tools.poetry_directory()
     # session.run(*f"pymarkdown --config {poetry}/pyproject.toml fix README.md".split())
 
 
 @nox.session
 def format_py(session: nox.Session) -> None:
-    """Format noxfile.py"""
+    """Format noxfile.py."""
     configuration = Tools.poetry_directory() / "pyproject.toml"
+    session.run(*f"ruff --config {configuration} check noxfile.py tools/dev --fix".split())
     session.run(*f"ruff --config {configuration} format noxfile.py tools/dev/".split())
 
 
 ## Other
 @nox.session
 def install_catch2(session: nox.Session) -> None:
-    """Install the C++ testing library Catch2 v3.7.1. Args: `jobs=3 install_prefix=.local`"""
+    """Install the C++ testing library Catch2 v3.7.1. Args: `jobs=3 install_prefix=.local`."""
     c = Configuration.for_session(session)
     catch_src = Path(c.install_prefix) / "src" / "Catch2"
     if not catch_src.exists():
         git_clone = f"""\
-git clone --single-branch -b v3.7.1 
+git clone --single-branch -b v3.7.1
     https://github.com/catchorg/Catch2.git {catch_src}
 """
         session.run(*git_clone.split())
 
     cmake_configure = f"""\
-cmake 
-    -B {catch_src}/build 
-    -S {catch_src} 
-    -DCMAKE_INSTALL_PREFIX={c.install_prefix} 
+cmake
+    -B {catch_src}/build
+    -S {catch_src}
+    -DCMAKE_INSTALL_PREFIX={c.install_prefix}
     -DCATCH_ENABLE_WERROR=OFF
 """
     session.run(*cmake_configure.split())
 
     cmake_build = f"""\
-cmake 
-    --build {catch_src}/build 
+cmake
+    --build {catch_src}/build
     --parallel {c.jobs} --target install
 """
     session.run(*cmake_build.split())
@@ -295,7 +295,7 @@ cmake
 
 @nox.session
 def jupyter(session: nox.Session) -> None:
-    """Build and run containerized Jupyter Notebook for C++ based on Xeus. Args: `container=docker`"""
+    """Build and run containerized Jupyter Notebook for C++ based on Xeus. Args: `container=docker`."""
     # TODO: does not work on Apple Silicon
     c = Configuration.for_session(session)
     session.run(*f"{c.container} --version")
@@ -307,10 +307,10 @@ def jupyter(session: nox.Session) -> None:
 
     # run
     run_cmd = f"""\
-{c.container} run --rm 
-    -p 8888:8888 
-    -v.:/mnt/fuzzylite 
-    -it {tag} jupyter notebook 
+{c.container} run --rm
+    -p 8888:8888
+    -v.:/mnt/fuzzylite
+    -it {tag} jupyter notebook
     --allow-root --ip 0.0.0.0
 """
     session.run(*run_cmd.split())
@@ -318,7 +318,7 @@ def jupyter(session: nox.Session) -> None:
 
 @nox.session
 def ubuntu(session: nox.Session) -> None:
-    """Build and run containerized Ubuntu with default entrypoint to build fuzzylite. Args: `entrypoint` (eg, `/bin/bash` to enter the container)"""
+    """Build and run containerized Ubuntu with default entrypoint to build fuzzylite. Args: `entrypoint` (eg, `/bin/bash` to enter the container)."""
     c = Configuration.for_session(session)
     session.run(*f"{c.container} --version".split())
 
@@ -334,10 +334,7 @@ def ubuntu(session: nox.Session) -> None:
 
     docker_ignore = [
         "*",  # ignore everything, include only git ls-files
-        *[
-            f"!{file}"
-            for file in sorted(include_paths, key=lambda p: (not p.is_dir(), p.name))
-        ],
+        *[f"!{file}" for file in sorted(include_paths, key=lambda p: (not p.is_dir(), p.name))],
     ]
     docker_ignore_file = docker_path / "ubuntu.Dockerfile.dockerignore"
     docker_ignore_file.write_text("\n".join(docker_ignore))
@@ -350,10 +347,10 @@ def ubuntu(session: nox.Session) -> None:
     # run
     entrypoint = c.posargs()
     run_cmd = f"""\
-{c.container} run --rm 
-    -p 8888:8888 
-    -v.:/mnt/fuzzylite 
-    -it {tag} 
+{c.container} run --rm
+    -p 8888:8888
+    -v.:/mnt/fuzzylite
+    -it {tag}
     {entrypoint}
 """
     session.run(*run_cmd.split())
