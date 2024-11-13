@@ -1,16 +1,18 @@
+# Makefile: tasks to build fuzzylite
+
+## Suggestion: use fuzzylite_devtools instead (`make devtools`)
+
 # Variables
 ## BUILD: type of build (eg, `release`, `debug`)
 BUILD = RelWithDebInfo
 ## BUILD_DIR: output of the build
-BUILD_DIR = build
+BUILD_DIR = build/$(BUILD)
 ## FLOAT: use `fl::scalar` as `float` instead of `double`
 FLOAT = OFF
 ## TESTS: build and run tests
 TESTS = ON
 ## COVERAGE: compute source code coverage
 COVERAGE = OFF
-## EXPORT_COMPILE_COMMANDS: export compile commands as json to be used in coveralls
-EXPORT_COMPILE_COMMANDS = ON
 ## STRICT: warnings are raised as errors
 STRICT = OFF
 ## INSTALL_PREFIX: path to install fuzzylite libraries and Catch2
@@ -36,9 +38,8 @@ configure:
 		-DCMAKE_BUILD_TYPE=$(BUILD) \
 		-DCMAKE_CXX_STANDARD=$(CXX_STANDARD) \
 		-DCMAKE_INSTALL_PREFIX=$(INSTALL_PREFIX) \
-		-DCMAKE_EXPORT_COMPILE_COMMANDS=$(EXPORT_COMPILE_COMMANDS) \
+		-DCMAKE_COMPILE_WARNING_AS_ERROR=$(STRICT) \
 		-DFL_USE_FLOAT=$(FLOAT) \
-		-DFL_WARNINGS_AS_ERRORS=$(STRICT) \
 		-DFL_BUILD_TESTS=$(TESTS) \
 		-DFL_BUILD_COVERAGE=$(COVERAGE)
 
@@ -48,7 +49,7 @@ build: .phonywin
 
 .PHONY: test
 test: .phonywin
-	ctest --test-dir $(BUILD_DIR) --output-on-failure --timeout 120 # --verbose
+	ctest --test-dir $(BUILD_DIR) --output-on-failure --timeout 120
 	@echo
 	@echo "alternatively, for debugging information run:"
 	@echo "$(BUILD_DIR)/bin/fuzzylite-tests --reporter console"
@@ -62,17 +63,10 @@ docs:
 	@echo "doxygen: `doxygen --version`"
 	@echo "open docs/html/index.html"
 
-python:
+devtools:
 	python3 -m venv .venv \
 		&& . .venv/bin/activate \
 		&& pip install tools/dev
 
-coverage: python
-	@. .venv/bin/activate && echo "`gcovr --version`"
-	. .venv/bin/activate \
-		&& gcovr -r . \
-			--filter src/ \
-			--filter fuzzylite/ \
-			--sort uncovered-percent \
-			--txt --txt-summary \
-			$(BUILD_DIR)/CMakeFiles/testTarget.dir
+coverage: devtools
+	@. .venv/bin/activate && nox -e coverage
