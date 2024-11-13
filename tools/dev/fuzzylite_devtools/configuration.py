@@ -230,6 +230,7 @@ class Tools:
         files = Tools.source_files()
         errors: list[Path] = []
         session.log(f"{message[mode]} {len(files)} files...")
+
         with tqdm.tqdm(files, desc=f"{mode}") as bar:
             for file in bar:
                 bar.set_description(f"{mode}: {file.parent}".ljust(30))
@@ -238,9 +239,10 @@ class Tools:
                     session.run(*cmd.split(), log=False)
                 except CommandFailed:
                     errors.append(file)
-                except (KeyboardInterrupt, Exception):  # CTRL+C or else
-                    break
+                except (KeyboardInterrupt, Exception) as error:  # CTRL+C or else
+                    session.error(str(error))
             bar.set_description(None)
+
         if errors:
             error_messages = "\n".join(str(file) for file in errors)
             session.error(f"The following files need formatting:\n{error_messages}")

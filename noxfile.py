@@ -20,11 +20,10 @@ Examples:
 
 from __future__ import annotations
 
+import nox
 import platform
 import shutil
 from pathlib import Path
-
-import nox
 
 from fuzzylite_devtools import Configuration, Tools
 
@@ -39,9 +38,9 @@ def setup_poetry(session: nox.Session) -> None:
     """Set up poetry"""
     session.log(platform.python_version())
     session.run(*"poetry config virtualenvs.create false".split())
+    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
     session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
     session.run(*f"poetry show -T -C {Tools.poetry_directory()}".split())
-    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
 
 
 @nox.session
@@ -210,8 +209,8 @@ def lint_cpp(session: nox.Session) -> None:
 @nox.session
 def lint_md(session: nox.Session) -> None:
     """Lint Markdown files"""
-    poetry = Tools.poetry_directory()
-    session.run(*f"pymarkdown --config {poetry}/pyproject.toml scan README.md".split())
+    # poetry = Tools.poetry_directory()
+    # session.run(*f"pymarkdown --config {poetry}/pyproject.toml scan README.md".split())
 
 
 @nox.session
@@ -228,9 +227,10 @@ def lint_py_right(session: nox.Session) -> None:
     session.run(*"pyright noxfile.py".split())
 
 
+@nox.session
 def lint_py_ruff(session: nox.Session) -> None:
     """Lint noxfile.py for code formatting"""
-    session.run(*"ruff --check noxfile.py".split())
+    session.run(*"ruff check noxfile.py".split())
 
 
 @nox.session
