@@ -1,4 +1,4 @@
-"""fuzzylite-devtools: developer tools for fuzzylite
+"""fuzzylite-devtools: developer tools for fuzzylite.
 
 This file is part of fuzzylite.
 Repository: https://github.com/fuzzylite/fuzzylite/
@@ -40,10 +40,11 @@ class Configuration:
     _posargs: list[str] = dataclasses.field(default_factory=list)
 
     def posargs(self) -> str:
+        """Return extra arguments as string."""
         return " ".join(self._posargs)
 
     def build_path(self) -> Path:
-        """Return the build path (eg, `build/release`)
+        """Return the build path (eg, `build/release`).
 
         Returns:
             the build path
@@ -51,7 +52,8 @@ class Configuration:
         return Tools.base_build() / self.build
 
     def convert_value(self, property: str, value: Any) -> Any:
-        """Convert the value based on the current contents of the configuration
+        """Convert the value based on the current contents of the configuration.
+
         Args:
             property: name of configuration property
             value: value of the configuration property
@@ -80,8 +82,9 @@ class Configuration:
         raise ValueError(f"unknown type of value: {value} ({current_value})")
 
     def override(self, posargs: list[str]) -> Configuration:
-        """Override the configuration with the session arguments
-        The session arguments can be known key-value pairs, like `cxx_standard=20` or `--verbose`
+        """Override the configuration with the session arguments.
+        
+        The session arguments can be `cxx_standard=20` or `--verbose`
 
         Args:
             posargs: the session arguments.
@@ -136,37 +139,37 @@ class Configuration:
 
     @staticmethod
     def for_session(
-            session: nox.Session, load_env: bool = True, posargs: bool = True
+            session: nox.Session, from_file: bool = True, posargs: bool = True, log: bool = False
     ) -> Configuration:
-        """Load the default configuration,
-        overriding with the configuration file
-        and the session arguments.
+        """Load the default configuration, overriding with the configuration file and the session arguments.
 
         Args:
             session: task with optional arguments
-            load_env: whether to override default configuration with the `build/fuzzylite.env` environment file
+            from_file: whether to override default with the configuration file
             posargs: whether to override the configuration with the session arguments
+            log: whether to log the configuration
 
         Returns:
-            a configuration with properties overriden from environment file and session
+            a configuration with properties overriden from configuration file and session
         """
-        if load_env and Tools.configuration_file().exists():
+        if from_file and Tools.configuration_file().exists():
             configuration = Configuration.load()
         else:
             configuration = Configuration()
 
         if posargs:
             configuration.override(session.posargs)
-        session.log(
-            "\nConfiguration:\n" + textwrap.indent(configuration.to_env(), prefix="\t")
-        )
+        if log:
+            session.log(
+                "\nConfiguration:\n" + textwrap.indent(configuration.to_env(), prefix="\t")
+            )
         return configuration
 
 
 class Tools:
     @staticmethod
     def base_build() -> Path:
-        """Return the path to the base build folder (ie, `./build`)
+        """Return the path to the base build folder (ie, `./build`).
 
         Returns:
             Path to `./build`
@@ -179,7 +182,7 @@ class Tools:
 
     @staticmethod
     def poetry_directory() -> Path:
-        """Return the path to the poetry project
+        """Return the path to the poetry project.
 
         Returns:
             Path to `./tools.dev`
@@ -188,7 +191,8 @@ class Tools:
 
     @staticmethod
     def create_temporal_directory(name: str) -> Path:
-        """Create a temporal directory in the form `com.fuzzylite.{name}.{yyyy/MM/dd}`
+        """Create a temporal directory in the form `com.fuzzylite.{name}.{yyyy/MM/dd}`.
+        
         Args:
             name: partial name of the temporal directory
 
@@ -203,7 +207,7 @@ class Tools:
 
     @staticmethod
     def source_files() -> list[Path]:
-        """Find C++ header and source files in the project
+        """Find C++ header and source files in the project.
 
         Returns:
             C++ header and source files

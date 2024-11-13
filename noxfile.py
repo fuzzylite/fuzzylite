@@ -38,15 +38,15 @@ def setup_poetry(session: nox.Session) -> None:
     """Set up poetry"""
     session.log(platform.python_version())
     session.run(*"poetry config virtualenvs.create false".split())
-    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
     session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
     session.run(*f"poetry show -T -C {Tools.poetry_directory()}".split())
+    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
 
 
 @nox.session
 def configure(session: nox.Session):
     """Prepare to build fuzzylite. Args: `build=relwithdebinfo cxx_standard=11 install_prefix=.local strict=OFF tests=ON coverage=ON use_float=OFF`"""
-    c = Configuration.for_session(session, load_env=False)
+    c = Configuration.for_session(session, from_file=False)
     cmd = f"""\
 cmake
     -S .
@@ -135,7 +135,7 @@ cmake
 @nox.session
 def docs(session: nox.Session) -> None:
     """Build documentation. Args: `doxygen -h` options"""
-    c = Configuration.for_session(session, load_env=False)
+    c = Configuration.for_session(session, from_file=False)
     session.run(*"doxygen --version".split())
     session.run(*f"doxygen Doxyfile {c.posargs()}".split())
     session.log("open docs/html/index.html")
@@ -224,13 +224,15 @@ def lint_py(session: nox.Session) -> None:
 @nox.session
 def lint_py_right(session: nox.Session) -> None:
     """Lint noxfile.py for static code analysis"""
-    session.run(*"pyright noxfile.py".split())
+    configuration = Tools.poetry_directory() / "pyproject.toml"
+    session.run(*f"pyright -p {configuration} noxfile.py".split())
 
 
 @nox.session
 def lint_py_ruff(session: nox.Session) -> None:
     """Lint noxfile.py for code formatting"""
-    session.run(*"ruff check noxfile.py".split())
+    configuration = Tools.poetry_directory() / "pyproject.toml"
+    session.run(*f"ruff --config {configuration} check noxfile.py tools/dev/".split())
 
 
 @nox.session
@@ -250,13 +252,15 @@ def format_cpp(session: nox.Session) -> None:
 @nox.session
 def format_md(session: nox.Session) -> None:
     """Format Markdown files"""
-    session.run(*"pymarkdown --config pyproject.toml fix README.md".split())
+    # poetry = Tools.poetry_directory()
+    # session.run(*f"pymarkdown --config {poetry}/pyproject.toml fix README.md".split())
 
 
 @nox.session
 def format_py(session: nox.Session) -> None:
     """Format noxfile.py"""
-    session.run(*"ruff format noxfile.py".split())
+    configuration = Tools.poetry_directory() / "pyproject.toml"
+    session.run(*f"ruff --config {configuration} format noxfile.py tools/dev/".split())
 
 
 ## Other
