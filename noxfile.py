@@ -45,6 +45,17 @@ def setup_poetry(session: nox.Session) -> None:
 
 
 @nox.session
+def all(session: nox.Session) -> None:
+    """Prepare, build, and test fuzzylite in each of the four building types."""
+    build_types = ["release", "debug", "relwithdebinfo", "minsizerel"]
+    for build_type in build_types:
+        session.posargs.append(f"build={build_type}")
+        configure(session)
+        build(session)
+        test(session)
+
+
+@nox.session
 def configure(session: nox.Session) -> None:
     """Prepare to build fuzzylite. Args: `build=relwithdebinfo cxx_standard=11 install_prefix=.local strict=OFF tests=ON coverage=ON use_float=OFF`."""
     c = Configuration.for_session(session, from_file=False)
