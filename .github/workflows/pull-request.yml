@@ -19,12 +19,12 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         if: ${{ matrix.os == 'windows-latest'}}
 
-      - name: Restore cmake dependencies
-        id: cache-restore-cmake-deps
+      - name: Restore dependencies
+        id: restore-dependencies
         uses: actions/cache/restore@v4
         with:
-          path: build/_deps
-          key: ${{ runner.os }}-cmake-deps
+          path: .local/
+          key: ${{ runner.os }}-local
 
       - name: Building on Apple
         if: ${{ matrix.os == 'macos-latest'}}
@@ -33,13 +33,13 @@ jobs:
       - name: Build fuzzylite
         shell: ${{ matrix.os == 'windows-latest' && 'cmd' || 'bash' }}
         run: |
-          pip install tools/dev
+          pip install --target .local/site-packages tools/dev
           nox -- strict=on cxx_standard=${{ matrix.cxx-standard }} use_float=${{ matrix.use_float }}
 
-      - name: Save cmake dependencies
-        if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
-        id: cache-save-cmake-deps
+      - name: Save dependencies
+        if: steps.restore-dependencies.outputs.cache-hit != 'true'
+        id: save-dependencies
         uses: actions/cache/save@v4
         with:
-          path: build/_deps
-          key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
+          path: .local/
+          key: ${{ steps.restore-dependencies.outputs.cache-primary-key }}

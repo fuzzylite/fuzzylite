@@ -11,18 +11,41 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+
+      - name: Restore dependencies
+        id: restore-dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: .local/
+          key: ${{ runner.os }}-local
+
       - run: |
-          pip install tools/dev
+          pip install --target .local/site-packages tools/dev
           nox -e lint
+
+      - name: Save dependencies
+        if: steps.restore-dependencies.outputs.cache-hit != 'true'
+        id: save-dependencies
+        uses: actions/cache/save@v4
+        with:
+          path: .local/
+          key: ${{ steps.restore-dependencies.outputs.cache-primary-key }}
 
   coverage:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
+      - name: Restore dependencies
+        id: restore-dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: .local/
+          key: ${{ runner.os }}-local
+
       - name: Build fuzzylite
         run: |
-          pip install tools/dev
+          pip install --target .local/site-packages tools/dev
           nox -e configure build test -- build=debug coverage=on
           nox -e coverage
 
@@ -30,6 +53,14 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           file: build/debug/coveralls.json
+
+      - name: Save dependencies
+        if: steps.restore-dependencies.outputs.cache-hit != 'true'
+        id: save-dependencies
+        uses: actions/cache/save@v4
+        with:
+          path: .local/
+          key: ${{ steps.restore-dependencies.outputs.cache-primary-key }}
 
   documentation:
     runs-on: ubuntu-24.04
