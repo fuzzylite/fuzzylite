@@ -23,6 +23,8 @@ CONTAINER = docker
 ENTRYPOINT=""
 ## JOBS: number of jobs to use when building in parallel
 JOBS=4
+##PYTHON: python binary
+PYTHON=python3
 
 # Tasks
 .phonywin:
@@ -63,8 +65,11 @@ docs:
 	@echo "doxygen: `doxygen --version`"
 	@echo "open docs/html/index.html"
 
+venv_activate:
+	@echo ".local/.venv/bin/activate"
+
 devtools:
-	python3 -m venv .local/.venv \
+	$(PYTHON) -m venv .local/.venv \
 		&& . .local/.venv/bin/activate \
 		&& pip install tools/dev \
 		&& nox -e install_catch2
