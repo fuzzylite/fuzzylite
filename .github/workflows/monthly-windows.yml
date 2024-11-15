@@ -35,5 +35,5 @@ jobs:
         env:
           CMAKE_GENERATOR: ${{ matrix.generator }}
         run: |
-          make devtools && source `make venv_activate_windows`
+          make devtools_windows
           nox -- strict=on cxx_standard=${{ matrix.cxx-standard }} use_float=${{ matrix.use_float }}
