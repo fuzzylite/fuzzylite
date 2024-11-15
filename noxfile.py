@@ -311,7 +311,7 @@ cmake
     cmake_build = f"""\
 cmake
     --build {catch_build}
-    --parallel {c.jobs} 
+    --parallel {c.jobs}
     --target install
 """
     session.run(*cmake_build.split())
