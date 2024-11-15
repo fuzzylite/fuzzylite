@@ -70,7 +70,7 @@ venv_activate:
 
 devtools:
 	$(PYTHON) -m venv .local/.venv \
-		&& source .local/.venv/bin/activate \
+		&& . .local/.venv/bin/activate \
 		&& pip install tools/dev \
 		&& nox -e install_catch2
 
