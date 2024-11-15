@@ -186,10 +186,10 @@ def clean_coverage(session: nox.Session) -> None:
     c = Configuration.for_session(session)
     cov_files = list(Tools.base_build().rglob("*.gcda"))
     if cov_files:
-        tempdir = Tools.create_temporal_directory("coverage")
+        trash = Tools.create_temporal_directory("coverage")
         for gcda_file in cov_files:
-            shutil.move(gcda_file, tempdir)
-        session.log(f"moved {len(cov_files)} .gcda files to '{tempdir}'")
+            shutil.move(gcda_file, trash)
+        session.log(f"moved {len(cov_files)} .gcda files to '{trash}'")
     else:
         session.log(f"nothing to clean: no .gcda files found in '{c.build_path()}'")
 
@@ -277,9 +277,21 @@ def format_py(session: nox.Session) -> None:
 ## Other
 @nox.session
 def install_catch2(session: nox.Session) -> None:
-    """Install the C++ testing library Catch2 v3.7.1. Args: `jobs=3 install_prefix=.local`."""
+    """Install the C++ testing library Catch2 v3.7.1. Args: `jobs=3 install_prefix=.local` and `--force` to reinstall."""
     c = Configuration.for_session(session)
+
     catch_src = Path(c.install_prefix) / "src" / "Catch2"
+    catch_build = catch_src / "build"
+    catch_install = Path(c.install_prefix) / "lib"/ "cmake" / "Catch2" / "Catch.cmake"
+
+    if "--force" in c.posargs() :
+        if catch_src.exists():
+            trash = Tools.create_temporal_directory("Catch2")
+            shutil.move(catch_src, trash)
+            session.log(f"moved '{catch_src}' to '{trash}'")
+    elif catch_install.exists():
+        session.skip(f"Catch2 is already installed at {catch_install}")
+
     if not catch_src.exists():
         git_clone = f"""\
 git clone --single-branch -b v3.7.1
@@ -289,7 +301,7 @@ git clone --single-branch -b v3.7.1
 
     cmake_configure = f"""\
 cmake
-    -B {catch_src}/build
+    -B {catch_build}
     -S {catch_src}
     -DCMAKE_INSTALL_PREFIX={c.install_prefix}
     -DCATCH_ENABLE_WERROR=OFF
@@ -298,10 +310,15 @@ cmake
 
     cmake_build = f"""\
 cmake
-    --build {catch_src}/build
-    --parallel {c.jobs} --target install
+    --build {catch_build}
+    --parallel {c.jobs} 
+    --target install
 """
     session.run(*cmake_build.split())
+
+    trash = Tools.create_temporal_directory("Catch2")
+    shutil.move(catch_src, trash)
+    session.log(f"moved '{catch_build}' to '{trash}'")
 
 
 @nox.session
