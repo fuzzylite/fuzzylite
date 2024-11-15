@@ -99,7 +99,6 @@ cmake
 @nox.session
 def test(session: nox.Session) -> None:
     """Run tests. Args: `ctest --help` options."""
-    session.notify(test_py.__name__)
     c = Configuration.for_session(session)
     cmd = f"""\
 ctest

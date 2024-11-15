@@ -7,6 +7,24 @@ on:
     branches: [ main ]
 
 jobs:
+  devtools:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        id: fuzzylite-cache
+        uses: actions/cache@v3
+        with:
+          path: .local/
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - run: |
+          make devtools && source `make venv_activate`
+          nox -e test_py
+
   lint:
     runs-on: ubuntu-24.04
     steps:

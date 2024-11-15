@@ -23,4 +23,4 @@ coverage=False
 use_float=False
 jobs=3
 container=docker"""
-        self.assertEquals(expected, Configuration().override(["jobs=3"]).to_env())
+        self.assertEqual(expected, Configuration().override(["jobs=3"]).to_env())
