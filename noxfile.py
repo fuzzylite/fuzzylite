@@ -45,6 +45,13 @@ def setup_poetry(session: nox.Session) -> None:
 
 
 @nox.session
+def poetry(session: nox.Session) -> None:
+    """Run poetry."""
+    posargs = " ".join(session.posargs)
+    session.run(*f"poetry -C {Tools.poetry_directory()} {posargs}".split())
+
+
+@nox.session
 def all(session: nox.Session) -> None:
     """Prepare, build, and test fuzzylite in each of the four building types."""
     build_types = ["release", "debug", "relwithdebinfo", "minsizerel"]
@@ -92,6 +99,7 @@ cmake
 @nox.session
 def test(session: nox.Session) -> None:
     """Run tests. Args: `ctest --help` options."""
+    session.notify(test_py.__name__)
     c = Configuration.for_session(session)
     cmd = f"""\
 ctest
@@ -107,6 +115,15 @@ alternatively, for debugging information run:
 {c.build_path()}/bin/fuzzylite-tests --reporter console
 """
     )
+
+
+@nox.session
+def test_py(session: nox.Session) -> None:
+    """Run tests for devtools. Args: `ctest --help` options."""
+    if Path("tools/dev").exists():
+        session.chdir("tools/dev")
+    cmd = "python -m unittest discover -s tests/"
+    session.run(*cmd.split())
 
 
 @nox.session
@@ -282,9 +299,9 @@ def install_catch2(session: nox.Session) -> None:
 
     catch_src = Path(c.install_prefix) / "src" / "Catch2"
     catch_build = catch_src / "build"
-    catch_install = Path(c.install_prefix) / "lib"/ "cmake" / "Catch2" / "Catch.cmake"
+    catch_install = Path(c.install_prefix) / "lib" / "cmake" / "Catch2" / "Catch.cmake"
 
-    if "--force" in c.posargs() :
+    if "--force" in c.posargs():
         if catch_src.exists():
             trash = Tools.create_temporal_directory("Catch2")
             shutil.move(catch_src, trash)
@@ -294,7 +311,9 @@ def install_catch2(session: nox.Session) -> None:
 
     if not catch_src.exists():
         git_clone = f"""\
-git clone --single-branch -b v3.7.1
+git clone
+    --depth 1
+    --single-branch -b v3.7.1
     https://github.com/catchorg/Catch2.git {catch_src}
 """
         session.run(*git_clone.split())
@@ -317,7 +336,7 @@ cmake
     session.run(*cmake_build.split())
 
     trash = Tools.create_temporal_directory("Catch2")
-    shutil.move(catch_src, trash)
+    shutil.move(catch_build, trash)
     session.log(f"moved '{catch_build}' to '{trash}'")
 
 
