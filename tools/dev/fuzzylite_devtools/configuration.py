@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import nox
-import tqdm
+import rich.progress
 from nox.command import CommandFailed
 
 from .typing import Build, CxxStandard
@@ -232,17 +232,14 @@ class Tools:
         errors: list[Path] = []
         session.log(f"{message[mode]} {len(files)} files...")
 
-        with tqdm.tqdm(files, desc=f"{mode}") as bar:
-            for file in bar:
-                bar.set_description(f"{mode}: {file.parent}".ljust(30))
-                cmd = " ".join([clang_format_cmd, parameters[mode], str(file)])
-                try:
-                    session.run(*cmd.split(), log=False)
-                except CommandFailed:
-                    errors.append(file)
-                except (KeyboardInterrupt, Exception) as error:  # CTRL+C or else
-                    session.error(str(error))
-            bar.set_description(None)
+        for file in rich.progress.track(files, description=message[mode]):
+            cmd = " ".join([clang_format_cmd, parameters[mode], str(file)])
+            try:
+                session.run(*cmd.split(), log=False)
+            except CommandFailed:
+                errors.append(file)
+            except (KeyboardInterrupt, Exception) as error:  # CTRL+C or else
+                session.error(str(error))
 
         if errors:
             error_messages = "\n".join(str(file) for file in errors)
