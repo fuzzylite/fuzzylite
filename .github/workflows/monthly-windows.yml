@@ -21,25 +21,19 @@ jobs:
 
       - uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Restore dependencies
-        id: restore-dependencies
-        uses: actions/cache/restore@v4
+      - name: Cache dependencies
+        id: fuzzylite-cache
+        uses: actions/cache@v3
         with:
           path: .local/
-          key: ${{ runner.os }}-local
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
 
       - name: Building FuzzyLite
         shell: cmd
         env:
           CMAKE_GENERATOR: ${{ matrix.generator }}
         run: |
-          pip install --target .local/site-packages tools/dev
+          make devtools && source `make venv_activate_windows`
           nox -- strict=on cxx_standard=${{ matrix.cxx-standard }} use_float=${{ matrix.use_float }}
-
-      - name: Save dependencies
-        if: steps.restore-dependencies.outputs.cache-hit != 'true'
-        id: save-dependencies
-        uses: actions/cache/save@v4
-        with:
-          path: .local/
-          key: ${{ steps.restore-dependencies.outputs.cache-primary-key }}

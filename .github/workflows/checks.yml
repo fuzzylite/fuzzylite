@@ -17,12 +17,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .local/
-          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/poetry.lock') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-build-
 
       - run: |
-          make devtools && source .local/.venv/bin/activate
+          make devtools && source `make venv_activate`
           nox -e lint
 
   coverage:
@@ -35,13 +35,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .local/
-          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/poetry.lock') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-build-
 
       - name: Build fuzzylite
         run: |
-          make devtools && source .local/.venv/bin/activate
+          make devtools && source `make venv_activate`
           nox -e configure build test -- build=debug coverage=on
           nox -e coverage
 
