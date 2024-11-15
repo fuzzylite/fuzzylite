@@ -64,9 +64,10 @@ docs:
 	@echo "open docs/html/index.html"
 
 devtools:
-	python3 -m venv .venv \
-		&& . .venv/bin/activate \
-		&& pip install tools/dev
+	python3 -m venv .local/.venv \
+		&& . .local/.venv/bin/activate \
+		&& pip install tools/dev \
+		&& nox -e install_catch2
 
 coverage: devtools
-	@. .venv/bin/activate && nox -e coverage
+	@. .local/.venv/bin/activate && nox -e coverage
