@@ -298,15 +298,12 @@ def install_catch2(session: nox.Session) -> None:
 
     catch_src = Path(c.install_prefix) / "src" / "Catch2"
     catch_build = catch_src / "build"
-    catch_install = Path(c.install_prefix) / "lib" / "cmake" / "Catch2" / "Catch.cmake"
 
     if "--force" in c.posargs():
         if catch_src.exists():
             trash = Tools.create_temporal_directory("Catch2")
             shutil.move(catch_src, trash)
             session.log(f"moved '{catch_src}' to '{trash}'")
-    elif catch_install.exists():
-        session.skip(f"Catch2 is already installed at {catch_install}")
 
     if not catch_src.exists():
         git_clone = f"""\
@@ -322,7 +319,7 @@ cmake
     -B {catch_build}
     -S {catch_src}
     -DCMAKE_INSTALL_PREFIX={c.install_prefix}
-    -DCMAKE_CXX_STANDARD=11
+    -DCMAKE_CXX_STANDARD={c.cxx_standard}
     -DCATCH_ENABLE_WERROR=OFF
 """
     session.run(*cmake_configure.split())
