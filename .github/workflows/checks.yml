@@ -23,7 +23,7 @@ jobs:
 
       - run: |
           make devtools && source `make venv_activate`
-          nox -e test_py
+          nox -e lint_py test_py
 
   lint:
     runs-on: ubuntu-24.04
@@ -60,6 +60,7 @@ jobs:
       - name: Build fuzzylite
         run: |
           make devtools && source `make venv_activate`
+          nox -e install_catch2
           nox -e configure build test -- build=debug coverage=on
           nox -e coverage
 

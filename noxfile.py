@@ -41,7 +41,6 @@ def setup_poetry(session: nox.Session) -> None:
     session.run(*"poetry config virtualenvs.create false".split())
     session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
     session.run(*f"poetry show -T -C {Tools.poetry_directory()}".split())
-    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
 
 
 @nox.session
@@ -242,9 +241,9 @@ def lint_md(session: nox.Session) -> None:
 @nox.session
 def lint_py(session: nox.Session) -> None:
     """Lint noxfile.py and checks the poetry fuzzylite-devtools project."""
-    # session.notify(lint_py_black.__name__)
     session.notify(lint_py_ruff.__name__)
     session.notify(lint_py_right.__name__)
+    session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
 
 
 @nox.session

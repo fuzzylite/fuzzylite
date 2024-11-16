@@ -77,8 +77,7 @@ devtools:
 devtools_windows:
 	$(PYTHON) -m venv .local/.venv \
 		&& .local/.venv/Scripts/activate \
-		&& pip install tools/dev \
-		&& nox -e install_catch2
+		&& pip install tools/dev
 
 coverage: devtools
 	@. .local/.venv/bin/activate && nox -e coverage
