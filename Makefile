@@ -71,12 +71,12 @@ venv_activate:
 devtools:
 	$(PYTHON) -m venv .local/.venv \
 		&& . .local/.venv/bin/activate \
-		&& pip install tools/dev
+		&& pip --cache-dir .local/pip-cache install tools/dev
 
 devtools_windows:
 	$(PYTHON) -m venv .local/.venv \
 		&& .local/.venv/Scripts/activate \
-		&& pip install tools/dev
+		&& pip --cache-dir .local/pip-cache install tools/dev
 
 coverage: devtools
 	@. .local/.venv/bin/activate && nox -e coverage

@@ -32,7 +32,6 @@ classifiers = [
     "Typing :: Typed",
 ]
 
-
 [[tool.poetry.packages]]
 include = "fuzzylite_devtools"
 
