@@ -322,6 +322,7 @@ cmake
     -B {catch_build}
     -S {catch_src}
     -DCMAKE_INSTALL_PREFIX={c.install_prefix}
+    -DCMAKE_CXX_STANDARD=11
     -DCATCH_ENABLE_WERROR=OFF
 """
     session.run(*cmake_configure.split())
