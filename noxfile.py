@@ -321,6 +321,7 @@ cmake
     -S {catch_src}
     -DCMAKE_INSTALL_PREFIX={c.install_prefix}
     -DCMAKE_CXX_STANDARD={c.cxx_standard}
+    -DCMAKE_BUILD_TYPE={c.build}
     -DCATCH_ENABLE_WERROR=OFF
 """
     session.run(*cmake_configure.split())
