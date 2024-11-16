@@ -42,8 +42,8 @@ clang-format = "==19.1.2" # C++ source code formatting
 cmakelint = "==1.4.3" # CMake linter
 gcovr = "==8.2" # C++ coverage tool
 nox = "==2024.10.9" # Task management tool
-poetry = "^1.8.4" # Build management tool
-pymarkdownlnt = "==0.9.24" # Markdown linter
+poetry = "==1.8.4" # Build management tool
+pymarkdownlnt = "==0.9.25" # Markdown linter
 pyright = "==1.1.387" # Python static code analysis
 ruff = "==0.7.3" # Python source code formatting
 rich = "==13.9.4" # Progress bars

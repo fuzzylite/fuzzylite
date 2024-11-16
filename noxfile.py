@@ -140,7 +140,7 @@ gcovr -r .
     --html-theme github.dark-blue
     --txt --txt-summary
     {c.posargs()}
-	{c.build_path()}/CMakeFiles/testTarget.dir
+    {c.build_path()}/CMakeFiles/testTarget.dir
 """
     session.run(*cmd.split())
     session.log(f"open {c.build_path()}/coverage.html")
@@ -214,8 +214,8 @@ def clean_coverage(session: nox.Session) -> None:
 def lint(session: nox.Session) -> None:
     """Lint the project: CMakelists.txt, noxfile.py, Markdown files, C++ headers and sources."""
     session.notify(lint_cmake.__name__)
+    # session.notify(lint_md.__name__)
     session.notify(lint_py.__name__)
-    session.notify(lint_md.__name__)
     session.notify(lint_cpp.__name__)
 
 
@@ -234,8 +234,9 @@ def lint_cpp(session: nox.Session) -> None:
 @nox.session
 def lint_md(session: nox.Session) -> None:
     """Lint Markdown files."""
-    # poetry = Tools.poetry_directory()
-    # session.run(*f"pymarkdown --config {poetry}/pyproject.toml scan README.md".split())
+    session.chdir(Tools.poetry_directory())
+    readme = Path("../../README.md")  # TODO: compute automatically
+    session.run(*f"pymarkdown scan {readme}".split())
 
 
 @nox.session
@@ -277,8 +278,9 @@ def format_cpp(session: nox.Session) -> None:
 @nox.session
 def format_md(session: nox.Session) -> None:
     """Format Markdown files."""
-    # poetry = Tools.poetry_directory()
-    # session.run(*f"pymarkdown --config {poetry}/pyproject.toml fix README.md".split())
+    session.chdir(Tools.poetry_directory())
+    readme = Path("../../README.md")  # TODO: compute automatically
+    session.run(*f"pymarkdown fix {readme}".split())
 
 
 @nox.session

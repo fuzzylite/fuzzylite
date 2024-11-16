@@ -184,7 +184,7 @@ class Tools:
         """Return the path to the poetry project.
 
         Returns:
-            Path to `./tools.dev`
+            Path to `./tools/dev`
         """
         return Path("./tools/dev")
 

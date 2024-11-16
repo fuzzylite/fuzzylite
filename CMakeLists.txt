@@ -212,7 +212,8 @@ if (FL_BUILD_TESTS AND NOT CMAKE_CXX_STANDARD EQUAL 98)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
 
-    # Catch2 v3 minimum CXX is 14, but we set to 23 to use latest features in testing
+    # Catch2 v3 minimum CXX_STANDARD is 14, but seems to build fine with C++11
+    # We use the CXX_STANDARD used to build fuzzylite.
     set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
 
     # disable creation of test targets for nightly, continuous and experimental builds
