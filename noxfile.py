@@ -64,7 +64,7 @@ def all(session: nox.Session) -> None:
 @nox.session
 def configure(session: nox.Session) -> None:
     """Prepare to build fuzzylite. Args: `build=relwithdebinfo cxx_standard=11 install_prefix=.local strict=OFF tests=ON coverage=ON use_float=OFF`."""
-    c = Configuration.for_session(session, from_file=False)
+    c = Configuration.for_session(session, from_file=False, log=True)
     cmd = f"""\
 cmake
     -S .

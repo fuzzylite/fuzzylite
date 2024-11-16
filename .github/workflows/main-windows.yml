@@ -33,6 +33,6 @@ jobs:
         env:
           CMAKE_GENERATOR: ${{ matrix.generator }}
         run: |
-          make devtools
+          make devtools_windows
           nox -e install_catch2
           nox -- strict=on cxx_standard=${{ matrix.cxx-standard }} use_float=${{ matrix.use_float }}
