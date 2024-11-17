@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.15)
 
-# TODO: get version from source
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
-if (NOT DEFINED CMAKE_CXX_STANDARD)
+if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
     set(CMAKE_CXX_STANDARD 11)
 endif ()
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# export commands for clang-tidy
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # GNUInstallDirs: resolves common paths (eg, CMAKE_INSTALL_[LIB|INCLUDE|DATAROOT]DIR)
 include(GNUInstallDirs)
@@ -25,7 +26,6 @@ option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 option(FL_BUILD_TESTS "Builds the unit tests" ON)
 option(FL_BUILD_COVERAGE "Build the unit tests to compute coverage" OFF)
-option(FL_WARNINGS_AS_ERRORS "Configure warnings as errors" OFF)
 
 if (CMAKE_CXX_STANDARD STREQUAL 98)
     add_definitions(-DFL_CPP98)
@@ -47,9 +47,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 if (UNIX)
     #Add Unix compilation flags
     add_compile_options(-pedantic -Wall -Wextra) # -Wconversion -Wsign-conversion
-    if (FL_WARNINGS_AS_ERRORS)
-        add_compile_options(-Werror)
-    endif ()
     if (NOT APPLE)
         add_link_options(-Wl,--no-undefined)
     endif ()
@@ -70,13 +67,10 @@ set(FL_LIBS)
 if (MSVC)
     #Set compilation flags in Windows
     add_compile_options(/W4 /EHsc)
-    if (FL_WARNINGS_AS_ERRORS)
-        add_compile_options(/WX)
-        if (FL_USE_FLOAT)
-            # warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
-            # warning C4305: 'return': truncation from 'double' to 'fuzzylite::scalar'
-            add_compile_options(/wd4244 /wd4305)
-        endif ()
+    if (FL_USE_FLOAT)
+        # warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+        # warning C4305: 'return': truncation from 'double' to 'fuzzylite::scalar'
+        add_compile_options(/wd4244 /wd4305)
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
@@ -101,9 +95,7 @@ string(REGEX REPLACE "\n" " " ${fl-headers} ${fl-headers})
 string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
 string(REGEX REPLACE "\n" " " ${fl-tests} ${fl-tests})
 
-list(APPEND fl-targets "")
-
-set(CMAKE_DEBUG_POSTFIX debug)
+set(fl-targets)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
     if (FL_BUILD_SHARED)
@@ -146,7 +138,6 @@ if (FL_BUILD_SHARED)
 
     set_target_properties(dynamicTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(dynamicTarget PROPERTIES OUTPUT_NAME fuzzylite)
-    set_target_properties(dynamicTarget PROPERTIES DEBUG_POSTFIX -debug)
     set_target_properties(dynamicTarget PROPERTIES VERSION ${FL_VERSION})
     target_compile_definitions(dynamicTarget PRIVATE FL_EXPORT_LIBRARY)
     target_link_libraries(dynamicTarget ${FL_LIBS})
@@ -160,7 +151,6 @@ if (FL_BUILD_STATIC)
 
     set_target_properties(staticTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(staticTarget PROPERTIES OUTPUT_NAME fuzzylite-static)
-    set_target_properties(staticTarget PROPERTIES DEBUG_POSTFIX -debug)
     set_target_properties(staticTarget PROPERTIES VERSION ${FL_VERSION})
     target_link_libraries(staticTarget ${FL_LIBS})
 
@@ -175,7 +165,6 @@ if (FL_BUILD_BINARY)
     set_target_properties(binaryTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(binaryTarget PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(binaryTarget PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(binaryTarget PROPERTIES DEBUG_POSTFIX -debug)
     target_compile_definitions(binaryTarget PRIVATE FL_IMPORT_LIBRARY) #if building with dynamicTarget
     target_link_libraries(binaryTarget dynamicTarget ${FL_LIBS})
 
@@ -222,9 +211,9 @@ if (FL_BUILD_TESTS AND NOT CMAKE_CXX_STANDARD EQUAL 98)
 
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
 
-    # Catch2 v3 minimum CXX is 14, but we set to 23 to use latest features in testing
+    # Catch2 v3 minimum CXX_STANDARD is 14, but seems to build fine with C++11
+    # We use the CXX_STANDARD used to build fuzzylite.
     set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
 
     # disable creation of test targets for nightly, continuous and experimental builds
@@ -284,7 +273,6 @@ message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_LIBS=${FL_LIBS}")
 message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
 message("FL_BUILD_COVERAGE=${FL_BUILD_COVERAGE}")
-message("FL_WARNINGS_AS_ERRORS=${FL_WARNINGS_AS_ERRORS}")
 message("")
 message("CMAKE_GENERATOR=${CMAKE_GENERATOR}")
 message("CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}")
@@ -293,6 +281,7 @@ message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
+message("CMAKE_COMPILE_WARNING_AS_ERROR=${CMAKE_COMPILE_WARNING_AS_ERROR}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 message("CMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
 message("CMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}")

@@ -408,7 +408,8 @@ namespace fuzzylite {
     }
 
     inline std::string fuzzylite::version() {
-        return "7.0.0";
+        const std::string __version__ = "7.0.0";
+        return __version__;
     }
 
     inline std::string fuzzylite::license() {

@@ -7,31 +7,67 @@ on:
     branches: [ main ]
 
 jobs:
+  devtools:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        id: fuzzylite-cache
+        uses: actions/cache@v3
+        with:
+          path: .local/
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - run: |
+          make devtools && source `make venv_activate`
+          nox -e lint_py test_py
+
   lint:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Lint
-        run: make lint
+
+      - name: Cache dependencies
+        id: fuzzylite-cache
+        uses: actions/cache@v3
+        with:
+          path: .local/
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - run: |
+          make devtools && source `make venv_activate`
+          nox -e lint
 
   coverage:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache dependencies
+        id: fuzzylite-cache
+        uses: actions/cache@v3
+        with:
+          path: .local/
+          key: ${{ runner.os }}-build-${{ hashFiles('tools/dev/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
       - name: Build fuzzylite
-        env:
-          CXX_STANDARD: 11
         run: |
-          make configure BUILD=debug TESTS=ON COVERAGE=ON
-          make build
-          make test
-          make coverage
+          make devtools && source `make venv_activate`
+          nox -e install_catch2
+          nox -e configure build test -- build=debug coverage=on
+          nox -e coverage
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          file: build/coveralls.json
+          file: build/debug/coveralls.json
 
   documentation:
     runs-on: ubuntu-24.04

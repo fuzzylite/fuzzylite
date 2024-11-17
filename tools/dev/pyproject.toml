@@ -1,0 +1,205 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "fuzzylite_devtools"
+version = "7.0.0"
+description = "developer tools for fuzzylite"
+license = "Proprietary"
+keywords = ["fuzzy logic control", "soft computing", "artificial intelligence"]
+authors = ["Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>"]
+maintainers = ["Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>"]
+repository = "https://github.com/fuzzylite/fuzzylite.git"
+package-mode = true
+include = [
+    "fuzzylite_devtools/",
+    "tests/",
+    "pyproject.toml"
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+
+[[tool.poetry.packages]]
+include = "fuzzylite_devtools"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+clang-format = "==19.1.2" # C++ source code formatting
+# clang-tidy = "==19.1.0" # C++ code analysis, but does not build in docker/ubuntu with Apple Silicon
+cmakelint = "==1.4.3" # CMake linter
+gcovr = "==8.2" # C++ coverage tool
+nox = "==2024.10.9" # Task management tool
+poetry = "==1.8.4" # Build management tool
+pymarkdownlnt = "==0.9.25" # Markdown linter
+pyright = "==1.1.387" # Python static code analysis
+ruff = "==0.7.3" # Python source code formatting
+rich = "==13.9.4" # Progress bars
+
+[tool.poetry_bumpversion.file."fuzzylite/fuzzylite.h"]
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["CMakeLists.txt"]
+search = "set(FL_VERSION {current_version})"
+replace = "set(FL_VERSION {new_version})"
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["README.md"]
+search = "<h1>fuzzylite {current_version}</h1>"
+replace = "<h1>fuzzylite {new_version}</h1>"
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["Doxyfile"]
+search = "PROJECT_NUMBER         = {current_version}"
+replace = "PROJECT_NUMBER         = {new_version}"
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["Doxyfile"]
+search = '"version {current_version}"'
+replace = '"version {new_version}"'
+
+[tool.pyright]
+include = ["noxfile.py", "fuzzylite_devtools/", "tests/"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+# https://beta.ruff.rs/docs/rules/
+select = [
+    "A", # flake8-builtins
+    "ANN", # flake8-annotations
+    # "ARG", # flake8-unused-arguments
+    "B", # flake8-bugbear
+    # "C",  # flake8-comprehensions
+    # "COM", # flake8-commas
+    "D", # pydocstyle
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "I", # isort
+    "ICN", # flake8-import-conventions
+    "ISC", # flake8-implicit-str-concat
+    "N", # pep8 naming
+    "NPY", # NumPy-specific rules
+    "NPY201", # NumPy 2.0 specific rules
+    # "PD", # pandas-vet
+    "PLW", # warning
+    # "PTH", # flake8-use-pathlib
+    "UP", # pyupgrade
+    "RET", # flake8-return
+    "SIM", # flake8-simplify
+    # "TRY", # tryceratops
+    "W", # pycodestyle warnings
+]
+
+fixable = [
+    "A", # flake8-builtins
+    "ANN", # flake8-annotations
+    # "ARG", # flake8-unused-arguments
+    "B", # flake8-bugbear
+    # "C",  # flake8-comprehensions
+    # "COM", # flake8-commas
+    "D", # pydocstyle
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "I", # isort
+    "ICN", # flake8-import-conventions
+    "N", # pep8 naming
+    "NPY", # NumPy-specific rules
+    # "PD", # pandas-vet
+    "PLW", # warning
+    # "PTH", # flake8-use-pathlib
+    "UP", # pyupgrade
+    "RET", # flake8-return
+    "SIM", # flake8-simplify
+    # "TRY", # tryceratops
+    "W", # pycodestyle warnings
+    "W291", #  Trailing whitespace
+]
+
+ignore = [
+    "A001", # Variable `__name__` is shadowing a python builtin
+    "A002", # Argument `type` is shadowing a python builtin
+    "A003", # Class attribute `format` is shadowing a python builtin
+    "ANN101", # Missing type annotation for `self` in method
+    "ANN102", # Missing type annotation for `cls` in classmethod
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**args`
+    "B007", # [*] Loop control variable `x` not used within loop body
+    "D100", # Missing docstring in public module
+    "D104", # Missing docstring in public package
+    # "D212", # Multi-line docstring summary should start at the first line
+    # "D400", # First line should end with a period
+    "D412", # No blank lines allowed between a section header and its content
+    # "D415", # First line should end with a period, question mark, or exclamation point
+    # "D205", # 1 blank line required between summary line and description"
+    # "D213",   # `no-blank-line-before-class`, `multi-line-summary-second-line`
+    # "D417", # Missing argument descriptions in the docstring
+    "E501", # Line too long (handled by black)
+    # "F401", #  imported but unused
+    "F405", # Imports from star
+    "F403", # Detect names from star imports
+    "ISC", # flake8-implicit-str-concat
+    # "N817", # CamelCase imported as acronym
+    "N999", # Invalid module name
+    # "N812", # Lowercase  imported as non-lowercase
+    "PD901", # df is a bad variable name
+    "PLW2901", # `for` loop variable `line` overwritten by assignment target
+    "RET504", # Unnecessary variable assignment before `return` statement
+    "RET505", # Unnecessary `else` after `return` statement
+    "SIM102", # Use a single `if` statement instead of nested `if` statements
+    "SIM300", # Yoda conditions are discouraged
+    # "W605",    # [*] Invalid escape sequence: latex
+    # "W291", # Trailing whitespace # hinders markdown
+]
+
+unfixable = [
+    #    "D",
+    #    "D212", # Multi-line docstring summary should start at the first line
+    "D301", # Use `r"""` if any backslashes in a docstring # do not escape `\`
+    #    "D400", # First line should end with a period
+    #    "D415", # First line should end with a period, question mark, or exclamation point
+    #    "W291", # Trailing whitespace # hinders markdown
+]
+
+exclude = []
+
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tools/dev/tests/*" = ["D"]
+
+[tool.pymarkdown]
+plugins.line-length.enabled = true
+plugins.line-length.line_length = 120
+plugins.line-length.code_block_line_length = 120
+# MD024: Multiple headings cannot contain the same content. (no-duplicate-heading,no-duplicate-header)
+plugins.MD024.enabled = false
+# MD046: Code block style [Expected: indented; Actual: fenced] (code-block-style)
+plugins.MD046.enabled = false
+# MD033: Inline HTML [Element: a] (no-inline-html)
+plugins.MD033.enabled = false
+# MD034: Bare URL used (no-bare-urls)
+plugins.MD034.enabled = false
+# MD041: First line in file should be a top level heading
+plugins.MD041.enabled = false
