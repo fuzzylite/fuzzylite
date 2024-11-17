@@ -35,24 +35,8 @@ nox.options.sessions = ["configure", "build", "test"]
 
 ## Sessions
 @nox.session
-def setup_poetry(session: nox.Session) -> None:
-    """Set up poetry."""
-    session.log(platform.python_version())
-    session.run(*"poetry config virtualenvs.create false".split())
-    session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
-    session.run(*f"poetry show -T -C {Tools.poetry_directory()}".split())
-
-
-@nox.session
-def poetry(session: nox.Session) -> None:
-    """Run poetry."""
-    posargs = " ".join(session.posargs)
-    session.run(*f"poetry -C {Tools.poetry_directory()} {posargs}".split())
-
-
-@nox.session
 def all(session: nox.Session) -> None:
-    """Prepare, build, and test fuzzylite in each of the four building types."""
+    """Configure, build, and test fuzzylite in each of the four building types."""
     build_types = ["release", "debug", "relwithdebinfo", "minsizerel"]
     for build_type in build_types:
         session.posargs.append(f"build={build_type}")
@@ -116,15 +100,6 @@ alternatively, for debugging information run:
 
 
 @nox.session
-def test_py(session: nox.Session) -> None:
-    """Run tests for devtools. Args: `ctest --help` options."""
-    if Path("tools/dev").exists():
-        session.chdir("tools/dev")
-    cmd = "python -m unittest discover -s tests/"
-    session.run(*cmd.split())
-
-
-@nox.session
 def coverage(session: nox.Session) -> None:
     """Report coverage. Args: `gcovr --help` options."""
     c = Configuration.for_session(session)
@@ -170,7 +145,7 @@ def docs(session: nox.Session) -> None:
 
 @nox.session
 def clean(session: nox.Session) -> None:
-    """Clean the project (default `all`). Args: `[all|last|coverage]` to remove `build/` folder, last build (eg, `build/release`),  and *.gcda coverage files."""
+    """Clean the project (default `all`). Args: `[all|last|coverage]`."""
     c = Configuration.for_session(session)
     args = set(c.posargs().split())
     error_message = f"expected one of {['all', 'last', 'coverage']}, but found: {c.posargs()}"
@@ -209,12 +184,20 @@ def clean_coverage(session: nox.Session) -> None:
         session.log(f"nothing to clean: no .gcda files found in '{c.build_path()}'")
 
 
+@nox.session
+def test_py(session: nox.Session) -> None:
+    """Run tests for devtools. Args: `ctest --help` options."""
+    if Path("tools/dev").exists():
+        session.chdir("tools/dev")
+    cmd = "python -m unittest discover -s tests/"
+    session.run(*cmd.split())
+
 ## Linting and formating
 @nox.session
 def lint(session: nox.Session) -> None:
-    """Lint the project: CMakelists.txt, noxfile.py, Markdown files, C++ headers and sources."""
+    """Lint the project: CMakelists.txt, Markdown files, devtools, C++ headers and sources."""
     session.notify(lint_cmake.__name__)
-    # session.notify(lint_md.__name__)
+    session.notify(lint_md.__name__)
     session.notify(lint_py.__name__)
     session.notify(lint_cpp.__name__)
 
@@ -241,7 +224,7 @@ def lint_md(session: nox.Session) -> None:
 
 @nox.session
 def lint_py(session: nox.Session) -> None:
-    """Lint noxfile.py and checks the poetry fuzzylite-devtools project."""
+    """Lint and check devtools."""
     session.notify(lint_py_ruff.__name__)
     session.notify(lint_py_right.__name__)
     session.run(*f"poetry check -C {Tools.poetry_directory()}".split())
@@ -249,21 +232,21 @@ def lint_py(session: nox.Session) -> None:
 
 @nox.session
 def lint_py_right(session: nox.Session) -> None:
-    """Lint noxfile.py for static code analysis."""
+    """Lint devtools - static code analysis."""
     configuration = Tools.poetry_directory() / "pyproject.toml"
     session.run(*f"pyright -p {configuration} noxfile.py".split())
 
 
 @nox.session
 def lint_py_ruff(session: nox.Session) -> None:
-    """Lint noxfile.py for code formatting."""
+    """Lint devtools - code formatting."""
     configuration = Tools.poetry_directory() / "pyproject.toml"
     session.run(*f"ruff --config {configuration} check noxfile.py tools/dev".split())
 
 
 @nox.session
 def format(session: nox.Session) -> None:
-    """Format the project: Markdown files, noxfile.py, and C++ header and source files."""
+    """Format the project: Markdown files, devtools, and C++ header and source files."""
     session.notify(format_md.__name__)
     session.notify(format_py.__name__)
     session.notify(format_cpp.__name__)
@@ -285,13 +268,29 @@ def format_md(session: nox.Session) -> None:
 
 @nox.session
 def format_py(session: nox.Session) -> None:
-    """Format noxfile.py."""
+    """Format devtools."""
     configuration = Tools.poetry_directory() / "pyproject.toml"
     session.run(*f"ruff --config {configuration} check noxfile.py tools/dev --fix".split())
     session.run(*f"ruff --config {configuration} format noxfile.py tools/dev/".split())
 
 
 ## Other
+@nox.session
+def setup_poetry(session: nox.Session) -> None:
+    """Set up poetry."""
+    session.log(platform.python_version())
+    session.run(*"poetry config virtualenvs.create false".split())
+    session.run(*f"poetry lock -C {Tools.poetry_directory()}".split())
+    session.run(*f"poetry show -T -C {Tools.poetry_directory()}".split())
+
+
+@nox.session
+def poetry(session: nox.Session) -> None:
+    """Run poetry with posargs."""
+    posargs = " ".join(session.posargs)
+    session.run(*f"poetry -C {Tools.poetry_directory()} {posargs}".split())
+
+
 @nox.session
 def install_catch2(session: nox.Session) -> None:
     """Install the C++ testing library Catch2 v3.7.1. Args: `jobs=3 install_prefix=.local` and `--force` to reinstall."""
