@@ -12,4 +12,4 @@ WORKDIR /install
 ENV CXX="clang++-18"
 ENV GCOV="llvm-cov-18 gcov"
 
-CMD ["make", "python", "all", "coverage", "COVERAGE=ON"]
+CMD ["make", "all", "coverage", "COVERAGE=ON"]
