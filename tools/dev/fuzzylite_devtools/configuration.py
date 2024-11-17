@@ -12,7 +12,6 @@ import dataclasses
 import datetime
 import json
 import os
-import re
 import tempfile
 import textwrap
 from pathlib import Path
@@ -190,7 +189,7 @@ class Tools:
 
     @staticmethod
     def create_temporal_directory(name: str) -> Path:
-        """Create a temporal directory in the form `com.fuzzylite.{name}.{yyyy/MM/dd}`.
+        """Create a temporal directory in the form `com.fuzzylite.{name}.{yyyyMMdd.HHmm}`.
 
         Args:
             name: partial name of the temporal directory
@@ -198,7 +197,7 @@ class Tools:
         Returns:
             a temporal directory
         """
-        now = re.sub(r"\W", "", datetime.datetime.now().replace(microsecond=0).isoformat())
+        now = datetime.datetime.now().strftime("%Y%m%d.%H%M%S")
         temporal_directory = tempfile.mkdtemp(prefix=f"com.fuzzylite.{name}.{now}.")
         return Path(temporal_directory)
 
