@@ -9,9 +9,7 @@ test/TestHedge.cpp
 test/TestNorm.cpp
 test/TestTerm.cpp
 test/activation/ThresholdTest.cpp
-test/hedge/HedgeFunctionTest.cpp
 test/imex/FldExporterTest.cpp
 test/imex/FllImporterTest.cpp
 test/imex/RScriptExporterTest.cpp
-test/norm/NormFunctionTest.cpp
 test/variable/VariableTest.cpp
