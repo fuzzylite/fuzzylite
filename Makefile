@@ -79,4 +79,4 @@ devtools_windows:
 		&& pip --cache-dir .local/pip-cache install tools/dev
 
 coverage: devtools
-	@. .local/.venv/bin/activate && nox -e coverage
+	@. .local/.venv/bin/activate && nox -e coverage -- build=$(BUILD)
