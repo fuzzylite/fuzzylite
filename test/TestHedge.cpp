@@ -16,8 +16,7 @@ fuzzylite (R), a fuzzy logic control library in C++.
 
 #include "Headers.h"
 
-namespace fuzzylite {
-
+namespace fuzzylite { namespace test {
     struct HedgeAssert {
         FL_unique_ptr<Hedge> actual;
 
@@ -181,4 +180,4 @@ namespace fuzzylite {
         }
     }
 
-}
+}}

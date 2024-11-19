@@ -16,7 +16,7 @@ fuzzylite (R), a fuzzy logic control library in C++.
 
 #include "Headers.h"
 
-namespace fuzzylite {
+namespace fuzzylite { namespace test {
     template <typename T>
     struct ConstructionFactoryAssert {
         using Constructor = std::tuple<std::string, typename ConstructionFactory<T*>::Constructor, std::string>;
@@ -849,4 +849,4 @@ namespace fuzzylite {
             CHECK(fm.function()->name() == "CustomFunction");
         }
     }
-}
+}}
