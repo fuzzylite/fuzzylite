@@ -63,6 +63,8 @@ cmake
     -DFL_USE_FLOAT={c.use_float}
     {c.posargs()}
 """
+    if c.cxx_standard == "98":
+        session.warn("fuzzylite 8 will drop support for standard C++98")
     session.run(*cmd.split())
     c.save()
 
