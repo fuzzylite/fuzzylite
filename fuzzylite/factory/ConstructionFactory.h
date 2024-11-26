@@ -33,6 +33,10 @@ namespace fuzzylite {
       @author Juan Rada-Vilela, Ph.D.
       @see FactoryManager
       @since 5.0
+
+      @todo register constructors with generics, eg, register<Triangle>("Triangle")
+      @todo register constructors as lambdas that create unique_ptr.
+      @todo use std::unordered_map
      */
 
     template <typename T>
