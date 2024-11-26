@@ -407,7 +407,9 @@ namespace fuzzylite {
         virtual void updateReference(const Engine* engine) FL_IOVERRIDE;
 
         virtual Function* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }
