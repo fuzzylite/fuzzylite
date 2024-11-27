@@ -259,7 +259,7 @@ namespace fuzzylite {
       public:
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
-        //todo: cascade constructors to do Function("x",  "1", true)
+        // todo: cascade constructors to do Function("x",  "1", true)
         explicit Function(
             const std::string& name = "",
             const std::string& formula = "",
