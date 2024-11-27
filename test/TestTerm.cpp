@@ -28,16 +28,25 @@ namespace fuzzylite {
         template <typename... Args>
         explicit TermAssert(Args&&... args) : actual(std::make_unique<T>(std::forward<Args>(args)...)) {}
 
+        /**
+         *
+         * @deprecated T::constructor will be removed in fuzzylite 8
+         */
         TermAssert& can_construct() {
             std::unique_ptr<T> test(dynamic_cast<T*>(T::constructor()));
+            test->setName(actual->getName());
             test->configure(actual->parameters());
             CHECK(FllExporter().toString(test.get()) == FllExporter().toString(actual.get()));
             return *this;
         }
 
         TermAssert& can_clone() {
+            // throw  Exception("");
             std::unique_ptr<T> test(actual->clone());
-            CHECK(FllExporter().toString(test.get()) == FllExporter().toString(actual.get()));
+            std::string expected = FllExporter().toString(actual.get());
+            std::string obtained = FllExporter().toString(test.get());
+            CAPTURE(expected, obtained);
+            CHECK(expected == obtained);
             return *this;
         }
 
@@ -213,8 +222,10 @@ namespace fuzzylite {
         const AlgebraicProduct algebraicProduct;
         Triangle term("triangle", -0.400, 0.000, 0.400);
         TermAssert<Activated>(&term, 1.0, &algebraicProduct)
-            .repr_is("fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
-                     "degree=1.0, implication=fl.AlgebraicProduct())")
+            .repr_is(
+                "fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
+                "degree=1.0, implication=fl.AlgebraicProduct())"
+            )
             .exports_fll("AlgebraicProduct(1.000,triangle)", false)
             .is_not_monotonic()
             .has_memberships({
@@ -235,8 +246,10 @@ namespace fuzzylite {
             });
 
         TermAssert<Activated>(&term, 0.5, &algebraicProduct)
-            .repr_is("fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
-                     "degree=0.5, implication=fl.AlgebraicProduct())")
+            .repr_is(
+                "fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
+                "degree=0.5, implication=fl.AlgebraicProduct())"
+            )
             .exports_fll("AlgebraicProduct(0.500,triangle)", false)
             .configured_as("###")
             .exports_fll("AlgebraicProduct(0.500,triangle)");
@@ -279,7 +292,7 @@ namespace fuzzylite {
                 "agg",
                 0.0,
                 10.0,
-                &maximum,
+                new Maximum,
                 std::vector<Activated>{
                     Activated(&triangle, 0.5),
                     Activated(&triangle, 0.25),
@@ -298,11 +311,13 @@ namespace fuzzylite {
 
         TermAssert<Aggregated>(aggregated)
             .exports_fll("fuzzy_output: Aggregated Maximum[Minimum(0.600,LOW),Minimum(0.400,MEDIUM)]", false)
-            .repr_is("fl.Aggregated(name='fuzzy_output', minimum=-1.0, maximum=1.0, "
-                     "aggregation=fl.Maximum(), terms=[fl.Activated(term=fl.Triangle('LOW', -1.0, "
-                     "-0.5, 0.0), degree=0.6, implication=fl.Minimum()), "
-                     "fl.Activated(term=fl.Triangle('MEDIUM', -0.5, 0.0, 0.5), degree=0.4, "
-                     "implication=fl.Minimum())])")
+            .repr_is(
+                "fl.Aggregated(name='fuzzy_output', minimum=-1.0, maximum=1.0, "
+                "aggregation=fl.Maximum(), terms=[fl.Activated(term=fl.Triangle('LOW', -1.0, "
+                "-0.5, 0.0), degree=0.6, implication=fl.Minimum()), "
+                "fl.Activated(term=fl.Triangle('MEDIUM', -0.5, 0.0, 0.5), degree=0.4, "
+                "implication=fl.Minimum())])"
+            )
             .is_not_monotonic()
             .has_memberships(
                 {
@@ -689,8 +704,10 @@ namespace fuzzylite {
             .exports_fll("term: discrete Discrete 0.000 1.000 8.000 9.000 4.000 5.000 2.000 3.000 6.000 7.000")
             .apply([](Term* term) -> void { dynamic_cast<Discrete*>(term)->sort(); })
             .exports_fll("term: discrete Discrete 0.000 1.000 2.000 3.000 4.000 5.000 6.000 7.000 8.000 9.000")
-            .repr_is("fl.Discrete('discrete', fl.array([fl.array([0.0, 1.0]), fl.array([2.0, "
-                     "3.0]), fl.array([4.0, 5.0]), fl.array([6.0, 7.0]), fl.array([8.0, 9.0])]))");
+            .repr_is(
+                "fl.Discrete('discrete', fl.array([fl.array([0.0, 1.0]), fl.array([2.0, "
+                "3.0]), fl.array([4.0, 5.0]), fl.array([6.0, 7.0]), fl.array([8.0, 9.0])]))"
+            );
 
         CHECK_THROWS_WITH(
             Discrete("discrete").membership(0), Catch::Matchers::StartsWith("[discrete error] term is empty")
@@ -699,14 +716,20 @@ namespace fuzzylite {
         TermAssert<Discrete>("discrete")
             .configured_as("0 1 8 9 4 5 2 3 6 7 0.5")
             .apply([](Term* term) -> void { dynamic_cast<Discrete*>(term)->sort(); })
-            .exports_fll("term: discrete Discrete "
-                         "0.000 1.000 2.000 3.000 4.000 5.000 6.000 7.000 8.000 9.000 0.500")
-            .repr_is("fl.Discrete('discrete', fl.array([fl.array([0.0, 1.0]), fl.array([2.0, "
-                     "3.0]), fl.array([4.0, 5.0]), fl.array([6.0, 7.0]), fl.array([8.0, 9.0])]), "
-                     "0.5)")
+            .exports_fll(
+                "term: discrete Discrete "
+                "0.000 1.000 2.000 3.000 4.000 5.000 6.000 7.000 8.000 9.000 0.500"
+            )
+            .repr_is(
+                "fl.Discrete('discrete', fl.array([fl.array([0.0, 1.0]), fl.array([2.0, "
+                "3.0]), fl.array([4.0, 5.0]), fl.array([6.0, 7.0]), fl.array([8.0, 9.0])]), "
+                "0.5)"
+            )
             .configured_as(" -0.500 0.000 -0.250 1.000 0.000 0.500 0.250 1.000 0.500 0.000")
-            .exports_fll("term: discrete Discrete "
-                         "-0.500 0.000 -0.250 1.000 0.000 0.500 0.250 1.000 0.500 0.000")
+            .exports_fll(
+                "term: discrete Discrete "
+                "-0.500 0.000 -0.250 1.000 0.000 0.500 0.250 1.000 0.500 0.000"
+            )
             .has_memberships({
                 {-1.0, 0.0},
                 {-0.5, 0.0},
@@ -1857,11 +1880,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Function", "[term][function]") {
-        Function f("f");
-        f.configure("ge(x, 5)");
-        CHECK(f.membership(4.0) == 0.0);
-        CHECK(f.membership(5.0) == 1.0);
+        TermAssert<Function>("f", "ge(x, 5)", std::map<std::string, scalar>{}, fl::null, true)  //
+            .can_clone()
+            .can_construct()
+            .has_memberships({{4.0, 0.0}, {5.0, 1.0}}, {1.0});
 
+        Function f("f", "ge(x, 5)");
+        CHECK(not f.isLoaded());
+        f.load();
         CHECK(f.isLoaded());
         f.unload();
         CHECK(not f.isLoaded());
@@ -1907,8 +1933,6 @@ namespace fuzzylite {
         );
 
         TermAssert<Function>("f", "", std::map<std::string, scalar>{{"y", 1.5}})
-            .can_clone()
-            .can_construct()
             .configured_as("2*x^3 +2*y - 3", false)
             .exports_fll("term: f Function 2*x^3 +2*y - 3", false)
             .has_memberships(
@@ -1936,6 +1960,7 @@ namespace fuzzylite {
 
         Engine engine("A", "Engine A", {new InputVariable("i_A")}, {new OutputVariable("o_A")});
         TermAssert<Function>(Function::create("f", "2*i_A + o_A + x", &engine))
+            .can_clone()
             .exports_fll("term: f Function 2*i_A + o_A + x", false)
             .repr_is("fl.Function('f', '2*i_A + o_A + x')")
             .has_memberships({{0.0, nan}, {nan, nan}}, {1.0});
@@ -2133,8 +2158,10 @@ namespace fuzzylite {
             .postfix_is("3.000 4.000 ^ sin two pow")
             .prefix_is("pow sin ^ 3.000 4.000 two")
             .infix_is("pow ( sin ( 3.000 ^ 4.000 ) two )")
-            .fails_to_evaluate("[function error] expected a map of variables containing the value for 'two', "
-                               "but none was provided")
+            .fails_to_evaluate(
+                "[function error] expected a map of variables containing the value for 'two', "
+                "but none was provided"
+            )
             .evaluates_to(0.39675888533109455, {{"two", 2}});
 
         std::unique_ptr<Function::Node> node_sum(
