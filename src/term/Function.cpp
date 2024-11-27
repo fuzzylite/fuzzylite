@@ -325,7 +325,9 @@ namespace fuzzylite {
     Function::Function(
         const std::string& name,
         const std::string& formula,
+        // todo: this should be a std::unordered_map
         const std::map<std::string, scalar>& variables,
+        // todo: this should be a std::shared_ptr
         const Engine* engine,
         bool load
     ) :
