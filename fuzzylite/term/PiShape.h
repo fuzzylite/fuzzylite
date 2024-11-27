@@ -131,7 +131,9 @@ namespace fuzzylite {
         virtual scalar getBottomRight() const;
 
         virtual PiShape* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }

@@ -126,7 +126,9 @@ namespace fuzzylite {
         virtual Direction direction() const;
 
         virtual Binary* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }

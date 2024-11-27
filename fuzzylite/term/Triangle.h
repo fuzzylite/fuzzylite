@@ -113,7 +113,9 @@ namespace fuzzylite {
         virtual scalar getVertexC() const;
 
         virtual Triangle* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }

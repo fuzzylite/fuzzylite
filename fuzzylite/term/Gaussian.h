@@ -91,7 +91,9 @@ namespace fuzzylite {
         virtual scalar getStandardDeviation() const;
 
         virtual Gaussian* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }

@@ -192,6 +192,7 @@ def test_py(session: nox.Session) -> None:
     cmd = "python -m unittest discover -s tests/"
     session.run(*cmd.split())
 
+
 ## Linting and formating
 @nox.session
 def lint(session: nox.Session) -> None:

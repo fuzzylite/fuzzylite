@@ -71,7 +71,9 @@ namespace fuzzylite {
         virtual scalar getValue() const;
 
         virtual Constant* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }

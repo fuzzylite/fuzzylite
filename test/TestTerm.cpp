@@ -16,10 +16,39 @@
 #include "Headers.h"
 
 namespace fuzzylite {
-    struct TermAssert {
-        FL_unique_ptr<Term> actual;
 
-        TermAssert(Term* actual) : actual(actual) {}
+    template <typename T>
+    struct TermAssert {
+        std::unique_ptr<T> actual;
+
+        TermAssert() : actual(std::make_unique<T>()) {}
+
+        TermAssert(T* pointer) : actual(pointer) {}
+
+        template <typename... Args>
+        explicit TermAssert(Args&&... args) : actual(std::make_unique<T>(std::forward<Args>(args)...)) {}
+
+        /**
+         *
+         * @deprecated T::constructor will be removed in fuzzylite 8
+         */
+        TermAssert& can_construct() {
+            std::unique_ptr<T> test(dynamic_cast<T*>(T::constructor()));
+            test->setName(actual->getName());
+            test->configure(actual->parameters());
+            CHECK(FllExporter().toString(test.get()) == FllExporter().toString(actual.get()));
+            return *this;
+        }
+
+        TermAssert& can_clone() {
+            // throw  Exception("");
+            std::unique_ptr<T> test(actual->clone());
+            std::string expected = FllExporter().toString(actual.get());
+            std::string obtained = FllExporter().toString(test.get());
+            CAPTURE(expected, obtained);
+            CHECK(expected == obtained);
+            return *this;
+        }
 
         TermAssert& exports_fll(const std::string& obtained, bool checkHeight = true) {
             CHECK(this->actual->toString() == obtained);
@@ -55,7 +84,7 @@ namespace fuzzylite {
 
         TermAssert& takes_parameters(int requiredParameters, bool height = true) {
             const fl::TermFactory* termFactory = fl::FactoryManager::instance()->term();
-            FL_unique_ptr<Term> term(termFactory->constructObject(this->actual->className()));
+            std::unique_ptr<Term> term(termFactory->constructObject(this->actual->className()));
             const std::string& expectedException = "[configuration error] term <" + this->actual->className() + ">"
                                                    + " requires <" + std::to_string(requiredParameters)
                                                    + "> parameters";
@@ -68,7 +97,6 @@ namespace fuzzylite {
                 for (int parameter = 0; parameter + 1 < requiredParameters; ++parameter) {
                     list.push_back("nan");
                     CAPTURE(parameters = fl::Op::join(list, " "));
-                    // TODO: Remove FL_FILE information from exceptions?
                     CHECK_THROWS_AS(term->configure(parameters), fl::Exception);
                     CHECK_THROWS_WITH(term->configure(parameters), Catch::Matchers::StartsWith(expectedException));
                 }
@@ -94,23 +122,26 @@ namespace fuzzylite {
                 }
             }
 
-            // SECTION("overparameterized") {
-            //     // Can't be constructed with more parameters
-            //     std::vector<std::string> list;
-            //     std::string parameters;
-            //     for (int parameter = 0; parameter < requiredParameters + 1; ++parameter)
-            //         list.push_back("nan");
-            //     CAPTURE(parameters = fl::Op::join(list, " "));
-            //     CHECK_THROWS_AS(term->configure(parameters), fl::Exception);
-            //     CHECK_THROWS_WITH(term->configure(parameters), Catch::Matchers::StartsWith(expectedException));
-            // }
+            /**
+             * @deprecated fuzzylite 8 will raise exception when overparameterised.
+             * expected failure created later
+             */
+            SECTION("overparameterized") {
+                // Can't be constructed with more parameters
+                std::vector<std::string> list;
+                std::string parameters;
+                for (int parameter = 0; parameter < requiredParameters + 1; ++parameter)
+                    list.push_back("nan");
+                CAPTURE(parameters = fl::Op::join(list, " "));
+                // CHECK_THROWS_AS(term->configure(parameters), fl::Exception);
+                // CHECK_THROWS_WITH(term->configure(parameters), Catch::Matchers::StartsWith(expectedException));
+            }
 
             return *this;
         }
 
         TermAssert& configured_as(const std::string& parameters, bool checkEmpty = true) {
             this->actual->configure(parameters);
-            can_clone();
 
             if (checkEmpty) {
                 // assert that configure with empty parameters does nothing
@@ -119,12 +150,6 @@ namespace fuzzylite {
                 const std::string& obtained = this->actual->toString();
                 CHECK_THAT(expected, Catch::Matchers::Equals(obtained));
             }
-            return *this;
-        }
-
-        TermAssert& can_clone() {
-            const std::string& expected = this->actual->toString();
-            TermAssert(this->actual->clone()).exports_fll(expected, false);
             return *this;
         }
 
@@ -189,9 +214,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Activated", "[term][activated]") {
+        SECTION("Can clone") {
+            const Triangle triangle("A", 0, 1, 2);
+            const Minimum minimum;
+            TermAssert<Activated>(&triangle, 0.5, &minimum).can_clone();
+        }
         const AlgebraicProduct algebraicProduct;
         Triangle term("triangle", -0.400, 0.000, 0.400);
-        TermAssert(new Activated(&term, 1.0, &algebraicProduct))
+        TermAssert<Activated>(&term, 1.0, &algebraicProduct)
             .repr_is("fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
                      "degree=1.0, implication=fl.AlgebraicProduct())")
             .exports_fll("AlgebraicProduct(1.000,triangle)", false)
@@ -213,7 +243,7 @@ namespace fuzzylite {
                 {-inf, 0.0},
             });
 
-        TermAssert(new Activated(&term, 0.5, &algebraicProduct))
+        TermAssert<Activated>(&term, 0.5, &algebraicProduct)
             .repr_is("fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
                      "degree=0.5, implication=fl.AlgebraicProduct())")
             .exports_fll("AlgebraicProduct(0.500,triangle)", false)
@@ -251,6 +281,21 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Aggregated", "[term][aggregated]") {
+        SECTION("Can clone") {
+            const Triangle triangle("A", 0, 1, 2);
+            Maximum maximum;
+            TermAssert<Aggregated>(
+                "agg",
+                0.0,
+                10.0,
+                new Maximum,
+                std::vector<Activated>{
+                    Activated(&triangle, 0.5),
+                    Activated(&triangle, 0.25),
+                }
+            )
+                .can_clone();
+        }
         Minimum minimum;
         Aggregated aggregated("fuzzy_output", -1., 1.0, new Maximum);
         Triangle low("LOW", -1.000, -0.500, 0.000);
@@ -260,7 +305,7 @@ namespace fuzzylite {
             Activated(&medium, 0.4, &minimum),
         });
 
-        TermAssert(aggregated.clone())
+        TermAssert<Aggregated>(aggregated)
             .exports_fll("fuzzy_output: Aggregated Maximum[Minimum(0.600,LOW),Minimum(0.400,MEDIUM)]", false)
             .repr_is("fl.Aggregated(name='fuzzy_output', minimum=-1.0, maximum=1.0, "
                      "aggregation=fl.Maximum(), terms=[fl.Activated(term=fl.Triangle('LOW', -1.0, "
@@ -330,9 +375,9 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Aggregated: highest term", "[term][aggregated]") {
-        FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
-        FL_unique_ptr<Term> medium(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
-        FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
+        std::unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
+        std::unique_ptr<Term> medium(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
+        std::unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
 
         Aggregated aggregated;
         aggregated.addTerm(dark.get(), 0.5, fl::null);
@@ -352,9 +397,9 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Aggregated: grouped terms", "[term][aggregated]") {
-        FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
-        FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
-        FL_unique_ptr<Term> medium(new Triangle("MED", 0.500, 0.750, 1.000));
+        std::unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
+        std::unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
+        std::unique_ptr<Term> medium(new Triangle("MED", 0.500, 0.750, 1.000));
 
         Aggregated aggregated;
 
@@ -391,13 +436,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Bell", "[term][bell]") {
-        TermAssert(new Bell("bell"))
+        TermAssert<Bell>("bell")
+            .can_clone()
+            .can_construct()
             .takes_parameters(3)
             .exports_fll("term: bell Bell nan nan nan")
             .repr_is("fl.Bell('bell', fl.nan, fl.nan, fl.nan)")
             .is_not_monotonic();
 
-        TermAssert(new Bell("bell"))
+        TermAssert<Bell>("bell")
             .configured_as("0 0.25 3.0")
             .exports_fll("term: bell Bell 0.000 0.250 3.000")
             .repr_is("fl.Bell('bell', 0.0, 0.25, 3.0)")
@@ -423,7 +470,9 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Binary", "[term][binary]") {
-        TermAssert(new Binary("binary"))
+        TermAssert<Binary>("binary")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: binary Binary nan nan")
             .repr_is("fl.Binary('binary', fl.nan, fl.nan)")
             .takes_parameters(2)
@@ -432,7 +481,7 @@ namespace fuzzylite {
                 CHECK(dynamic_cast<Binary*>(binary)->direction() == Binary::Direction::Undefined);
             });
 
-        TermAssert(new Binary("binary"))
+        TermAssert<Binary>("binary")
             .configured_as("0 inf")
             .exports_fll("term: binary Binary 0.000 inf")
             .repr_is("fl.Binary('binary', 0.0, fl.inf)")
@@ -455,7 +504,7 @@ namespace fuzzylite {
             .apply([](Term* binary) -> void {
                 CHECK(dynamic_cast<Binary*>(binary)->direction() == Binary::Direction::Positive);
             });
-        TermAssert(new Binary("binary"))
+        TermAssert<Binary>("binary")
             .configured_as("0 -inf")
             .exports_fll("term: binary Binary 0.000 -inf")
             .repr_is("fl.Binary('binary', 0.0, -fl.inf)")
@@ -481,13 +530,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Concave", "[term][concave]") {
-        TermAssert(new Concave("concave"))
+        TermAssert<Concave>("concave")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: concave Concave nan nan")
             .repr_is("fl.Concave('concave', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_monotonic();
 
-        TermAssert(new Concave("concave"))
+        TermAssert<Concave>("concave")
             .configured_as("0.00 -0.50")
             .exports_fll("term: concave Concave 0.000 -0.500")
             .has_memberships({
@@ -507,14 +558,14 @@ namespace fuzzylite {
                 {-inf, 1.0},
             });
 
-        TermAssert(new Concave("concave"))
+        TermAssert<Concave>("concave")
             .configured_as("0.00 -0.500 0.5")
             .repr_is("fl.Concave('concave', 0.0, -0.5, 0.5)")
             .exports_fll("term: concave Concave 0.000 -0.500 0.500");
     }
 
     TEST_CASE("Concave Tsukamoto", "[term][concave][tsukamoto]") {
-        TermAssert(new Concave("concave"))
+        TermAssert<Concave>("concave")
             .configured_as("0.00 -0.50")
             .exports_fll("term: concave Concave 0.000 -0.500")
             .has_tsukamotos({
@@ -531,7 +582,7 @@ namespace fuzzylite {
                 {-inf, -1},
             });
 
-        TermAssert(new Concave("concave"))
+        TermAssert<Concave>("concave")
             .configured_as("0.00 -0.500 0.5")
             .repr_is("fl.Concave('concave', 0.0, -0.5, 0.5)")
             .exports_fll("term: concave Concave 0.000 -0.500 0.500")
@@ -553,13 +604,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Constant", "[term][constant]") {
-        TermAssert(new Constant("constant"))
+        TermAssert<Constant>("constant")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: constant Constant nan", false)
             .repr_is("fl.Constant('constant', fl.nan)")
             .takes_parameters(1, false)
             .is_not_monotonic();
 
-        TermAssert(new Constant("constant"))
+        TermAssert<Constant>("constant")
             .configured_as("0.5")
             .exports_fll("term: constant Constant 0.500", false)
             .repr_is("fl.Constant('constant', 0.5)")
@@ -579,7 +632,7 @@ namespace fuzzylite {
                 {inf, 0.5},
                 {-inf, 0.5},
             });
-        TermAssert(new Constant("constant"))
+        TermAssert<Constant>("constant")
             .configured_as("-0.500")
             .repr_is("fl.Constant('constant', -0.5)")
             .exports_fll("term: constant Constant -0.500", false)
@@ -602,13 +655,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Cosine", "[term][cosine]") {
-        TermAssert(new Cosine("cosine"))
+        TermAssert<Cosine>("cosine")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: cosine Cosine nan nan")
             .repr_is("fl.Cosine('cosine', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_not_monotonic();
 
-        TermAssert(new Cosine("cosine"))
+        TermAssert<Cosine>("cosine")
             .configured_as("0.0 1")
             .exports_fll("term: cosine Cosine 0.000 1.000")
             .repr_is("fl.Cosine('cosine', 0.0, 1.0)")
@@ -631,12 +686,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Discrete", "[term][discrete]") {
-        TermAssert(new Discrete("discrete"))
+        TermAssert<Discrete>("discrete")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: discrete Discrete")
             .repr_is("fl.Discrete('discrete')")
             .is_not_monotonic();
 
-        TermAssert(new Discrete("discrete"))
+        TermAssert<Discrete>("discrete")
             .configured_as("0 1 8 9 4 5 2 3 6 7")
             .exports_fll("term: discrete Discrete 0.000 1.000 8.000 9.000 4.000 5.000 2.000 3.000 6.000 7.000")
             .apply([](Term* term) -> void { dynamic_cast<Discrete*>(term)->sort(); })
@@ -648,7 +705,7 @@ namespace fuzzylite {
             Discrete("discrete").membership(0), Catch::Matchers::StartsWith("[discrete error] term is empty")
         );
 
-        TermAssert(new Discrete("discrete"))
+        TermAssert<Discrete>("discrete")
             .configured_as("0 1 8 9 4 5 2 3 6 7 0.5")
             .apply([](Term* term) -> void { dynamic_cast<Discrete*>(term)->sort(); })
             .exports_fll("term: discrete Discrete "
@@ -676,10 +733,10 @@ namespace fuzzylite {
                 {-inf, 0.0},
             });
 
-        TermAssert(Discrete::create("discrete", 4, 0.0, 1.0, 2.0, 3.0))
+        TermAssert<Discrete>(Discrete::create("discrete", 4, 0.0, 1.0, 2.0, 3.0))
             .exports_fll("term: discrete Discrete 0.000 1.000 2.000 3.000");
 
-        Discrete* discrete = Discrete::create("discrete", 4, 0.0, 1.0, 2.0, 3.0);
+        std::unique_ptr<Discrete> discrete(Discrete::create("discrete", 4, 0.0, 1.0, 2.0, 3.0));
         CHECK_THAT(discrete->x(), Catch::Matchers::Equals<scalar>({0.0, 2.0}));
         CHECK_THAT(discrete->y(), Catch::Matchers::Equals<scalar>({1.0, 3.0}));
         CHECK_THAT(discrete->x(1), Catch::Matchers::WithinAbs(2.0, fuzzylite::macheps()));
@@ -705,7 +762,7 @@ namespace fuzzylite {
         CHECK_THAT(discrete->y(1), Catch::Matchers::WithinAbs(8.0, fuzzylite::macheps()));
 
         Triangle triangle("x", 0, 1);
-        TermAssert(Discrete::discretize(&triangle, 0, 1, 5))
+        TermAssert<Discrete>(Discrete::discretize(&triangle, 0, 1, 5))
             .exports_fll("term: x Discrete 0.000 0.000 0.200 0.400 0.400 0.800 0.600 0.800 0.800 0.400 1.000 0.000");
 
         std::vector<Discrete::Pair> v = Discrete::toPairs({0.0}, 1.0);
@@ -721,7 +778,8 @@ namespace fuzzylite {
         fuzzylite::setLogging(true);
         fuzzylite::setDebugging(false);
         Rectangle rectangle("rectangle", 0, 1);
-        FL_unique_ptr<Discrete> discrete(Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10)
+        std::unique_ptr<Discrete> discrete(
+            Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10)
         );
         FL_LOG(discrete->toString());
 
@@ -739,7 +797,7 @@ namespace fuzzylite {
         fuzzylite::setLogging(true);
         fuzzylite::setDebugging(false);
         Triangle triangle("triangle", 0, 1);
-        FL_unique_ptr<Discrete> discrete(
+        std::unique_ptr<Discrete> discrete(
             Discrete::discretize(&triangle, triangle.getVertexA(), triangle.getVertexC(), 100)
         );
         FL_LOG(discrete->toString());
@@ -751,6 +809,8 @@ namespace fuzzylite {
                 fuzzylite::setDebugging(false);
             }
         }
+        fuzzylite::setLogging(false);
+        fuzzylite::setDebugging(false);
     }
 
     TEST_CASE("discrete finds all elements using binary search", "[term][discrete]") {
@@ -814,12 +874,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Gaussian", "[term][gaussian]") {
-        TermAssert(new Gaussian("gaussian"))
+        TermAssert<Gaussian>("gaussian")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: gaussian Gaussian nan nan")
             .repr_is("fl.Gaussian('gaussian', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_not_monotonic();
-        TermAssert(new Gaussian("gaussian"))
+        TermAssert<Gaussian>("gaussian")
             .configured_as("0.0 0.25")
             .exports_fll("term: gaussian Gaussian 0.000 0.250")
             .repr_is("fl.Gaussian('gaussian', 0.0, 0.25)")
@@ -842,12 +904,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Gaussian Product", "[term][gaussian-product]") {
-        TermAssert(new GaussianProduct("gaussian_product"))
+        TermAssert<GaussianProduct>("gaussian_product")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: gaussian_product GaussianProduct nan nan nan nan")
             .repr_is("fl.GaussianProduct('gaussian_product', fl.nan, fl.nan, fl.nan, fl.nan)")
             .takes_parameters(4)
             .is_not_monotonic();
-        TermAssert(new GaussianProduct("gaussian_product"))
+        TermAssert<GaussianProduct>("gaussian_product")
             .configured_as("0.0 0.25 0.1 0.5")
             .repr_is("fl.GaussianProduct('gaussian_product', 0.0, 0.25, 0.1, 0.5)")
             .exports_fll("term: gaussian_product GaussianProduct 0.000 0.250 0.100 0.500")
@@ -904,7 +968,9 @@ namespace fuzzylite {
         //     )
         // );
 
-        TermAssert(new Linear("linear", {1.0, 2.0}, &engine))
+        TermAssert<Linear>("linear", std::vector<scalar>{1.0, 2.0}, &engine)
+            .can_clone()
+            .can_construct()
             .exports_fll("term: linear Linear 1.000 2.000", false)
             .repr_is("fl.Linear('linear', [1.0, 2.0])")
             .is_not_monotonic()
@@ -927,7 +993,7 @@ namespace fuzzylite {
                 {inf, 8},
                 {-inf, 8},
             });
-        TermAssert(new Linear("linear", {1.0, 2.0}, &engine))
+        TermAssert<Linear>("linear", std::vector<scalar>{1.0, 2.0}, &engine)
             .configured_as("1 2 3 5")
             .exports_fll("term: linear Linear 1.000 2.000 3.000 5.000", false)
             .has_memberships({
@@ -949,13 +1015,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("PiShape", "[term][pishape]") {
-        TermAssert(new PiShape("pi_shape"))
+        TermAssert<PiShape>("pi_shape")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: pi_shape PiShape nan nan nan nan")
             .repr_is("fl.PiShape('pi_shape', fl.nan, fl.nan, fl.nan, fl.nan)")
             .takes_parameters(4)
             .is_not_monotonic();
 
-        TermAssert(new PiShape("pi_shape"))
+        TermAssert<PiShape>("pi_shape")
             .configured_as("-.9 -.1 .1 1")
             .exports_fll("term: pi_shape PiShape -0.900 -0.100 0.100 1.000")
             .repr_is("fl.PiShape('pi_shape', -0.9, -0.1, 0.1, 1.0)")
@@ -979,14 +1047,16 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Ramp", "[term][ramp]") {
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: ramp Ramp nan nan")
             .repr_is("fl.Ramp('ramp', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_monotonic()
             .apply([](Term* ramp) -> void { CHECK(dynamic_cast<Ramp*>(ramp)->direction() == Ramp::Direction::Zero); });
 
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("-0.250 0.750")
             .exports_fll("term: ramp Ramp -0.250 0.750")
             .repr_is("fl.Ramp('ramp', -0.25, 0.75)")
@@ -1010,7 +1080,7 @@ namespace fuzzylite {
                 CHECK(dynamic_cast<Ramp*>(ramp)->direction() == Ramp::Direction::Positive);
             });
 
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("0.250 -0.750")
             .exports_fll("term: ramp Ramp 0.250 -0.750")
             .has_memberships({
@@ -1033,7 +1103,7 @@ namespace fuzzylite {
                 CHECK(dynamic_cast<Ramp*>(ramp)->direction() == Ramp::Direction::Negative);
             });
 
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("0.250 -0.750 0.5")
             .exports_fll("term: ramp Ramp 0.250 -0.750 0.500")
             .repr_is("fl.Ramp('ramp', 0.25, -0.75, 0.5)")
@@ -1054,7 +1124,7 @@ namespace fuzzylite {
                 {-inf, 1.0},
             });
 
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("0 0")
             .exports_fll("term: ramp Ramp 0.000 0.000")
             .has_memberships({
@@ -1076,7 +1146,7 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Ramp Tsukamoto", "[term][ramp][tsukamoto]") {
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("0 0")
             .exports_fll("term: ramp Ramp 0.000 0.000")
             .has_tsukamotos({
@@ -1088,7 +1158,7 @@ namespace fuzzylite {
                 {-inf, nan},
             });
 
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("-0.250 0.750")
             .exports_fll("term: ramp Ramp -0.250 0.750")
             .repr_is("fl.Ramp('ramp', -0.25, 0.75)")
@@ -1106,7 +1176,7 @@ namespace fuzzylite {
                 {-inf, -inf},
             });
 
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("0.250 -0.750")
             .exports_fll("term: ramp Ramp 0.250 -0.750")
             .has_tsukamotos({
@@ -1125,7 +1195,7 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Ramp Tsukamoto Height", "[term][ramp][tsukamoto]") {
-        TermAssert(new Ramp("ramp"))
+        TermAssert<Ramp>("ramp")
             .configured_as("0.250 -0.750 0.5")
             .exports_fll("term: ramp Ramp 0.250 -0.750 0.500")
             .repr_is("fl.Ramp('ramp', 0.25, -0.75, 0.5)")
@@ -1147,12 +1217,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Rectangle", "[term][rectangle]") {
-        TermAssert(new Rectangle("rectangle"))
+        TermAssert<Rectangle>("rectangle")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: rectangle Rectangle nan nan")
             .repr_is("fl.Rectangle('rectangle', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_not_monotonic();
-        TermAssert(new Rectangle("rectangle"))
+        TermAssert<Rectangle>("rectangle")
             .configured_as("-0.4 0.4")
             .exports_fll("term: rectangle Rectangle -0.400 0.400")
             .repr_is("fl.Rectangle('rectangle', -0.4, 0.4)")
@@ -1175,7 +1247,9 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Sigmoid", "[term][sigmoid]") {
-        TermAssert(new Sigmoid("sigmoid"))
+        TermAssert<Sigmoid>("sigmoid")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: sigmoid Sigmoid nan nan")
             .repr_is("fl.Sigmoid('sigmoid', fl.nan, fl.nan)")
             .takes_parameters(2)
@@ -1184,7 +1258,7 @@ namespace fuzzylite {
                 CHECK(dynamic_cast<Sigmoid*>(sigmoid)->direction() == Sigmoid::Direction::Zero);
             });
 
-        TermAssert(new Sigmoid("sigmoid"))
+        TermAssert<Sigmoid>("sigmoid")
             .configured_as("0 10")
             .exports_fll("term: sigmoid Sigmoid 0.000 10.000")
             .repr_is("fl.Sigmoid('sigmoid', 0.0, 10.0)")
@@ -1208,7 +1282,7 @@ namespace fuzzylite {
                 CHECK(dynamic_cast<Sigmoid*>(sigmoid)->direction() == Sigmoid::Direction::Positive);
             });
 
-        TermAssert(new Sigmoid("sigmoid"))
+        TermAssert<Sigmoid>("sigmoid")
             .configured_as("0 -10")
             .exports_fll("term: sigmoid Sigmoid 0.000 -10.000")
             .has_memberships({
@@ -1233,7 +1307,7 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Sigmoid Tsukamoto", "[term][sigmoid][tsukamoto]") {
-        TermAssert(new Sigmoid("sigmoid"))
+        TermAssert<Sigmoid>("sigmoid")
             .configured_as("0 -10")
             .exports_fll("term: sigmoid Sigmoid 0.000 -10.000")
             .has_tsukamotos({
@@ -1250,7 +1324,7 @@ namespace fuzzylite {
                 {-inf, nan},
             });
 
-        TermAssert(new Sigmoid("sigmoid"))
+        TermAssert<Sigmoid>("sigmoid")
             .configured_as("0 10")
             .exports_fll("term: sigmoid Sigmoid 0.000 10.000")
             .repr_is("fl.Sigmoid('sigmoid', 0.0, 10.0)")
@@ -1270,13 +1344,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("SigmoidDifference", "[term][sigmoid-difference]") {
-        TermAssert(new SigmoidDifference("sigmoid_difference"))
+        TermAssert<SigmoidDifference>("sigmoid_difference")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: sigmoid_difference SigmoidDifference nan nan nan nan")
             .repr_is("fl.SigmoidDifference('sigmoid_difference', fl.nan, fl.nan, fl.nan, fl.nan)")
             .takes_parameters(4)
             .is_not_monotonic();
 
-        TermAssert(new SigmoidDifference("sigmoid_difference"))
+        TermAssert<SigmoidDifference>("sigmoid_difference")
             .configured_as("-0.25 25.00 50.00 0.25")
             .exports_fll("term: sigmoid_difference SigmoidDifference -0.250 25.000 50.000 0.250")
             .repr_is("fl.SigmoidDifference('sigmoid_difference', -0.25, 25.0, 50.0, 0.25)")
@@ -1299,12 +1375,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("SigmoidProduct", "[term][sigmoid-product]") {
-        TermAssert(new SigmoidProduct("sigmoid_product"))
+        TermAssert<SigmoidProduct>("sigmoid_product")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: sigmoid_product SigmoidProduct nan nan nan nan")
             .repr_is("fl.SigmoidProduct('sigmoid_product', fl.nan, fl.nan, fl.nan, fl.nan)")
             .takes_parameters(4)
             .is_not_monotonic();
-        TermAssert(new SigmoidProduct("sigmoid_product"))
+        TermAssert<SigmoidProduct>("sigmoid_product")
             .configured_as("-0.250 20.000 -20.000 0.250")
             .exports_fll("term: sigmoid_product SigmoidProduct -0.250 20.000 -20.000 0.250")
             .repr_is("fl.SigmoidProduct('sigmoid_product', -0.25, 20.0, -20.0, 0.25)")
@@ -1327,12 +1405,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Spike", "[term][spike]") {
-        TermAssert(new Spike("spike"))
+        TermAssert<Spike>("spike")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: spike Spike nan nan")
             .repr_is("fl.Spike('spike', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_not_monotonic();
-        TermAssert(new Spike("spike"))
+        TermAssert<Spike>("spike")
             .configured_as("0 1.0")
             .exports_fll("term: spike Spike 0.000 1.000")
             .repr_is("fl.Spike('spike', 0.0, 1.0)")
@@ -1355,12 +1435,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("SShape", "[term][sshape]") {
-        TermAssert(new SShape("s_shape"))
+        TermAssert<SShape>("s_shape")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: s_shape SShape nan nan")
             .repr_is("fl.SShape('s_shape', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_monotonic();
-        TermAssert(new SShape("s_shape"))
+        TermAssert<SShape>("s_shape")
             .configured_as("-0.5 0.5")
             .exports_fll("term: s_shape SShape -0.500 0.500")
             .repr_is("fl.SShape('s_shape', -0.5, 0.5)")
@@ -1383,12 +1465,12 @@ namespace fuzzylite {
     }
 
     TEST_CASE("SShape Tsukamoto", "[term][sshape][tsukamoto]") {
-        TermAssert(new SShape("s_shape"))
+        TermAssert<SShape>("s_shape")
             .exports_fll("term: s_shape SShape nan nan")
             .repr_is("fl.SShape('s_shape', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_monotonic();
-        TermAssert(new SShape("s_shape"))
+        TermAssert<SShape>("s_shape")
             .configured_as("-0.5 0.5")
             .exports_fll("term: s_shape SShape -0.500 0.500")
             .repr_is("fl.SShape('s_shape', -0.5, 0.5)")
@@ -1406,7 +1488,7 @@ namespace fuzzylite {
                 {-inf, nan},
             });
 
-        TermAssert(new SShape("s_shape"))
+        TermAssert<SShape>("s_shape")
             .configured_as("-0.5 0.5 0.5")
             .repr_is("fl.SShape('s_shape', -0.5, 0.5, 0.5)")
             .exports_fll("term: s_shape SShape -0.500 0.500 0.500")
@@ -1428,17 +1510,19 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Trapezoid", "[term][trapezoid]") {
-        TermAssert(new Trapezoid("trapezoid"))
+        TermAssert<Trapezoid>("trapezoid")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: trapezoid Trapezoid nan nan nan nan")
             .repr_is("Trapezoid('trapezoid', fl.nan, fl.nan, fl.nan, fl.nan)")
             .takes_parameters(4)
             .is_not_monotonic();
 
-        TermAssert(new Trapezoid("trapezoid", 0.0, 1.0))
+        TermAssert<Trapezoid>("trapezoid", 0.0, 1.0)
             .exports_fll("term: trapezoid Trapezoid 0.000 0.200 0.800 1.000")
             .repr_is("Trapezoid('trapezoid', 0.0, 0.2, 0.8, 1.0)");
 
-        TermAssert(new Trapezoid("trapezoid"))
+        TermAssert<Trapezoid>("trapezoid")
             .configured_as("-0.400 -0.100 0.100 0.400")
             .exports_fll("term: trapezoid Trapezoid -0.400 -0.100 0.100 0.400")
             .has_memberships({
@@ -1457,7 +1541,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Trapezoid("trapezoid"))
+        TermAssert<Trapezoid>("trapezoid")
             .configured_as("-0.400 -0.400 0.100 0.400")
             .exports_fll("term: trapezoid Trapezoid -0.400 -0.400 0.100 0.400")
             .has_memberships({
@@ -1476,7 +1560,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Trapezoid("trapezoid"))
+        TermAssert<Trapezoid>("trapezoid")
             .configured_as("-0.400 -0.100 0.400 0.400")
             .exports_fll("term: trapezoid Trapezoid -0.400 -0.100 0.400 0.400")
             .has_memberships({
@@ -1495,7 +1579,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Trapezoid("trapezoid"))
+        TermAssert<Trapezoid>("trapezoid")
             .configured_as("-inf -0.100 0.100 .4")
             .exports_fll("term: trapezoid Trapezoid -inf -0.100 0.100 0.400")
             .has_memberships({
@@ -1514,7 +1598,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 1.0},
             });
-        TermAssert(new Trapezoid("trapezoid"))
+        TermAssert<Trapezoid>("trapezoid")
             .configured_as("-.4 -0.100 0.100 inf .5")
             .exports_fll("term: trapezoid Trapezoid -0.400 -0.100 0.100 inf 0.500")
             .has_memberships({
@@ -1536,17 +1620,19 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Triangle", "[term][triangle]") {
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: triangle Triangle nan nan nan")
             .repr_is("fl.Triangle('triangle', fl.nan, fl.nan, fl.nan)")
             .takes_parameters(3)
             .is_not_monotonic();
 
-        TermAssert(new Triangle("triangle", 0.0, 1.0))
+        TermAssert<Triangle>("triangle", 0.0, 1.0)
             .exports_fll("term: triangle Triangle 0.000 0.500 1.000")
             .repr_is("fl.Triangle('triangle', 0.0, 0.5, 1.0)");
 
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-0.400 0.000 0.400")
             .exports_fll("term: triangle Triangle -0.400 0.000 0.400")
             .has_memberships({
@@ -1565,7 +1651,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-0.400 0.000 0.400 .5")
             .repr_is("fl.Triangle('triangle', -0.4, 0.0, 0.4, 0.5)")
             .exports_fll("term: triangle Triangle -0.400 0.000 0.400 0.500")
@@ -1585,7 +1671,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-0.500 0.000 0.500")
             .exports_fll("term: triangle Triangle -0.500 0.000 0.500")
             .has_memberships({
@@ -1604,7 +1690,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-0.500 -0.500 0.500")
             .exports_fll("term: triangle Triangle -0.500 -0.500 0.500")
             .has_memberships({
@@ -1623,7 +1709,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-0.500 0.500 0.500")
             .exports_fll("term: triangle Triangle -0.500 0.500 0.500")
             .has_memberships({
@@ -1641,7 +1727,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-inf 0.000 0.400")
             .exports_fll("term: triangle Triangle -inf 0.000 0.400")
             .has_memberships({
@@ -1660,7 +1746,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 1.000},
             });
-        TermAssert(new Triangle("triangle"))
+        TermAssert<Triangle>("triangle")
             .configured_as("-0.400 0.000 inf .5")
             .exports_fll("term: triangle Triangle -0.400 0.000 inf 0.500")
             .has_memberships({
@@ -1682,13 +1768,15 @@ namespace fuzzylite {
     }
 
     TEST_CASE("ZShape", "[term][zshape]") {
-        TermAssert(new ZShape("z_shape"))
+        TermAssert<ZShape>("z_shape")
+            .can_clone()
+            .can_construct()
             .exports_fll("term: z_shape ZShape nan nan")
             .repr_is("fl.ZShape('z_shape', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_monotonic();
 
-        TermAssert(new ZShape("z_shape"))
+        TermAssert<ZShape>("z_shape")
             .configured_as("-0.5 0.5")
             .exports_fll("term: z_shape ZShape -0.500 0.500")
             .repr_is("fl.ZShape('z_shape', -0.5, 0.5)")
@@ -1709,7 +1797,7 @@ namespace fuzzylite {
                 {-inf, 1.0},
             });
 
-        TermAssert(new ZShape("z_shape"))
+        TermAssert<ZShape>("z_shape")
             .configured_as("-0.5 0.5 0.5")
             .repr_is("fl.ZShape('z_shape', -0.5, 0.5, 0.5)")
             .exports_fll("term: z_shape ZShape -0.500 0.500 0.500")
@@ -1732,13 +1820,13 @@ namespace fuzzylite {
     }
 
     TEST_CASE("ZShape Tsukamoto", "[term][zshape][tsukamoto]") {
-        TermAssert(new ZShape("z_shape"))
+        TermAssert<ZShape>("z_shape")
             .exports_fll("term: z_shape ZShape nan nan")
             .repr_is("fl.ZShape('z_shape', fl.nan, fl.nan)")
             .takes_parameters(2)
             .is_monotonic();
 
-        TermAssert(new ZShape("z_shape"))
+        TermAssert<ZShape>("z_shape")
             .configured_as("-0.5 0.5")
             .exports_fll("term: z_shape ZShape -0.500 0.500")
             .repr_is("fl.ZShape('z_shape', -0.5, 0.5)")
@@ -1756,7 +1844,7 @@ namespace fuzzylite {
                 {-inf, nan},
             });
 
-        TermAssert(new ZShape("z_shape"))
+        TermAssert<ZShape>("z_shape")
             .configured_as("-0.5 0.5 0.5")
             .repr_is("fl.ZShape('z_shape', -0.5, 0.5, 0.5)")
             .exports_fll("term: z_shape ZShape -0.500 0.500 0.500")
@@ -1778,11 +1866,14 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Function", "[term][function]") {
-        Function f("f");
-        f.configure("ge(x, 5)");
-        CHECK(f.membership(4.0) == 0.0);
-        CHECK(f.membership(5.0) == 1.0);
+        TermAssert<Function>("f", "ge(x, 5)", std::map<std::string, scalar>{}, fl::null, true)  //
+            .can_clone()
+            .can_construct()
+            .has_memberships({{4.0, 0.0}, {5.0, 1.0}}, {1.0});
 
+        Function f("f", "ge(x, 5)");
+        CHECK(not f.isLoaded());
+        f.load();
         CHECK(f.isLoaded());
         f.unload();
         CHECK(not f.isLoaded());
@@ -1802,9 +1893,9 @@ namespace fuzzylite {
         CHECK(Op::isNaN(f.membership(5)));
         CHECK(f.membership(4) == 0.0);
 
-        CHECK(FL_unique_ptr<Function>(Function::create("f", "3.000 ^ 4.000"))->evaluate() == 81.0);
+        CHECK(std::unique_ptr<Function>(Function::create("f", "3.000 ^ 4.000"))->evaluate() == 81.0);
         CHECK_THAT(
-            FL_unique_ptr<Function>(Function::create("f", "sin ( 3.000 ^ 4.000 )"))->evaluate(),
+            std::unique_ptr<Function>(Function::create("f", "sin ( 3.000 ^ 4.000 )"))->evaluate(),
             Catch::Matchers::WithinAbs(-0.629887994274454, fuzzylite::macheps())
         );
         CHECK_THAT(
@@ -1827,7 +1918,7 @@ namespace fuzzylite {
             Catch::Matchers::WithinAbs(-1.0, fuzzylite::macheps())
         );
 
-        TermAssert(new Function("f", "", {{"y", 1.5}}))
+        TermAssert<Function>("f", "", std::map<std::string, scalar>{{"y", 1.5}})
             .configured_as("2*x^3 +2*y - 3", false)
             .exports_fll("term: f Function 2*x^3 +2*y - 3", false)
             .has_memberships(
@@ -1854,14 +1945,15 @@ namespace fuzzylite {
         );
 
         Engine engine("A", "Engine A", {new InputVariable("i_A")}, {new OutputVariable("o_A")});
-        TermAssert(Function::create("f", "2*i_A + o_A + x", &engine))
+        TermAssert<Function>(Function::create("f", "2*i_A + o_A + x", &engine))
+            .can_clone()
             .exports_fll("term: f Function 2*i_A + o_A + x", false)
             .repr_is("fl.Function('f', '2*i_A + o_A + x')")
             .has_memberships({{0.0, nan}, {nan, nan}}, {1.0});
 
         engine.getInputVariable("i_A")->setValue(3.0);
         engine.getOutputVariable("o_A")->setValue(1.0);
-        TermAssert(Function::create("f", "2*i_A + o_A + x", &engine))
+        TermAssert<Function>(Function::create("f", "2*i_A + o_A + x", &engine))
             .exports_fll("term: f Function 2*i_A + o_A + x", false)
             .repr_is("fl.Function('f', '2*i_A + o_A + x')")
             .has_memberships(
@@ -1893,7 +1985,7 @@ namespace fuzzylite {
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
-            CHECK(FL_unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
+            CHECK(std::unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
         }
         SECTION("Unary") {
             auto op = Function::Element("~", "Negation", Function::Element::Operator, &(Op::negate), 0, 1);
@@ -1903,7 +1995,7 @@ namespace fuzzylite {
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
-            CHECK(FL_unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
+            CHECK(std::unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
         }
         SECTION("Binary") {
             auto op = Function::Element("*", "Multiplication", Function::Element::Operator, &(Op::multiply), 10);
@@ -1914,7 +2006,7 @@ namespace fuzzylite {
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
-            CHECK(FL_unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
+            CHECK(std::unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
         }
     }
 
@@ -1927,7 +2019,7 @@ namespace fuzzylite {
             );
             CHECK(f.isFunction());
             CHECK(not f.isOperator());
-            CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
+            CHECK(std::unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
 
             CHECK_THROWS_AS(Function::Node(f.clone()).evaluate(), fl::Exception);
             CHECK_THROWS_WITH(
@@ -1942,7 +2034,7 @@ namespace fuzzylite {
             CHECK(f.toString() == "Function (name=cos, description=Cosine, arity=1, associativity=-1, pointer=unary)");
             CHECK(f.isFunction());
             CHECK(not f.isOperator());
-            CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
+            CHECK(std::unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
 
             auto node = Function::Node(f.clone());
             CHECK_THROWS_AS(node.evaluate(), fl::Exception);
@@ -1963,7 +2055,7 @@ namespace fuzzylite {
             );
             CHECK(f.isFunction());
             CHECK(not f.isOperator());
-            CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
+            CHECK(std::unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
 
             auto node = Function::Node(f.clone());
             CHECK_THROWS_AS(node.evaluate(), fl::Exception);
@@ -2030,7 +2122,7 @@ namespace fuzzylite {
 
     TEST_CASE("FunctionNode", "[term][function][element]") {
         const FunctionFactory ff;
-        FL_unique_ptr<Function::Node> node_pow(
+        std::unique_ptr<Function::Node> node_pow(
             new Function::Node(ff.cloneObject("^"), new Function::Node(3.0), new Function::Node(4.0))
         );
         FunctionNodeAssert(node_pow->clone())
@@ -2039,7 +2131,8 @@ namespace fuzzylite {
             .infix_is("3.000 ^ 4.000")
             .evaluates_to(81.0);
 
-        FL_unique_ptr<Function::Node> node_sin(new Function::Node(ff.cloneObject("sin"), fl::null, node_pow->clone()));
+        std::unique_ptr<Function::Node> node_sin(new Function::Node(ff.cloneObject("sin"), fl::null, node_pow->clone())
+        );
         FunctionNodeAssert(node_sin->clone())
             .postfix_is("3.000 4.000 ^ sin")
             .prefix_is("sin ^ 3.000 4.000")
@@ -2055,7 +2148,7 @@ namespace fuzzylite {
                                "but none was provided")
             .evaluates_to(0.39675888533109455, {{"two", 2}});
 
-        FL_unique_ptr<Function::Node> node_sum(
+        std::unique_ptr<Function::Node> node_sum(
             new Function::Node(ff.cloneObject("+"), node_pow->clone(), node_pow->clone())
         );
         FunctionNodeAssert(node_sum->clone())

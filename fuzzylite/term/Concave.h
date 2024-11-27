@@ -112,7 +112,9 @@ namespace fuzzylite {
         virtual scalar getEnd() const;
 
         virtual Concave* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }

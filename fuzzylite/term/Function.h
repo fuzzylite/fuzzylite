@@ -259,6 +259,7 @@ namespace fuzzylite {
       public:
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
+        // todo: cascade constructors to do Function("x",  "1", true)
         explicit Function(
             const std::string& name = "",
             const std::string& formula = "",
@@ -407,7 +408,9 @@ namespace fuzzylite {
         virtual void updateReference(const Engine* engine) FL_IOVERRIDE;
 
         virtual Function* clone() const FL_IOVERRIDE;
-
+        /**
+         * @deprecated will be removed in fuzzylite 8
+         */
         static Term* constructor();
     };
 }
