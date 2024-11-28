@@ -199,8 +199,7 @@ def lint(session: nox.Session) -> None:
     """Lint the project: CMakelists.txt, Markdown files, devtools, C++ headers and sources."""
     session.notify(lint_cmake.__name__)
     session.notify(lint_md.__name__)
-    session.notify(lint_py.__name__)
-    session.notify(lint_cpp.__name__)
+    session.notify(lint_cpp.__name__, posargs=session.posargs)
 
 
 @nox.session
@@ -249,8 +248,7 @@ def lint_py_ruff(session: nox.Session) -> None:
 def format(session: nox.Session) -> None:
     """Format the project: Markdown files, devtools, and C++ header and source files."""
     session.notify(format_md.__name__)
-    session.notify(format_py.__name__)
-    session.notify(format_cpp.__name__)
+    session.notify(format_cpp.__name__, posargs=session.posargs)
 
 
 @nox.session

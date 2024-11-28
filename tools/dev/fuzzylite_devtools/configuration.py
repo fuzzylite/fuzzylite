@@ -188,6 +188,24 @@ class Tools:
         return Path("./tools/dev")
 
     @staticmethod
+    def running_locally() -> bool:
+        """Return whether `nox` is running locally.
+
+        Returns:
+            True, if `nox` is running locally; False, otherwise
+        """
+        return not Tools.running_github_action()
+
+    @staticmethod
+    def running_github_action() -> bool:
+        """Return whether `nox` is running in a Github Action.
+
+        Returns:
+            True, if `nox` is running in Github Action; False, otherwise
+        """
+        return os.getenv("GITHUB_ACTIONS", "").lower() == "true"
+
+    @staticmethod
     def create_temporal_directory(name: str) -> Path:
         """Create a temporal directory in the form `com.fuzzylite.{name}.{yyyyMMdd.HHmm}`.
 
@@ -228,9 +246,17 @@ class Tools:
         parameters = {"format": "-i", "lint": "--dry-run --Werror"}
         message = {"format": "Formatting", "lint": "Linting"}
         files = Tools.source_files()
-        errors: list[Path] = []
-        session.log(f"{message[mode]} {len(files)} files...")
+        if Tools.running_github_action() or "all" in session.posargs:
+            session.log(f"{message[mode]} {len(files)} files...")
+        else:
+            git_ls_files: str = session.run(  # pyright: ignore[reportAssignmentType]
+                *"git ls-files --modified".split(), silent=True, log=False
+            )
+            changed_files = set(Path(file) for file in git_ls_files.split("\n"))
+            files = list(filter(lambda file: file in changed_files, files))
+            session.log(f"{message[mode]} {len(files)} changed files...")
 
+        errors: list[Path] = []
         for file in rich.progress.track(files, description=message[mode]):
             cmd = " ".join([clang_format_cmd, parameters[mode], str(file)])
             try:
