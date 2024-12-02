@@ -39,7 +39,8 @@ namespace fuzzylite {
     void Constant::configure(const std::string& parameters) {
         if (parameters.empty())
             return;
-        setValue(Op::toScalar(parameters));
+        std::vector<std::string> values=Op::split(parameters);
+        setValue(Op::toScalar(values.front()));
     }
 
     void Constant::setValue(scalar value) {
