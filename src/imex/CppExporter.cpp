@@ -180,6 +180,7 @@ namespace fuzzylite {
         if (not term)
             return "fl::null";
 
+        //todo: export height in Discrete
         if (const Discrete* discrete = dynamic_cast<const Discrete*>(term)) {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", " << (discrete->xy().size() * 2)
