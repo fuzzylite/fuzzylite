@@ -1,3 +1,4 @@
+test/Assert.h
 test/Headers.h
 test/Listener.h
 test/MainTest.cpp
