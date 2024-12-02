@@ -167,6 +167,7 @@ namespace fuzzylite {
         return fl::null;
     }
 
+    // TODO: forward args to constructor in fuzzylite 8
     template <typename T>
     inline T ConstructionFactory<T>::constructObject(const std::string& key) const {
         typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);

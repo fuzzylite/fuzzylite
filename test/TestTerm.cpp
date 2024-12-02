@@ -213,6 +213,61 @@ namespace fuzzylite {
         }
     }
 
+    TEST_CASE("All terms can copy and move", "[term][constructor][x]") {
+        // TermFactory* termFactory = fl::FactoryManager::instance()->term();
+        // const std::string& parameters = fl::Op::join(std::vector<scalar>{1., 2., 3., 4., 5., 6., 7., 8.}, " ");
+        // std::vector<std::string> o;
+        // for (const std::string& termClass : termFactory->available()) {
+        //     if (not(termClass.empty()) and termClass != "Function") {
+        //         FL_LOG(termClass);
+        //
+        //         auto term = termFactory->constructObject(termClass);
+        //         term->setName(termClass);
+        //         term->configure(parameters);
+        //         term->setHeight(.5);
+        //         auto c = CppExporter().toString(term);
+        //         c = Op::replaceAll(c, "new ", "");
+        //         c = Op::replaceAll(c, "(", "{");
+        //         c = Op::replaceAll(c, ")", "}");
+        //         o.push_back("AssertConstructor().can_copy_and_move(" + c + ", compare);");
+        //     }
+        // }
+        // o.push_back("AssertConstructor().can_copy_and_move(Function{\"Function\", \"1.0 + 2.0\"}, compare);");
+        // FL_LOG(Op::join(o, "\n"));
+        auto compare = &Term::toString;
+        AssertConstructor().can_copy_and_move(Bell{"Bell", 1.000, 2.000, 3.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Binary{"Binary", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Concave{"Concave", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Constant{"Constant", 1.000}, compare);
+        AssertConstructor().can_copy_and_move(Cosine{"Cosine", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(
+            Discrete{"Discrete", {{1.000, 2.000}, {3.000, 4.000}, {5.000, 6.000}, {7.000, 8.000}}, .5}, compare
+        );
+        AssertConstructor().can_copy_and_move(Function{"Function", "1.0 + 2.0"}, compare);
+        AssertConstructor().can_copy_and_move(Gaussian{"Gaussian", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(
+            GaussianProduct{"GaussianProduct", 1.000, 2.000, 3.000, 4.000, 0.500}, compare
+        );
+        AssertConstructor().can_copy_and_move(
+            Linear{"Linear", {1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000}}, compare
+        );
+        AssertConstructor().can_copy_and_move(PiShape{"PiShape", 1.000, 2.000, 3.000, 4.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Ramp{"Ramp", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Rectangle{"Rectangle", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(SShape{"SShape", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Sigmoid{"Sigmoid", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(
+            SigmoidDifference{"SigmoidDifference", 1.000, 2.000, 3.000, 4.000, 0.500}, compare
+        );
+        AssertConstructor().can_copy_and_move(
+            SigmoidProduct{"SigmoidProduct", 1.000, 2.000, 3.000, 4.000, 0.500}, compare
+        );
+        AssertConstructor().can_copy_and_move(Spike{"Spike", 1.000, 2.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Trapezoid{"Trapezoid", 1.000, 2.000, 3.000, 4.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(Triangle{"Triangle", 1.000, 2.000, 3.000, 0.500}, compare);
+        AssertConstructor().can_copy_and_move(ZShape{"ZShape", 1.000, 2.000, 0.500}, compare);
+    }
+
     TEST_CASE("Activated", "[term][activated]") {
         SECTION("Can clone") {
             const Triangle triangle("A", 0, 1, 2);
@@ -384,16 +439,16 @@ namespace fuzzylite {
         aggregated.addTerm(medium.get(), 0.1, fl::null);
         aggregated.addTerm(bright.get(), 0.6, fl::null);
 
-        REQUIRE(aggregated.highestActivatedTerm().getTerm() == bright.get());
+        CHECK(aggregated.highestActivatedTerm().getTerm() == bright.get());
 
         aggregated.terms().at(1).setDegree(0.7);
-        REQUIRE(aggregated.highestActivatedTerm().getTerm() == medium.get());
+        CHECK(aggregated.highestActivatedTerm().getTerm() == medium.get());
 
         aggregated.terms().front().setDegree(0.9);
-        REQUIRE(aggregated.highestActivatedTerm().getTerm() == dark.get());
+        CHECK(aggregated.highestActivatedTerm().getTerm() == dark.get());
 
         aggregated.clear();
-        REQUIRE(aggregated.highestActivatedTerm().getTerm() == fl::null);
+        CHECK(aggregated.highestActivatedTerm().getTerm() == fl::null);
     }
 
     TEST_CASE("Aggregated: grouped terms", "[term][aggregated]") {

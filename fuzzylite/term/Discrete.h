@@ -252,6 +252,7 @@ namespace fuzzylite {
           @param y1 is the @f$y@f$ value of the first Pair
           @param ... are the remaining pairs of values @f$x_i@f$ and @f$y_i@f$
           @return a new Discrete term with the given parameters
+          @deprecated will be removed in fuzzylite 8
          */
         template <typename T>
         static Discrete* create(const std::string& name, int argc, T x1, T y1, ...);
