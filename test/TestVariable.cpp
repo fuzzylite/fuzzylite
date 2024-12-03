@@ -17,6 +17,20 @@ fuzzylite (R), a fuzzy logic control library in C++.
 #include "Headers.h"
 
 namespace fuzzylite { namespace test {
+    // template <class T>
+    // struct VariableAssert<T> {
+    //     std::unique_ptr<T> actual;
+    //
+    //     explicit VariableAssert(std::unique_ptr<T> actual) : actual(std::move(actual)) {}
+    //
+    //     virtual VariableAssert& name(const std::string& name)  {};
+    // };
+    // template <>
+    // struct InputVariableAssert : VariableAssert<InputVariable*> {
+    //
+    //
+    // };
+
     TEST_CASE("variable of Constant terms is sorted", "[variable][variable]") {
         Variable variable("Variable", -10, 10);
         for (int i = 20; i >= 0; --i)

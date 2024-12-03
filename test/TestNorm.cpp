@@ -16,7 +16,7 @@
 
 #include "Headers.h"
 
-namespace fuzzylite {
+namespace fuzzylite { namespace test {
     template <class T>
     struct NormAssert {
         FL_unique_ptr<T> actual;
@@ -616,4 +616,4 @@ namespace fuzzylite {
         }
     }
 
-}
+}}

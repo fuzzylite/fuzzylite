@@ -15,7 +15,7 @@
  */
 #include "Headers.h"
 
-namespace fuzzylite {
+namespace fuzzylite { namespace test {
 
     template <typename T>
     struct TermAssert {
@@ -2351,4 +2351,4 @@ namespace fuzzylite {
         CHECK(f.root()->treeSize(Function::Element::Operator) == 5);
     }
 
-}  // namespace fl
+}}

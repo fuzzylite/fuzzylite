@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "Headers.h"
 
-namespace fuzzylite {
+namespace fuzzylite { namespace test {
 
     TEST_CASE("Increment ", "[op][increment]") {
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
@@ -134,4 +134,4 @@ namespace fuzzylite {
 #endif
     }
 
-}  // namespace fuzzylite
+}}
