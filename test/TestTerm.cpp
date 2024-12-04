@@ -213,7 +213,7 @@ namespace fuzzylite { namespace test {
         }
     }
 
-    TEST_CASE("All terms can copy and move", "[term][constructor][x]") {
+    TEST_CASE("All terms can copy and move", "[term][constructor]") {
         // TermFactory* termFactory = fl::FactoryManager::instance()->term();
         // const std::string& parameters = fl::Op::join(std::vector<scalar>{1., 2., 3., 4., 5., 6., 7., 8.}, " ");
         // std::vector<std::string> o;
@@ -235,6 +235,12 @@ namespace fuzzylite { namespace test {
         // o.push_back("AssertConstructor().can_copy_and_move(Function{\"Function\", \"1.0 + 2.0\"}, compare);");
         // FL_LOG(Op::join(o, "\n"));
         auto compare = &Term::toString;
+        auto triangle = std::make_unique<Triangle>("triangle", 1.0, 2.0, 3.0);
+        auto minimum = std::make_unique<Minimum>();
+        AssertConstructor().can_copy_and_move(Activated{triangle.get(), 0.5, minimum.get()}, compare);
+        AssertConstructor().can_copy_and_move(
+            Aggregated{"Aggregated", -1., 1., new Maximum, {Activated{triangle.get(), 0.5, minimum.get()}}}, compare
+        );
         AssertConstructor().can_copy_and_move(Bell{"Bell", 1.000, 2.000, 3.000, 0.500}, compare);
         AssertConstructor().can_copy_and_move(Binary{"Binary", 1.000, 2.000, 0.500}, compare);
         AssertConstructor().can_copy_and_move(Concave{"Concave", 1.000, 2.000, 0.500}, compare);
