@@ -28,7 +28,7 @@ from .typing import Build, CxxStandard
 class Configuration:
     """Configuration class for fuzzylite."""
 
-    build: Build = "relwithdebinfo"
+    build: Build = "debug"
     cxx_standard: CxxStandard = "11"
     install_prefix: str = ".local"
     strict: bool = False

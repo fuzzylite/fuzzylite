@@ -57,11 +57,18 @@ namespace fuzzylite {
         void copyFrom(const Variable& source);
 
       public:
-        explicit Variable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
-        explicit Variable(const Variable& other);
+        Variable(
+            const std::string& name = "",
+            scalar minimum = -fl::inf,
+            scalar maximum = fl::inf,
+            const std::vector<Term*>& terms = std::vector<Term*>()
+        );
+        Variable(const Variable& other);
         Variable& operator=(const Variable& other);
+        // Variable(Variable&&);
+        Variable& operator=(Variable&&);
+
         virtual ~Variable();
-        FL_DEFAULT_MOVE(Variable)
 
         /**
           Sets the name of the variable

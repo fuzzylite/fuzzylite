@@ -4,6 +4,7 @@ test/Listener.h
 test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp
+test/TestAssert.cpp
 test/TestDefuzzifier.cpp
 test/TestFactory.cpp
 test/TestHedge.cpp

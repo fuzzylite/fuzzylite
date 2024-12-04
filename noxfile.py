@@ -342,7 +342,7 @@ def jupyter(session: nox.Session) -> None:
     """Build and run containerized Jupyter Notebook for C++ based on Xeus. Args: `container=docker`."""
     # TODO: does not work on Apple Silicon
     c = Configuration.for_session(session)
-    session.run(*f"{c.container} --version")
+    session.run(*f"{c.container} --version".split())
 
     # build
     tag = "fl-xeus"

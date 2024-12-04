@@ -26,9 +26,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Variable::Variable(const std::string& name, scalar minimum, scalar maximum) :
+    Variable::Variable(const std::string& name, scalar minimum, scalar maximum, const std::vector<Term*>& terms) :
         _name(name),
         _description(""),
+        _terms(terms),
         _value(fl::nan),
         _minimum(minimum),
         _maximum(maximum),
@@ -45,6 +46,19 @@ namespace fuzzylite {
                 delete _terms.at(i);
             _terms.clear();
             copyFrom(other);
+        }
+        return *this;
+    }
+
+    // Variable::Variable(Variable&& other) : name(std::move(other.name)), {}
+
+    Variable& Variable::operator=(Variable&& other) {
+        if (this != &other) {
+            for (std::size_t i = 0; i < _terms.size(); ++i)
+                delete _terms.at(i);
+
+            _terms = std::move(other._terms);
+            other._terms.clear();
         }
         return *this;
     }
