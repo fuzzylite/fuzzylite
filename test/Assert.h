@@ -22,113 +22,95 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <memory>
 
 namespace fuzzylite { namespace test {
-
-    struct AssertConstructor {
-        template <typename T>
-        AssertConstructor& is_complete() {
-            has_default<T>();
-            supports_copy<T>();
-            supports_move<T>();
+    template <typename T>
+    struct AssertConstructorOf {
+        AssertConstructorOf& is_complete() {
+            has_default();
+            supports_copy();
+            supports_move();
             // TODO: is_noexcept<T>(); in fuzzylite 8
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_copy_and_move(const T& test, CompareMethod method) {
+        template <typename CompareMethod>
+        AssertConstructorOf& can_copy_and_move(const T& test, CompareMethod method) {
             // is_complete<T>();
             can_copy(test, method);
             can_move(test, method);
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_copy(const T& test, CompareMethod method) {
+        template <typename CompareMethod>
+        AssertConstructorOf& can_copy(const T& test, CompareMethod method) {
             can_copy_construct(test, method);
             can_copy_assign(test, method);
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_move(const T& test, CompareMethod method) {
+        template <typename CompareMethod>
+        AssertConstructorOf& can_move(const T& test, CompareMethod method) {
             can_move_construct(test, method);
             can_move_assign(test, method);
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& has_default() {
-            CHECK(std::is_constructible<T>::value);
-            T constructor;
-            (void)constructor;
+        AssertConstructorOf& has_default(bool has = true) {
+            CHECK(std::is_constructible<T>::value == has);
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& is_noexcept() {
-            CHECK(std::is_nothrow_constructible<T>());
+        AssertConstructorOf& is_noexcept(bool is = true) {
+            CHECK(std::is_nothrow_constructible<T>::value == is);
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& supports_copy() {
-            has_copy_constructor<T>();
-            has_copy_assignment<T>();
+        AssertConstructorOf& supports_copy(bool supports = true) {
+            has_copy_constructor(supports);
+            has_copy_assignment(supports);
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& supports_move() {
-            has_move_constructor<T>();
-            has_move_assignment<T>();
+        AssertConstructorOf& supports_move(bool supports = true) {
+            has_move_constructor(supports);
+            has_move_assignment(supports);
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& has_copy_constructor() {
-            CHECK(std::is_copy_constructible<T>::value);
-            T original;
-            T copy(original);
-            (void)copy;
+        AssertConstructorOf& has_copy_constructor(bool has = true) {
+            CHECK(std::is_copy_constructible<T>::value == has);
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_copy_construct(const T& test, CompareMethod method) {
+        template <typename CompareMethod>
+        AssertConstructorOf& can_copy_construct(const T& test, CompareMethod method) {
+            has_copy_constructor();
             const T copy(test);
             CHECK((test.*method)() == (copy.*method)());
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& has_copy_assignment() {
-            CHECK(std::is_copy_assignable<T>::value);
-            T original;
-            T copyAssigned;
-            copyAssigned = original;
-            (void)copyAssigned;
+        AssertConstructorOf& has_copy_assignment(bool has = true) {
+            CHECK(std::is_copy_assignable<T>::value == has);
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_copy_assign(const T& test, CompareMethod method) {
+        template <typename CompareMethod>
+        AssertConstructorOf& can_copy_assign(const T& test, CompareMethod method) {
+            has_copy_assignment();
             T copyAssigned;
             copyAssigned = test;
             CHECK((test.*method)() == (copyAssigned.*method)());
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& has_move_constructor() {
-            CHECK(std::is_move_constructible<T>::value);
-            T original;
-            T moved(std::move(original));
-            (void)moved;
+        AssertConstructorOf& has_move_constructor(bool has = true) {
+            CHECK(std::is_move_constructible<T>::value == has);
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_move_construct(const T& test, CompareMethod method) {
-            has_move_constructor<T>();
+        template <typename CompareMethod>
+        AssertConstructorOf& can_move_construct(const T& test, CompareMethod method) {
+            has_move_constructor();
             auto expected = (test.*method)();
             // Given const T& test, we create a copy to remove const
             T movable(test);
@@ -139,19 +121,14 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        template <typename T>
-        AssertConstructor& has_move_assignment() {
-            CHECK(std::is_move_assignable<T>::value);
-            T original;
-            T moveAssigned;
-            moveAssigned = std::move(original);
-            (void)moveAssigned;
+        AssertConstructorOf& has_move_assignment(bool has = true) {
+            CHECK(std::is_move_assignable<T>::value == has);
             return *this;
         }
 
-        template <typename T, typename CompareMethod>
-        AssertConstructor& can_move_assign(const T& test, CompareMethod method) {
-            has_move_assignment<T>();
+        template <typename CompareMethod>
+        AssertConstructorOf& can_move_assign(const T& test, CompareMethod method) {
+            has_move_assignment();
             // Given const T& test, we create a copy to remove const
             auto expected = (test.*method)();
             T movable(test);
@@ -161,6 +138,104 @@ namespace fuzzylite { namespace test {
             movedAssigned = std::move(movable);
             auto obtained = (movedAssigned.*method)();
             CHECK(obtained == expected);
+            return *this;
+        }
+    };
+
+    struct AssertConstructor {
+        template <typename T>
+        AssertConstructor& is_complete() {
+            AssertConstructorOf<T>().is_complete();
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_copy_and_move(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_copy_and_move(test, method);
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_copy(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_copy(test, method);
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_move(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_move(test, method);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& has_default(bool has = true) {
+            AssertConstructorOf<T>().has_default(has);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& is_noexcept(bool is = true) {
+            AssertConstructorOf<T>().is_noexcept(is);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& supports_copy(bool supports = true) {
+            AssertConstructorOf<T>().supports_copy(supports);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& supports_move(bool supports = true) {
+            AssertConstructorOf<T>().supports_move(supports);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& has_copy_constructor(bool has = true) {
+            AssertConstructorOf<T>().has_copy_constructor(has);
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_copy_construct(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_copy_construct(test, method);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& has_copy_assignment(bool has = true) {
+            AssertConstructorOf<T>().has_copy_assignment(has);
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_copy_assign(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_copy_assign(test, method);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& has_move_constructor(bool has = true) {
+            AssertConstructorOf<T>().has_move_constructor(has);
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_move_construct(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_move_construct(test, method);
+            return *this;
+        }
+
+        template <typename T>
+        AssertConstructor& has_move_assignment(bool has = true) {
+            AssertConstructorOf<T>().has_move_assignment(has);
+            return *this;
+        }
+
+        template <typename T, typename CompareMethod>
+        AssertConstructor& can_move_assign(const T& test, CompareMethod method) {
+            AssertConstructorOf<T>().can_move_assign(test, method);
             return *this;
         }
     };
