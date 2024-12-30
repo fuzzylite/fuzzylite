@@ -24,6 +24,7 @@ from __future__ import annotations
 import platform
 import shutil
 from pathlib import Path
+import webbrowser
 
 import nox
 from fuzzylite_devtools import Configuration, Tools
@@ -118,7 +119,10 @@ gcovr -r .
     {c.build_path()}/CMakeFiles/testTarget.dir
 """
     session.run(*cmd.split())
-    session.log(f"open {c.build_path()}/coverage.html")
+    url = c.build_path() / "coverage.html"
+    session.log(f"open {url}")
+    webbrowser.open(url.resolve().as_uri())
+
 
 
 @nox.session
