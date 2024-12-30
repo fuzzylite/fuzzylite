@@ -21,6 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
+#include "fuzzylite/term/Activated.h"
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 
@@ -46,19 +47,6 @@ namespace fuzzylite {
                 delete _terms.at(i);
             _terms.clear();
             copyFrom(other);
-        }
-        return *this;
-    }
-
-    // Variable::Variable(Variable&& other) : name(std::move(other.name)), {}
-
-    Variable& Variable::operator=(Variable&& other) {
-        if (this != &other) {
-            for (std::size_t i = 0; i < _terms.size(); ++i)
-                delete _terms.at(i);
-
-            _terms = std::move(other._terms);
-            other._terms.clear();
         }
         return *this;
     }
@@ -152,43 +140,38 @@ namespace fuzzylite {
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            Term* term = _terms.at(i);
-            scalar fx = fl::nan;
-            try {
-                fx = term->membership(x);
-            } catch (...) {
-                // ignore
-            }
-            if (i == 0)
-                ss << Op::str(fx);
-            else if (Op::isNaN(fx) or Op::isGE(fx, 0.0))
-                ss << " + " << Op::str(fx);
-            else
-                ss << " - " << Op::str(std::abs(fx));
-            ss << "/" << term->getName();
+            const Term* term = _terms.at(i);
+            const std::string fuzzyValue = Activated(term, term->membership(x)).fuzzyValue();
+            const char sign = fuzzyValue.at(0);
+            const std::string value = fuzzyValue.substr(1);
+            if (i == 0 and sign == '-')
+                ss << sign;
+            if (i > 0)
+                ss << ' ' << sign << ' ';
+            ss << value;
         }
         return ss.str();
     }
 
-    Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
-        Term* result = fl::null;
-        scalar ymax = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar y = fl::nan;
-            Term* term = _terms.at(i);
+    Activated Variable::highestActivation(scalar x) const {
+        Activated highest(null, nan);
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            const Term* term = terms().at(i);
+            scalar y;
             try {
                 y = term->membership(x);
-            } catch (...) {
-                // ignore
-            }
-            if (Op::isGt(y, ymax)) {
-                ymax = y;
-                result = term;
-            }
+            } catch (...) { y = nan; }
+            if ((not highest.getTerm() and y > 0) or (highest.getTerm() and y > highest.getDegree()))
+                highest = Activated(term, y);
         }
+        return highest;
+    }
+
+    Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
+        Activated highest = highestActivation(x);
         if (yhighest)
-            *yhighest = ymax;
-        return result;
+            *yhighest = highest.getDegree();
+        return const_cast<Term*>(highest.getTerm());
     }
 
     std::string Variable::toString() const {

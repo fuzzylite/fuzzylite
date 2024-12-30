@@ -27,6 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     class Term;
+    class Activated;
 
     /**
       The Variable class is the base class for linguistic variables.
@@ -57,7 +58,7 @@ namespace fuzzylite {
         void copyFrom(const Variable& source);
 
       public:
-        Variable(
+        explicit Variable(
             const std::string& name = "",
             scalar minimum = -fl::inf,
             scalar maximum = fl::inf,
@@ -65,9 +66,8 @@ namespace fuzzylite {
         );
         Variable(const Variable& other);
         Variable& operator=(const Variable& other);
-        // Variable(Variable&&);
-        Variable& operator=(Variable&&);
-
+        // todo: enable default move in fuzzylite 8.
+        FL_DISABLE_MOVE(Variable);
         virtual ~Variable();
 
         /**
@@ -207,8 +207,16 @@ namespace fuzzylite {
           @param[out] yhighest is a pointer where the highest membership
           function value will be stored
           @return the term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
+          @deprecated will be removed in fuzzylite 8. use `highestActivation` instead
          */
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
+        /**
+          Gets the term with the highest membership function value for
+          @f$x@f$.
+          @param x is the value of interest
+          @return an activated term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
+         */
+        virtual Activated highestActivation(scalar x) const;
 
         /**
          Returns the type of the variable
