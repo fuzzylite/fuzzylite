@@ -314,6 +314,13 @@ namespace fuzzylite { namespace test {
         CHECK(Activated(&term, 0.5).toString() == "(0.500*triangle)");
         CHECK(Activated(&term, 0.5).parameters() == "0.500 none term: triangle Triangle -0.400 0.000 0.400");
 
+        CHECK(Activated(&term, 0.5).fuzzyValue() == "+0.500/triangle");
+        CHECK(Activated(&term, 0).fuzzyValue() == "+0.000/triangle");
+        CHECK(Activated(&term, -0.5).fuzzyValue() == "-0.500/triangle");
+        CHECK(Activated(&term, inf).fuzzyValue() == "+inf/triangle");
+        CHECK(Activated(&term, -inf).fuzzyValue() == "-inf/triangle");
+        CHECK(Activated(&term, nan).fuzzyValue() == "+nan/triangle");
+
         Activated activated;
         CHECK(activated.className() == "Activated");
         CHECK(activated.getName() == "");
