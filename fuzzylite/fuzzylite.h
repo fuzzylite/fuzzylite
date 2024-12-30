@@ -189,6 +189,8 @@ namespace fuzzylite {
     Class(const Class &);      \
     Class &operator=(const Class &);
 
+#define FL_DISABLE_MOVE(Class)
+
 #else
     // C++11 defines
 
@@ -199,7 +201,6 @@ namespace fuzzylite {
      */
     const std::nullptr_t null = nullptr;
 #define FL_unique_ptr std::unique_ptr
-#define FL_move_ptr(x) std::move(x)
 
     // Identifiers
 #define FL_IOVERRIDE override
@@ -225,6 +226,10 @@ namespace fuzzylite {
 #define FL_DISABLE_COPY(Class)     \
     Class(const Class &) = delete; \
     Class &operator=(const Class &) = delete;
+
+#define FL_DISABLE_MOVE(Class) \
+    Class(Class &&) = delete;  \
+    Class &operator=(Class &&) = delete;
 
 #endif
 }

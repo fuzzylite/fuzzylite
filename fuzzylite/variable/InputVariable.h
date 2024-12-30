@@ -36,7 +36,8 @@ namespace fuzzylite {
       public:
         explicit InputVariable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
         virtual ~InputVariable() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(InputVariable)
+        FL_DEFAULT_COPY(InputVariable);
+        FL_DISABLE_MOVE(InputVariable);
 
         /**
           Evaluates the membership function of the current input value @f$x@f$
