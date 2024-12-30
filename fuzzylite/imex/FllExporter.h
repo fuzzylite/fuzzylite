@@ -107,6 +107,13 @@ namespace fuzzylite {
         virtual std::string toString(const std::vector<RuleBlock*>& ruleBlocks) const;
 
         /**
+          Returns a string representation of the vector of terms in the FuzzyLite Language
+          @param terms is the vector of terms
+          @return a string representation of the vector of terms in the FuzzyLite Language
+         */
+        virtual std::string toString(const std::vector<Term*>& terms) const;
+
+        /**
           Returns a string representation of the Variable in the FuzzyLite Language
           @param variable is the variable
           @return a string representation of the variable in the FuzzyLite Language
