@@ -107,4 +107,11 @@ namespace fuzzylite {
         return new Activated(*this);
     }
 
+    std::string Activated::fuzzyValue() const {
+        std::stringstream ss;
+        const scalar y = getDegree();
+        ss << (y >= 0 or Op::isNaN(y) ? '+' : '-') << Op::str(std::abs(y)) << '/' << getTerm()->getName();
+        return ss.str();
+    }
+
 }
