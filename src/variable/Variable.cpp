@@ -22,6 +22,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
 #include "fuzzylite/term/Activated.h"
+#include "fuzzylite/term/Aggregated.h"
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 
@@ -138,19 +139,17 @@ namespace fuzzylite {
     }
 
     std::string Variable::fuzzify(scalar x) const {
-        std::ostringstream ss;
+        std::vector<Activated> activations;
+        activations.reserve(terms().size());
         for (std::size_t i = 0; i < terms().size(); ++i) {
             const Term* term = _terms.at(i);
-            const std::string fuzzyValue = Activated(term, term->membership(x)).fuzzyValue();
-            const char sign = fuzzyValue.at(0);
-            const std::string value = fuzzyValue.substr(1);
-            if (i == 0 and sign == '-')
-                ss << sign;
-            if (i > 0)
-                ss << ' ' << sign << ' ';
-            ss << value;
+            scalar y;
+            try {
+                y = term->membership(x);
+            } catch (...) { y = nan; }
+            activations.push_back(Activated(term, y));
         }
-        return ss.str();
+        return Aggregated().withTerms(activations).fuzzyValue();
     }
 
     Activated Variable::highestActivation(scalar x) const {
