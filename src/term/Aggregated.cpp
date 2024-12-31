@@ -244,4 +244,40 @@ namespace fuzzylite {
         return _terms.empty();
     }
 
+    std::string Aggregated::fuzzyValue() const {
+        std::ostringstream ss;
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            const std::string fuzzyValue = terms().at(i).fuzzyValue();
+            const char sign = fuzzyValue.at(0);
+            const std::string value = fuzzyValue.substr(1);
+            if (i == 0 and sign == '-')
+                ss << sign;
+            if (i > 0)
+                ss << ' ' << sign << ' ';
+            ss << value;
+        }
+        return ss.str();
+    }
+
+    Aggregated& Aggregated::withTerms(const std::vector<Activated>& terms) {
+        setTerms(terms);
+        return *this;
+    }
+
+    Aggregated& Aggregated::withTerm(const Term* term, scalar degree, const TNorm* implication) {
+        terms().push_back(Activated(term, degree, implication));
+        return *this;
+    }
+
+    Aggregated& Aggregated::withRange(scalar minimum, scalar maximum) {
+        setMinimum(minimum);
+        setMaximum(maximum);
+        return *this;
+    }
+
+    Aggregated& Aggregated::withAggregation(SNorm* aggregation) {
+        setAggregation(aggregation);
+        return *this;
+    }
+
 }

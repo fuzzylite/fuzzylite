@@ -210,6 +210,13 @@ namespace fuzzylite {
           Clears and deletes the activated terms
          */
         virtual void clear();
+
+        virtual std::string fuzzyValue() const;
+
+        virtual Aggregated& withTerms(const std::vector<Activated>& terms);
+        virtual Aggregated& withTerm(const Term* term, scalar degree, const TNorm* implication = null);
+        virtual Aggregated& withRange(scalar minimum, scalar maximum);
+        virtual Aggregated& withAggregation(SNorm* aggregation);
     };
 }
 #endif /* FL_AGGREGATED_H */
