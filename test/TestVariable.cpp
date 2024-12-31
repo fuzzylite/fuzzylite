@@ -17,94 +17,107 @@ fuzzylite (R), a fuzzy logic control library in C++.
 #include "Headers.h"
 
 namespace fuzzylite { namespace test {
-    struct VariableAssert {
-        std::unique_ptr<Variable> variable;
-        VariableAssert() = default;
+    // curiously recurring template pattern (CRTP): https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+    template <typename DerivedAssert, typename T>
+    struct Assert {
+        std::unique_ptr<T> variable;
+        Assert() = default;
 
-        explicit VariableAssert(std::unique_ptr<Variable> actual) : variable(std::move(actual)) {}
+        explicit Assert(std::unique_ptr<T> actual) : variable(std::move(actual)) {}
 
-        VariableAssert& has_name(const std::string& name) {
+        explicit Assert(T* actual) : variable(actual) {}
+
+        DerivedAssert& self() {
+            return static_cast<DerivedAssert&>(*this);
+        }
+
+        auto& has_name(const std::string& name) {
             CHECK(variable->getName() == name);
-            return *this;
+            return self();
         }
 
-        VariableAssert& has_description(const std::string& description) {
+        auto& has_description(const std::string& description) {
             CHECK(variable->getDescription() == description);
-            return *this;
+            return self();
         }
 
-        VariableAssert& is_enabled(bool enabled = true) {
+        auto& is_enabled(bool enabled = true) {
             CHECK(variable->isEnabled() == enabled);
-            return *this;
+            return self();
         }
 
-        VariableAssert& has_range(scalar minimum, scalar maximum) {
+        auto& has_type(Variable::Type type) {
+            CHECK(variable->type() == type);
+            return self();
+        }
+
+        auto& has_range(scalar minimum, scalar maximum) {
             CHECK_THAT(variable->getMinimum(), Approximates(minimum));
             CHECK_THAT(variable->getMaximum(), Approximates(maximum));
-            return *this;
+            return self();
         }
 
-        VariableAssert& has_value(scalar value) {
+        auto& has_value(scalar value) {
             CHECK_THAT(variable->getValue(), Approximates(value));
-            return *this;
+            return self();
         }
 
-        VariableAssert& locks_value_in_range(bool locks = true) {
+        auto& locks_value_in_range(bool locks = true) {
             CHECK(variable->isLockValueInRange() == locks);
-            return *this;
+            return self();
         }
 
-        VariableAssert& exports_fll(const std::string& fll) {
+        auto& exports_fll(const std::string& fll) {
             CHECK(variable->toString() == fll);
-            return *this;
+            return self();
         }
 
-        VariableAssert& exports_fll(const std::vector<std::string>& expected) {
+        auto& exports_fll(const std::vector<std::string>& expected) {
             auto obtained = Op::split(variable->toString(), "\n");
             for (std::size_t i = 0; i < obtained.size(); ++i)
                 obtained[i] = Op::trim(obtained[i]);
             CHECK(obtained == expected);
-            return *this;
+            return self();
         }
 
-        VariableAssert& fuzzify(scalar value, const std::string& expected) {
+        auto& fuzzify(scalar value, const std::string& expected) {
             auto obtained = variable->fuzzify(value);
             CHECK(obtained == expected);
-            return *this;
+            return self();
         }
 
-        VariableAssert& fuzzy_values(std::vector<std::pair<scalar, std::string>> values_expected) {
+        auto& fuzzy_values(std::vector<std::pair<scalar, std::string>> values_expected) {
             for (const auto& pair : values_expected) {
                 const std::string& expected = pair.second;
                 auto obtained = variable->fuzzify(pair.first);
                 CHECK(obtained == expected);
             }
-            return *this;
+            return self();
         }
 
-        VariableAssert& highest_membership(scalar x, const Activated& expected) {
+        auto& highest_membership(scalar x, const Activated& expected) {
             scalar degree;
             Term* highest = variable->highestMembership(x, &degree);
             CHECK(highest == expected.getTerm());
             CHECK_THAT(degree, Approximates(expected.getDegree()));
-            return *this;
+            return self();
         }
 
-        VariableAssert& highest_activation(scalar x, const Activated& expected) {
+        auto& highest_activation(scalar x, const Activated& expected) {
             Activated highest = variable->highestActivation(x);
             CHECK(highest.getTerm() == expected.getTerm());
             CHECK_THAT(highest.getDegree(), Approximates(expected.getDegree()));
             highest_membership(x, expected);
-            return *this;
+            return self();
         }
 
-        VariableAssert& highest_activation(const std::vector<std::pair<scalar, Activated>>& highestActivations) {
+        auto& highest_activation(const std::vector<std::pair<scalar, Activated>>& highestActivations) {
             for (auto& pair : highestActivations)
                 highest_activation(pair.first, pair.second);
-            return *this;
+            return self();
         }
 
-        VariableAssert& equals(const Variable& another) {
+        auto& equals(const Variable& another) {
             CHECK(variable->getName() == another.getName());
             CHECK(variable->getDescription() == another.getDescription());
             CHECK(variable->isEnabled() == another.isEnabled());
@@ -115,19 +128,50 @@ namespace fuzzylite { namespace test {
             CHECK_THAT(variable->getValue(), Approximates(another.getValue()));
 
             CHECK(variable->toString() == another.toString());
-            return *this;
+            return self();
+        }
+
+        auto& can_clone() {
+            auto clone = std::unique_ptr<T>(variable->clone());
+            return equals(*clone.get());
+        }
+    };
+
+    struct VariableAssert : Assert<VariableAssert, Variable> {
+        using Assert::Assert;  // inherit constructors
+    };
+
+    struct InputVariableAssert : Assert<InputVariableAssert, InputVariable> {
+        using Assert::Assert;  // inherit constructors
+
+        auto& has_fuzzy_value(scalar input, const std::string& expected) {
+            const scalar previousInput = variable->getValue();
+            variable->setValue(input);
+            CHECK(variable->fuzzyInputValue() == expected);
+            variable->setValue(previousInput);
+            return self();
+        }
+
+        auto& has_fuzzy_values(const std::vector<std::pair<scalar, std::string>> expected) {
+            for (auto& pair : expected)
+                has_fuzzy_value(pair.first, pair.second);
+            return self();
+        }
+
+        auto& equals(const InputVariable& another) {
+            return Assert::equals(another);
         }
     };
 
 }}
 
 namespace fuzzylite { namespace test { namespace variable {
-    TEST_CASE("Default move/assign", "[!shouldfail]") {
+    TEST_CASE("Variable: Default move/assign", "[variable][!shouldfail]") {
         //@todo: support move in fuzzylite 8
         AssertConstructorOf<Variable>().supports_move();
     }
 
-    TEST_CASE("Variable Constructors", "[variable][constructor]") {
+    TEST_CASE("Constructors", "[variable][constructor]") {
         Variable test_variable{
             "Test",
             -1.0,
@@ -411,6 +455,122 @@ namespace fuzzylite { namespace test { namespace variable {
 }}}
 
 namespace fuzzylite { namespace test { namespace input_variable {
+    TEST_CASE("InputVariable: Default move/assign", "[variable][input][!shouldfail]") {
+        //@todo: support move in fuzzylite 8
+        AssertConstructorOf<InputVariable>().supports_move();
+    }
+
+    TEST_CASE("InputVariable: Constructors", "[variable][input][constructor]") {
+        SECTION("Default constructor") {
+            InputVariableAssert(std::make_unique<InputVariable>())
+                .has_name("")
+                .has_description("")
+                .is_enabled()
+                .has_range(-inf, inf)
+                .locks_value_in_range(false)
+                .exports_fll(std::vector<std::string>{
+                    "InputVariable: _", "enabled: true", "range: -inf inf", "lock-range: false"
+                });
+        }
+        SECTION("Custom constructor") {
+            InputVariableAssert(std::make_unique<InputVariable>(
+                                    "Test",
+                                    -1.0,
+                                    1.0,  //
+                                    std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
+                                ))
+                .has_name("Test")
+                .has_description("")
+                .is_enabled()
+                .has_range(-1, 1)
+                .locks_value_in_range(false)
+                .exports_fll(std::vector<std::string>{
+                    {"InputVariable: Test",
+                     "enabled: true",
+                     "range: -1.000 1.000",
+                     "lock-range: false",
+                     "term: A Constant 1.000",
+                     "term: B Constant 2.000"}
+                });
+        }
+        SECTION("Copy constructor") {
+            InputVariable variable(
+                "Test",
+                -1.0,
+                1.0,  //
+                std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
+            );
+            InputVariableAssert(std::make_unique<InputVariable>(variable))
+                .equals(variable)
+                .exports_fll(std::vector<std::string>{
+                    "InputVariable: Test",
+                    "enabled: true",
+                    "range: -1.000 1.000",
+                    "lock-range: false",
+                    "term: A Constant 1.000",
+                    "term: B Constant 2.000"
+                });
+        }
+        SECTION("Copy assign") {
+            InputVariable variable(
+                "Test",
+                -1.0,
+                1.0,  //
+                std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
+            );
+            InputVariable copy;
+            copy = variable;
+            InputVariableAssert(std::make_unique<InputVariable>(copy))
+                .equals(variable)
+                .exports_fll(std::vector<std::string>{
+                    "InputVariable: Test",
+                    "enabled: true",
+                    "range: -1.000 1.000",
+                    "lock-range: false",
+                    "term: A Constant 1.000",
+                    "term: B Constant 2.000"
+                });
+        }
+
+        SECTION("Clone") {
+            InputVariableAssert(std::make_unique<InputVariable>(
+                                    "Test",
+                                    -1.0,
+                                    1.0,  //
+                                    std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
+                                ))
+                .can_clone();
+        }
+        SECTION("Type") {
+            CHECK(InputVariable().type() == Variable::Input);
+        }
+    }
+
+    TEST_CASE("InputVariable: fuzzy values") {
+        InputVariableAssert(std::make_unique<InputVariable>(
+                                "name",
+                                -1.0,
+                                1.0,
+                                std::vector<Term*>{
+                                    new Triangle{"Low", -1.0, -1.0, 0.0},
+                                    new Triangle{"Medium", -0.5, 0.0, 0.5},
+                                    new Triangle{"High", 0.0, 1.0, 1.0},
+                                }
+                            ))
+            .has_fuzzy_values({
+                {-1.00, "1.000/Low + 0.000/Medium + 0.000/High"},
+                {-0.50, "0.500/Low + 0.000/Medium + 0.000/High"},
+                {-0.25, "0.250/Low + 0.500/Medium + 0.000/High"},
+                {0.00, "0.000/Low + 1.000/Medium + 0.000/High"},
+                {0.25, "0.000/Low + 0.500/Medium + 0.250/High"},
+                {0.50, "0.000/Low + 0.000/Medium + 0.500/High"},
+                {0.75, "0.000/Low + 0.000/Medium + 0.750/High"},
+                {1.00, "0.000/Low + 0.000/Medium + 1.000/High"},
+                {nan, "nan/Low + nan/Medium + nan/High"},  // @todo: pyfuzzylite produces 0 instead of nan
+                {inf, "0.000/Low + 0.000/Medium + 0.000/High"},
+                {inf, "0.000/Low + 0.000/Medium + 0.000/High"},
+            });
+    }
 
 }}}
 
