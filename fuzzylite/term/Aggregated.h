@@ -103,9 +103,11 @@ namespace fuzzylite {
           activation degree
           @return the term with the maximum activation degree
          */
-        virtual Activated highestActivatedTerm() const;
+        virtual std::vector<Activated> maximallyActivatedTerms() const;
 
         virtual std::vector<Activated> groupedTerms() const;
+
+        virtual Aggregated grouped() const;
 
         virtual std::string toString() const FL_IOVERRIDE;
 

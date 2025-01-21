@@ -95,18 +95,27 @@ namespace fuzzylite {
         return result;
     }
 
-    Activated Aggregated::highestActivatedTerm() const {
-        Activated highest(fl::null, 0.0);
-        std::vector<Activated> groupedTerms = this->groupedTerms();
-        for (std::size_t i = 0; i < groupedTerms.size(); ++i) {
-            const Activated& activated = groupedTerms.at(i);
-            if (activated.getDegree() > highest.getDegree())
-                highest = activated;
+    std::vector<Activated> Aggregated::maximallyActivatedTerms() const {
+        std::vector<Activated> maxActivatedTerms;
+        scalar maxDegree = 0.0;
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            const Activated& term = terms().at(i);
+            if (term.getDegree() > maxDegree) {
+                maxActivatedTerms.clear();
+                maxActivatedTerms.push_back(term);
+                maxDegree = term.getDegree();
+            } else if (term.getDegree() == maxDegree and maxDegree > 0.0) {
+                maxActivatedTerms.push_back(term);
+            }
         }
-        return highest;
+        return maxActivatedTerms;
     }
 
     std::vector<Activated> Aggregated::groupedTerms() const {
+        return grouped().terms();
+    }
+
+    Aggregated Aggregated::grouped() const {
         std::map<std::string, Activated> groups;
         for (std::size_t i = 0; i < terms().size(); ++i) {
             const Activated& activated = getTerm(i);
@@ -123,11 +132,23 @@ namespace fuzzylite {
                 groupedTerm.setDegree(groupedDegree);
             }
         }
-        std::vector<Activated> terms;
-        terms.reserve(groups.size());
-        for (std::map<std::string, Activated>::const_iterator it = groups.begin(); it != groups.end(); ++it)
-            terms.push_back(it->second);
-        return terms;
+
+        std::vector<Activated> activations;
+        activations.reserve(groups.size());
+        // Preserve order of terms when grouping
+        for (std::size_t i = 0; i < terms().size() and not groups.empty(); ++i) {
+            const Activated& activated = terms().at(i);
+            std::map<std::string, Activated>::const_iterator it = groups.find(activated.getTerm()->getName());
+            if (it != groups.end()) {
+                activations.push_back(it->second);
+                groups.erase(it);
+            }
+        }
+
+        Aggregated result(getName(), getMinimum(), getMaximum(), null, activations);
+        if (getAggregation())
+            result.setAggregation(getAggregation()->clone());
+        return result;
     }
 
     std::string Aggregated::parameters() const {
@@ -260,7 +281,7 @@ namespace fuzzylite {
     }
 
     Aggregated& Aggregated::withTerms(const std::vector<Activated>& terms) {
-        setTerms(terms);
+        _terms.insert(_terms.end(), terms.begin(), terms.end());
         return *this;
     }
 
@@ -279,5 +300,4 @@ namespace fuzzylite {
         setAggregation(aggregation);
         return *this;
     }
-
 }
