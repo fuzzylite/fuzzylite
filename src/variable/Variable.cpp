@@ -138,7 +138,7 @@ namespace fuzzylite {
         return None;
     }
 
-    std::string Variable::fuzzify(scalar x) const {
+    std::vector<Activated> Variable::activations(scalar x) const {
         std::vector<Activated> activations;
         activations.reserve(terms().size());
         for (std::size_t i = 0; i < terms().size(); ++i) {
@@ -149,28 +149,25 @@ namespace fuzzylite {
             } catch (...) { y = nan; }
             activations.push_back(Activated(term, y));
         }
-        return Aggregated().withTerms(activations).fuzzyValue();
+        return activations;
     }
 
-    Activated Variable::highestActivation(scalar x) const {
-        Activated highest(null, nan);
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            const Term* term = terms().at(i);
-            scalar y;
-            try {
-                y = term->membership(x);
-            } catch (...) { y = nan; }
-            if ((not highest.getTerm() and y > 0) or (highest.getTerm() and y > highest.getDegree()))
-                highest = Activated(term, y);
-        }
-        return highest;
+    std::string Variable::fuzzify(scalar x) const {
+        return Aggregated().withTerms(activations(x)).fuzzyValue();
+    }
+
+    std::vector<Activated> Variable::maxActivations(scalar x) const {
+        return Aggregated().withTerms(activations(x)).maximallyActivatedTerms();
     }
 
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
-        Activated highest = highestActivation(x);
+        Activated result(null, nan);
+        std::vector<Activated> maxActivations = this->maxActivations(x);
+        if (not maxActivations.empty())
+            result = maxActivations.front();
         if (yhighest)
-            *yhighest = highest.getDegree();
-        return const_cast<Term*>(highest.getTerm());
+            *yhighest = result.getDegree();
+        return const_cast<Term*>(result.getTerm());
     }
 
     std::string Variable::toString() const {

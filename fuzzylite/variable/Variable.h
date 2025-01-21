@@ -66,8 +66,8 @@ namespace fuzzylite {
         );
         Variable(const Variable& other);
         Variable& operator=(const Variable& other);
-        // todo: enable default move in fuzzylite 8.
-        FL_DISABLE_MOVE(Variable);
+        //@todo: implement move assign without leaking memory
+        FL_DEFAULT_MOVE(Variable);
         virtual ~Variable();
 
         /**
@@ -192,6 +192,13 @@ namespace fuzzylite {
         virtual bool isLockValueInRange() const;
 
         /**
+          Computes the term activations for value @f$x@f$
+           @param x is the value of interest
+           @return the activated terms
+         */
+        virtual std::vector<Activated> activations(scalar x) const;
+
+        /**
           Evaluates the membership function of value @f$x@f$ for each
           term @f$i@f$, resulting in a fuzzy value in the form
           @f$\tilde{x}=\sum_i{\mu_i(x)/i}@f$
@@ -207,16 +214,16 @@ namespace fuzzylite {
           @param[out] yhighest is a pointer where the highest membership
           function value will be stored
           @return the term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
-          @deprecated will be removed in fuzzylite 8. use `highestActivation` instead
+          @deprecated will be removed in fuzzylite 8. use `highestActivations` instead
          */
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
         /**
-          Gets the term with the highest membership function value for
+          Gets the terms with the highest membership function value for
           @f$x@f$.
           @param x is the value of interest
-          @return an activated term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
+          @return each activated term @f$i@f$ that maximimizes @f$\mu_i(x)@f$
          */
-        virtual Activated highestActivation(scalar x) const;
+        virtual std::vector<Activated> maxActivations(scalar x) const;
 
         /**
          Returns the type of the variable
