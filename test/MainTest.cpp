@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "Headers.h"
 #include "Listener.h"
 
-CATCH_REGISTER_LISTENER(fuzzylite::test::Listener)
+// CATCH_REGISTER_LISTENER(fuzzylite::test::Listener)
 
 int main(int argc, char** argv) {
     fl::fuzzylite::setDebugging(false);
