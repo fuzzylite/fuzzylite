@@ -23,8 +23,8 @@ from __future__ import annotations
 
 import platform
 import shutil
-from pathlib import Path
 import webbrowser
+from pathlib import Path
 
 import nox
 from fuzzylite_devtools import Configuration, Tools
@@ -124,7 +124,6 @@ gcovr -r .
     url = c.build_path() / "coverage.html"
     session.log(f"open {url}")
     webbrowser.open(url.resolve().as_uri())
-
 
 
 @nox.session
