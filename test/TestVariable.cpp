@@ -303,7 +303,7 @@ namespace fuzzylite { namespace test {
         }
 
         auto& has_aggregation(const std::string& fll) {
-            CHECK(FllExporter().toString(variable->fuzzyOutput()->getAggregation()) == fll);
+            CHECK(FllExporter().toString(variable->getAggregation()) == fll);
             return self();
         }
 
@@ -427,7 +427,8 @@ namespace fuzzylite { namespace test { namespace variable {
 
         SECTION("Copy Assignment") {
             Variable copy("copy", nan, nan, {new Constant()});
-            copy = testVariable();
+            Variable test = testVariable();
+            copy = test;
             VariableAssert(std::make_unique<Variable>(copy))
                 .has_name("Test")
                 .has_description("A test variable")
@@ -724,7 +725,8 @@ namespace fuzzylite { namespace test { namespace input_variable {
         }
         SECTION("Copy assign") {
             InputVariable copy;
-            copy = testVariable();
+            InputVariable test = testVariable();
+            copy = test;
             InputVariableAssert(std::make_unique<InputVariable>(copy))
                 .equals(testVariable())
                 .exports_fll(std::vector<std::string>{
@@ -862,7 +864,8 @@ namespace fuzzylite { namespace test { namespace output_variable {
         }
         SECTION("Copy assign") {
             OutputVariable copy;
-            copy = testVariable();
+            OutputVariable test = testVariable();
+            copy = test;
             OutputVariableAssert(std::make_unique<OutputVariable>(copy))
                 .equals(testVariable())
                 .exports_fll(std::vector<std::string>{
