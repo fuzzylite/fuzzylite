@@ -120,6 +120,26 @@ namespace fuzzylite {
     }
 
     void OutputVariable::defuzzify() {
+        if (not isEnabled())
+            return;
+        if (not getDefuzzifier())
+            throw Exception(
+                "[defuzzify error] expected a defuzzifier in variable '" + getName() + "', but got null", FL_AT
+            );
+
+        scalar value = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
+
+        if (isLockPreviousValue() and Op::isNaN(value))
+            value = getPreviousValue();
+
+        if (Op::isNaN(value))
+            value = getDefaultValue();
+
+        setPreviousValue(getValue());
+        setValue(value);
+    }
+
+    void OutputVariable::defuzzify_v6() {
         if (not _enabled)
             return;
 

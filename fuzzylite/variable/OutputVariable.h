@@ -177,6 +177,12 @@ namespace fuzzylite {
           previous output value
          */
         virtual void defuzzify();
+        /**
+          @deprecated
+          Defuzzifies the output variable using version 6.0 and stores the output value and the
+          previous output value.
+         */
+        virtual void defuzzify_v6();
 
         /**
           Gets a string representation of the fuzzy output value @f$\tilde{y}@f$
