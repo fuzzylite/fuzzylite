@@ -481,11 +481,11 @@ namespace fuzzylite { namespace test {
 
         // Without aggregation
         auto grouped = aggregated.groupedTerms();
-        CHECK(grouped.at(0).getTerm() == bright.get());
-        CHECK(grouped.at(0).getDegree() == 0.5);
+        CHECK(grouped.at(0).getTerm() == dark.get());
+        CHECK(grouped.at(0).getDegree() == 1.0);
 
-        CHECK(grouped.at(1).getTerm() == dark.get());
-        CHECK(grouped.at(1).getDegree() == 1.0);
+        CHECK(grouped.at(1).getTerm() == bright.get());
+        CHECK(grouped.at(1).getDegree() == 0.5);
 
         CHECK(grouped.at(2).getTerm() == medium.get());
         CHECK(grouped.at(2).getDegree() == scalar(0.1));
@@ -493,11 +493,11 @@ namespace fuzzylite { namespace test {
         // With aggregation
         aggregated.setAggregation(new Maximum);
         grouped = aggregated.groupedTerms();
-        CHECK(grouped.at(0).getTerm() == bright.get());
-        CHECK(grouped.at(0).getDegree() == 0.25);
+        CHECK(grouped.at(0).getTerm() == dark.get());
+        CHECK(grouped.at(0).getDegree() == 0.5);
 
-        CHECK(grouped.at(1).getTerm() == dark.get());
-        CHECK(grouped.at(1).getDegree() == 0.5);
+        CHECK(grouped.at(1).getTerm() == bright.get());
+        CHECK(grouped.at(1).getDegree() == 0.25);
 
         CHECK(grouped.at(2).getTerm() == medium.get());
         CHECK(grouped.at(2).getDegree() == scalar(0.1));
