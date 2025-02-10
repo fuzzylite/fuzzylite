@@ -16,7 +16,7 @@ struct Term {
     }
 
     ~Term() {
-        std::cout << "~Term(): " << str() << std::endl;
+        std::cout << "~" << str() << std::endl;
     }
 
     Term(const Term& other) : name(other.name) {
@@ -49,7 +49,7 @@ struct Variable {
     std::string str() const {
         std::ostringstream ss;
         ss << "Variable(" << name << "): {";
-        for (auto* term : terms)
+        for (const auto* term : terms)
             ss << term->str() << ", ";
         ss << "}";
         return ss.str();
@@ -63,8 +63,9 @@ struct Variable {
 
     ~Variable() {
         std::cout << "Destroying: " << str() << std::endl;
-        for (auto* term : terms)
+        for (const auto* term : terms)
             delete term;
+        terms.clear();
         std::cout << "~Variable(): " << str() << std::endl;
     }
 
@@ -76,12 +77,12 @@ struct Variable {
     void copyFrom(const Variable& other) {
         if (this != &other) {
             name = other.name;
-            for (auto* term : terms)
+            for (const auto* term : terms)
                 delete term;
             terms.clear();
 
             terms.reserve(other.terms.size());
-            for (auto* term : other.terms) {
+            for (const auto* term : other.terms) {
                 Term* copy = new Term(*term);
                 terms.emplace_back(copy);
             }
@@ -161,8 +162,8 @@ namespace fuzzylite { namespace test {
         std::cout << "================" << std::endl;
         std::cout << "Move Assignment" << std::endl;
         std::cout << "----------------" << std::endl;
-        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
         std::cout << "Copying..." << std::endl;
+        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
         Variable copy;
         copy = std::move(variable);
         copy.name = "move";
