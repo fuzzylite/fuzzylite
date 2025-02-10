@@ -101,7 +101,7 @@ namespace fuzzylite {
         explicit OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);
         virtual ~OutputVariable() FL_IOVERRIDE;
-        FL_DEFAULT_MOVE(OutputVariable);
+        FL_DEFAULT_MOVE(OutputVariable)
 
         /**
           Gets the fuzzy output value @f$\tilde{y}@f$

@@ -67,7 +67,7 @@ namespace fuzzylite {
         Variable(const Variable& other);
         Variable& operator=(const Variable& other);
         //@todo: implement move assign without leaking memory
-        FL_DEFAULT_MOVE(Variable);
+        FL_DEFAULT_MOVE(Variable)
         virtual ~Variable();
 
         /**
