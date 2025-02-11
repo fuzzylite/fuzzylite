@@ -191,7 +191,7 @@ namespace fuzzylite {
         // zeros make sure all terms are included in output and in the given order
         // first grouped terms aggregates terms using the aggregation operator
         // second grouped adds zeros with first grouped terms
-        return Aggregated().withTerms(zeros).withTerms(fuzzyOutput()->grouped().terms()).grouped().fuzzyValue();
+        return Aggregated().terms(zeros).terms(fuzzyOutput()->grouped().terms()).grouped().fuzzyValue();
     }
 
     void OutputVariable::clear() {

@@ -103,6 +103,10 @@ namespace fuzzylite {
 
         virtual Activated* clone() const FL_IOVERRIDE;
 
+        /**
+         * Representation of the activated term as a fuzzy value (eg, "0.5/Low")
+         * @return representation of the activated term as a fuzzy value (eg, "0.5/Low")
+         */
         virtual std::string fuzzyValue() const;
     };
 }

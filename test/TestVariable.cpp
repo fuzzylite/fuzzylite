@@ -913,9 +913,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         );
         assert_that.variable->setValue(0.0);
         assert_that.variable->setPreviousValue(-1.0);
-        assert_that.variable->fuzzyOutput()->withTerms(
-            {Activated(low, 0.5), Activated(medium, 0.5), Activated(high, 0.5)}
-        );
+        assert_that.variable->fuzzyOutput()->terms({Activated(low, 0.5), Activated(medium, 0.5), Activated(high, 0.5)});
 
         // CHECKS
         assert_that.has_value(0.0).has_previous_value(-1.0).has_fuzzy_value("0.500/Low + 0.500/Medium + 0.500/High");

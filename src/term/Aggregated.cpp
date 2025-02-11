@@ -280,23 +280,23 @@ namespace fuzzylite {
         return ss.str();
     }
 
-    Aggregated& Aggregated::withTerms(const std::vector<Activated>& terms) {
+    Aggregated& Aggregated::terms(const std::vector<Activated>& terms) {
         _terms.insert(_terms.end(), terms.begin(), terms.end());
         return *this;
     }
 
-    Aggregated& Aggregated::withTerm(const Term* term, scalar degree, const TNorm* implication) {
+    Aggregated& Aggregated::term(const Term* term, scalar degree, const TNorm* implication) {
         terms().push_back(Activated(term, degree, implication));
         return *this;
     }
 
-    Aggregated& Aggregated::withRange(scalar minimum, scalar maximum) {
+    Aggregated& Aggregated::range(scalar minimum, scalar maximum) {
         setMinimum(minimum);
         setMaximum(maximum);
         return *this;
     }
 
-    Aggregated& Aggregated::withAggregation(SNorm* aggregation) {
+    Aggregated& Aggregated::aggregation(SNorm* aggregation) {
         setAggregation(aggregation);
         return *this;
     }

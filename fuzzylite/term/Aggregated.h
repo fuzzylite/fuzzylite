@@ -99,14 +99,26 @@ namespace fuzzylite {
         virtual scalar activationDegree(const Term* forTerm) const;
 
         /**
-          Iterates over the Activated terms to find the term with the maximum
-          activation degree
-          @return the term with the maximum activation degree
+          Lists the activated terms whose activation degree is maximal.
+          @return list of activated terms whose activation degree is maximal
          */
         virtual std::vector<Activated> maximallyActivatedTerms() const;
 
+        /**
+         * Returns a list of grouped and aggregated activated terms.
+         *
+         * The activated terms are grouped and aggregated
+         * using the aggregation norm (if present, or a regular sum, otherwise)
+         *
+         * @return list of grouped and aggregated activated terms
+         */
         virtual std::vector<Activated> groupedTerms() const;
 
+        /**
+         * Groups and aggregates the activated terms into a new Aggregated term.
+         *
+         * @return the activated terms grouped and aggregated into a new aggregated term.
+         */
         virtual Aggregated grouped() const;
 
         virtual std::string toString() const FL_IOVERRIDE;
@@ -213,12 +225,39 @@ namespace fuzzylite {
          */
         virtual void clear();
 
+        /**
+         * Representation of the aggregated term as a fuzzy value (eg, "0.4/Low + 0.5/High")
+         * @return  representation of the aggregated term as a fuzzy value.
+         */
         virtual std::string fuzzyValue() const;
 
-        virtual Aggregated& withTerms(const std::vector<Activated>& terms);
-        virtual Aggregated& withTerm(const Term* term, scalar degree, const TNorm* implication = null);
-        virtual Aggregated& withRange(scalar minimum, scalar maximum);
-        virtual Aggregated& withAggregation(SNorm* aggregation);
+        /**
+         * Fluid interface to append terms to aggregate
+         * @param terms is a list of terms to append
+         * @return self with the list of terms appended
+         */
+        virtual Aggregated& terms(const std::vector<Activated>& terms);
+        /**
+         * Fluid interface to append a term to aggregate
+         * @param term is the term to append
+         * @param degree is the activation degree
+         * @param implication is the implication norm
+         * @return self with the activated term appended
+         */
+        virtual Aggregated& term(const Term* term, scalar degree, const TNorm* implication = null);
+        /**
+         * Fluid interface to set the range of the term
+         * @param minimum is the minimum value of the range
+         * @param maximum is the maximum value of the range
+         * @return self with the given range
+         */
+        virtual Aggregated& range(scalar minimum, scalar maximum);
+        /**
+         * Fluid interface to set the aggregation norm
+         * @param aggregation is the aggregation norm
+         * @return self with the given aggregation norm
+         */
+        virtual Aggregated& aggregation(SNorm* aggregation);
     };
 }
 #endif /* FL_AGGREGATED_H */

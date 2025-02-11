@@ -153,11 +153,11 @@ namespace fuzzylite {
     }
 
     std::string Variable::fuzzify(scalar x) const {
-        return Aggregated().withTerms(activations(x)).fuzzyValue();
+        return Aggregated().terms(activations(x)).fuzzyValue();
     }
 
     std::vector<Activated> Variable::maxActivations(scalar x) const {
-        return Aggregated().withTerms(activations(x)).maximallyActivatedTerms();
+        return Aggregated().terms(activations(x)).maximallyActivatedTerms();
     }
 
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
