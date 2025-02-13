@@ -405,7 +405,7 @@ namespace fuzzylite { namespace test {
 
         CHECK_THAT(aggregated.activationDegree(&low), Catch::Matchers::WithinAbs(0.6, fuzzylite::macheps()));
         CHECK_THAT(aggregated.activationDegree(&medium), Catch::Matchers::WithinAbs(0.4, fuzzylite::macheps()));
-        CHECK(aggregated.maximallyActivatedTerms().front().getTerm() == &low);
+        CHECK(aggregated.highestActivatedTerm().getTerm() == &low);
 
         aggregated.setRange(-2, 2);
         CHECK(aggregated.range() == 4);
@@ -452,13 +452,13 @@ namespace fuzzylite { namespace test {
         aggregated.addTerm(medium.get(), 0.1, fl::null);
         aggregated.addTerm(bright.get(), 0.6, fl::null);
 
-        CHECK(aggregated.maximallyActivatedTerms().front().getTerm() == bright.get());
+        CHECK(aggregated.highestActivatedTerm().getTerm() == bright.get());
 
         aggregated.terms().at(1).setDegree(0.7);
-        CHECK(aggregated.maximallyActivatedTerms().front().getTerm() == medium.get());
+        CHECK(aggregated.highestActivatedTerm().getTerm() == medium.get());
 
         aggregated.terms().front().setDegree(0.9);
-        CHECK(aggregated.maximallyActivatedTerms().front().getTerm() == dark.get());
+        CHECK(aggregated.highestActivatedTerm().getTerm() == dark.get());
 
         aggregated.clear();
         CHECK(aggregated.maximallyActivatedTerms().empty());

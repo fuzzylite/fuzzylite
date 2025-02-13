@@ -97,6 +97,12 @@ namespace fuzzylite {
           @return the aggregated activation degree for the given term
          */
         virtual scalar activationDegree(const Term* forTerm) const;
+        /**
+          Iterates over the Activated terms to find the first term with the maximum
+          activation degree
+          @deprecated in fuzzylite 8, use `maximallyActivatedTerms()`
+        */
+        virtual Activated highestActivatedTerm() const;
 
         /**
           Lists the activated terms whose activation degree is maximal.

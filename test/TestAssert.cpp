@@ -4,77 +4,77 @@
 
 #include "Assert.h"
 
-struct Term {
+struct TestTerm {
     std::string name;
 
     std::string str() const {
-        return "Term(" + name + ")";
+        return "TestTerm(" + name + ")";
     }
 
-    explicit Term(const std::string& name) : name(name) {
-        std::cout << "Term(const std::string&): " << str() << std::endl;
+    explicit TestTerm(const std::string& name) : name(name) {
+        std::cout << "TestTerm(const std::string&): " << str() << std::endl;
     }
 
-    ~Term() {
+    ~TestTerm() {
         std::cout << "~" << str() << std::endl;
     }
 
-    Term(const Term& other) : name(other.name) {
-        std::cout << "Term(const Term&): " << str() << std::endl;
+    TestTerm(const TestTerm& other) : name(other.name) {
+        std::cout << "TestTerm(const TestTerm&): " << str() << std::endl;
     }
 
-    Term& operator=(const Term& other) {
+    TestTerm& operator=(const TestTerm& other) {
         if (this != &other)
             this->name = other.name;
-        std::cout << "= (const Term&): " << str() << std::endl;
+        std::cout << "= (const TestTerm&): " << str() << std::endl;
         return *this;
     }
 
-    Term(Term&& other) noexcept : name(std::move(other.name)) {
-        std::cout << "Term(Term&&): " << str() << std::endl;
+    TestTerm(TestTerm&& other) noexcept : name(std::move(other.name)) {
+        std::cout << "TestTerm(TestTerm&&): " << str() << std::endl;
     }
 
-    Term& operator=(Term&& other) noexcept {
+    TestTerm& operator=(TestTerm&& other) noexcept {
         if (this != &other)
             this->name = std::move(other.name);
-        std::cout << "= (Term&&): " << str() << std::endl;
+        std::cout << "= (TestTerm&&): " << str() << std::endl;
         return *this;
     }
 };
 
-struct Variable {
+struct TestVariable {
     std::string name;
-    std::vector<Term*> terms;
+    std::vector<TestTerm*> terms;
 
     std::string str() const {
         std::ostringstream ss;
-        ss << "Variable(" << name << "): {";
+        ss << "TestVariable(" << name << "): {";
         for (const auto* term : terms)
             ss << term->str() << ", ";
         ss << "}";
         return ss.str();
     }
 
-    Variable() {}
+    TestVariable() {}
 
-    Variable(const std::string& name, const std::vector<Term*>& terms) : name(name), terms(terms) {
-        std::cout << "Variable(name, terms): " << str() << std::endl;
+    TestVariable(const std::string& name, const std::vector<TestTerm*>& terms) : name(name), terms(terms) {
+        std::cout << "TestVariable(name, terms): " << str() << std::endl;
     }
 
-    ~Variable() {
+    ~TestVariable() {
         std::cout << "Destroying: " << str() << std::endl;
         for (const auto* term : terms)
             delete term;
         terms.clear();
-        std::cout << "~Variable(): " << str() << std::endl;
+        std::cout << "~TestVariable(): " << str() << std::endl;
     }
 
-    Variable(const Variable& other) : name(other.name) {
+    TestVariable(const TestVariable& other) : name(other.name) {
         copyFrom(other);
-        std::cout << "Variable(const Variable&): " << str() << std::endl;
+        std::cout << "TestVariable(const TestVariable&): " << str() << std::endl;
     }
 
-    void copyFrom(const Variable& other) {
+    void copyFrom(const TestVariable& other) {
         if (this != &other) {
             name = other.name;
             for (const auto* term : terms)
@@ -83,31 +83,31 @@ struct Variable {
 
             terms.reserve(other.terms.size());
             for (const auto* term : other.terms) {
-                Term* copy = new Term(*term);
+                TestTerm* copy = new TestTerm(*term);
                 terms.emplace_back(copy);
             }
         }
     }
 
-    Variable& operator=(const Variable& other) {
+    TestVariable& operator=(const TestVariable& other) {
         if (this != &other)
             copyFrom(other);
-        std::cout << "=(const Variable&): " << str() << std::endl;
+        std::cout << "=(const TestVariable&): " << str() << std::endl;
         return *this;
     }
 
-    Variable(Variable&& other) noexcept : name(std::move(other.name)), terms(std::move(other.terms)) {
-        std::cout << "Variable(Variable&&): " << str() << std::endl;
+    TestVariable(TestVariable&& other) noexcept : name(std::move(other.name)), terms(std::move(other.terms)) {
+        std::cout << "TestVariable(TestVariable&&): " << str() << std::endl;
     }
 
-    Variable& operator=(Variable&& other) noexcept {
+    TestVariable& operator=(TestVariable&& other) noexcept {
         if (this != &other) {
             name = std::move(other.name);
             for (auto* term : terms)
                 delete term;
             terms = std::move(other.terms);
         }
-        std::cout << "=(Variable&&): " << str() << std::endl;
+        std::cout << "=(TestVariable&&): " << str() << std::endl;
         return *this;
     }
 };
@@ -117,45 +117,45 @@ namespace fuzzylite { namespace test {
         std::cout << "================" << std::endl;
         std::cout << "Constructor" << std::endl;
         std::cout << "----------------" << std::endl;
-        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
+        TestVariable variable{"variable", {new TestTerm{"term 1"}, new TestTerm{"term 2"}}};
     }
 
     TEST_CASE("Copy Constructors", "[tests][constructor]") {
         std::cout << "================" << std::endl;
         std::cout << "Copy Constructor" << std::endl;
         std::cout << "----------------" << std::endl;
-        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
+        TestVariable variable{"variable", {new TestTerm{"term 1"}, new TestTerm{"term 2"}}};
         std::cout << "Copying..." << std::endl;
-        Variable copy(variable);
+        TestVariable copy(variable);
         copy.name = "copy";
         std::cout << "Copied" << std::endl;
 
-        AssertConstructor().can_copy_construct(variable, &Variable::str);
+        AssertConstructor().can_copy_construct(variable, &TestVariable::str);
     }
 
     TEST_CASE("Copy Assignment", "[tests][constructor]") {
         std::cout << "================" << std::endl;
         std::cout << "Copy Assignment" << std::endl;
         std::cout << "----------------" << std::endl;
-        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
+        TestVariable variable{"variable", {new TestTerm{"term 1"}, new TestTerm{"term 2"}}};
         std::cout << "Copying..." << std::endl;
-        Variable copy;
+        TestVariable copy;
         copy = variable;
         copy.name = "copy";
         std::cout << "Copied" << std::endl;
-        AssertConstructor().can_copy_assign(variable, &Variable::str);
+        AssertConstructor().can_copy_assign(variable, &TestVariable::str);
     }
 
     TEST_CASE("Move Constructors", "[tests][constructor]") {
         std::cout << "================" << std::endl;
         std::cout << "Move Constructor" << std::endl;
         std::cout << "----------------" << std::endl;
-        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
+        TestVariable variable{"variable", {new TestTerm{"term 1"}, new TestTerm{"term 2"}}};
         std::cout << "Moving..." << std::endl;
-        Variable copy(std::move(variable));
+        TestVariable copy(std::move(variable));
         copy.name = "move";
         std::cout << "Moved" << std::endl;
-        AssertConstructor().can_move_construct(copy, &Variable::str);
+        AssertConstructor().can_move_construct(copy, &TestVariable::str);
     }
 
     TEST_CASE("Move Assignment", "[tests][constructor]") {
@@ -163,11 +163,11 @@ namespace fuzzylite { namespace test {
         std::cout << "Move Assignment" << std::endl;
         std::cout << "----------------" << std::endl;
         std::cout << "Copying..." << std::endl;
-        Variable variable{"variable", {new Term{"term 1"}, new Term{"term 2"}}};
-        Variable copy;
+        TestVariable variable{"variable", {new TestTerm{"term 1"}, new TestTerm{"term 2"}}};
+        TestVariable copy;
         copy = std::move(variable);
         copy.name = "move";
         std::cout << "Moved" << std::endl;
-        AssertConstructor().can_move_assign(copy, &Variable::str);
+        AssertConstructor().can_move_assign(copy, &TestVariable::str);
     }
 }}

@@ -19,6 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/s/Maximum.h"
+#include "fuzzylite/norm/s/UnboundedSum.h"
 
 namespace fuzzylite {
 
@@ -95,6 +96,13 @@ namespace fuzzylite {
         return result;
     }
 
+    Activated Aggregated::highestActivatedTerm() const {
+        std::vector<Activated> maxTerms = maximallyActivatedTerms();
+        if (maxTerms.empty())
+            return Activated(fl::null, 0.0);
+        return maxTerms.front();
+    }
+
     std::vector<Activated> Aggregated::maximallyActivatedTerms() const {
         std::vector<Activated> maxActivatedTerms;
         scalar maxDegree = 0.0;
@@ -104,7 +112,7 @@ namespace fuzzylite {
                 maxActivatedTerms.clear();
                 maxActivatedTerms.push_back(term);
                 maxDegree = term.getDegree();
-            } else if (term.getDegree() == maxDegree and maxDegree > 0.0) {
+            } else if (maxDegree > 0.0 and maxDegree == term.getDegree()) {
                 maxActivatedTerms.push_back(term);
             }
         }
@@ -116,6 +124,8 @@ namespace fuzzylite {
     }
 
     Aggregated Aggregated::grouped() const {
+        const UnboundedSum sum;
+        const SNorm* aggregation = getAggregation() ? getAggregation() : &sum;
         std::map<std::string, Activated> groups;
         for (std::size_t i = 0; i < terms().size(); ++i) {
             const Activated& activated = getTerm(i);
@@ -124,11 +134,7 @@ namespace fuzzylite {
                 groups[activated.getTerm()->getName()] = activated;
             else {
                 Activated& groupedTerm = it->second;
-                scalar groupedDegree;
-                if (getAggregation())
-                    groupedDegree = getAggregation()->compute(groupedTerm.getDegree(), activated.getDegree());
-                else
-                    groupedDegree = groupedTerm.getDegree() + activated.getDegree();
+                const scalar groupedDegree = aggregation->compute(groupedTerm.getDegree(), activated.getDegree());
                 groupedTerm.setDegree(groupedDegree);
             }
         }

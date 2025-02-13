@@ -214,7 +214,7 @@ namespace fuzzylite {
           @param[out] yhighest is a pointer where the highest membership
           function value will be stored
           @return the term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
-          @deprecated will be removed in fuzzylite 8. use `highestActivations` instead
+          @deprecated will be removed in fuzzylite 8. use `maxActivations` instead
          */
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
         /**
