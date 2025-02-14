@@ -21,8 +21,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    OutputVariable::OutputVariable(const std::string& name, scalar minimum, scalar maximum) :
-        Variable(name, minimum, maximum),
+    OutputVariable::OutputVariable(
+        const std::string& name, scalar minimum, scalar maximum, const std::vector<Term*>& terms
+    ) :
+        Variable(name, minimum, maximum, terms),
         _fuzzyOutput(new Aggregated(name, minimum, maximum)),
         _previousValue(fl::nan),
         _defaultValue(fl::nan),
@@ -118,6 +120,26 @@ namespace fuzzylite {
     }
 
     void OutputVariable::defuzzify() {
+        if (not isEnabled())
+            return;
+        if (not getDefuzzifier())
+            throw Exception(
+                "[defuzzify error] expected a defuzzifier in variable '" + getName() + "', but got null", FL_AT
+            );
+
+        scalar value = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
+
+        if (isLockPreviousValue() and Op::isNaN(value))
+            value = getPreviousValue();
+
+        if (Op::isNaN(value))
+            value = getDefaultValue();
+
+        setPreviousValue(getValue());
+        setValue(value);
+    }
+
+    void OutputVariable::defuzzify_v6() {
         if (not _enabled)
             return;
 
@@ -162,20 +184,14 @@ namespace fuzzylite {
     }
 
     std::string OutputVariable::fuzzyOutputValue() const {
-        std::ostringstream ss;
-        if (not _terms.empty()) {
-            Term* first = _terms.front();
-            ss << Op::str(fuzzyOutput()->activationDegree(first)) << "/" << first->getName();
-        }
-        for (std::size_t i = 1; i < _terms.size(); ++i) {
-            scalar degree = fuzzyOutput()->activationDegree(_terms.at(i));
-            if (Op::isNaN(degree) or Op::isGE(degree, 0.0))
-                ss << " + " << Op::str(degree);
-            else
-                ss << " - " << Op::str(std::abs(degree));
-            ss << "/" << terms().at(i)->getName();
-        }
-        return ss.str();
+        std::vector<Activated> zeros;
+        zeros.reserve(terms().size());
+        for (std::size_t i = 0; i < terms().size(); ++i)
+            zeros.push_back(Activated(terms().at(i), 0.0));
+        // zeros make sure all terms are included in output and in the given order
+        // first grouped terms aggregates terms using the aggregation operator
+        // second grouped adds zeros with first grouped terms
+        return Aggregated().terms(zeros).terms(fuzzyOutput()->grouped().terms()).grouped().fuzzyValue();
     }
 
     void OutputVariable::clear() {

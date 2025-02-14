@@ -81,6 +81,7 @@ namespace fuzzylite {
         /**
           Sets the activation degree of the term
           @param degree is the activation degree of the term
+          @todo in fuzzylite 8 degree will map {nan: 0.0, -inf: 0.0, inf: 1.0}
          */
         virtual void setDegree(scalar degree);
         /**
@@ -101,6 +102,12 @@ namespace fuzzylite {
         virtual const TNorm* getImplication() const;
 
         virtual Activated* clone() const FL_IOVERRIDE;
+
+        /**
+         * Representation of the activated term as a fuzzy value (eg, "0.5/Low")
+         * @return representation of the activated term as a fuzzy value (eg, "0.5/Low")
+         */
+        virtual std::string fuzzyValue() const;
     };
 }
 #endif /* FL_ACTIVATED_H */

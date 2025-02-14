@@ -16,7 +16,7 @@
 
 #include "Headers.h"
 
-namespace fuzzylite {
+namespace fuzzylite { namespace test {
     class NaN : public Constant {};
 
     template <class T>
@@ -949,4 +949,4 @@ namespace fuzzylite {
             CHECK_THAT(obtained, Approximates(fl::nan));
         }
     }
-}
+}}

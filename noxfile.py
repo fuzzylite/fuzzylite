@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import platform
 import shutil
+import webbrowser
 from pathlib import Path
 
 import nox
@@ -62,6 +63,8 @@ cmake
     -DFL_USE_FLOAT={c.use_float}
     {c.posargs()}
 """
+    if c.cxx_standard == "98":
+        session.warn("fuzzylite 8 will drop support for standard C++98")
     session.run(*cmd.split())
     c.save()
 
@@ -118,7 +121,9 @@ gcovr -r .
     {c.build_path()}/CMakeFiles/testTarget.dir
 """
     session.run(*cmd.split())
-    session.log(f"open {c.build_path()}/coverage.html")
+    url = c.build_path() / "coverage.html"
+    session.log(f"open {url}")
+    webbrowser.open(url.resolve().as_uri())
 
 
 @nox.session
@@ -342,7 +347,7 @@ def jupyter(session: nox.Session) -> None:
     """Build and run containerized Jupyter Notebook for C++ based on Xeus. Args: `container=docker`."""
     # TODO: does not work on Apple Silicon
     c = Configuration.for_session(session)
-    session.run(*f"{c.container} --version")
+    session.run(*f"{c.container} --version".split())
 
     # build
     tag = "fl-xeus"

@@ -4,13 +4,14 @@ test/Listener.h
 test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp
+test/TestAssert.cpp
 test/TestDefuzzifier.cpp
 test/TestFactory.cpp
 test/TestHedge.cpp
 test/TestNorm.cpp
 test/TestTerm.cpp
+test/TestVariable.cpp
 test/activation/ThresholdTest.cpp
 test/imex/FldExporterTest.cpp
 test/imex/FllImporterTest.cpp
 test/imex/RScriptExporterTest.cpp
-test/variable/VariableTest.cpp

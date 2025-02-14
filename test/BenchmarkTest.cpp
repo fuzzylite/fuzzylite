@@ -21,8 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "Headers.h"
 
-namespace fuzzylite {
-
+namespace fuzzylite { namespace test {
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
         //        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
         //        Console::main(4, args);
@@ -131,4 +130,4 @@ namespace fuzzylite {
         FL_LOG(Op::join(Benchmark().header(10, false), "\t"));
         CHECK(Benchmark().header(10, false).size() == 30 - 8);
     }
-}
+}}

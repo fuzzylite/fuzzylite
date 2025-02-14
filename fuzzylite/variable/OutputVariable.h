@@ -92,7 +92,12 @@ namespace fuzzylite {
         void copyFrom(const OutputVariable& other);
 
       public:
-        explicit OutputVariable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
+        explicit OutputVariable(
+            const std::string& name = "",
+            scalar minimum = -fl::inf,
+            scalar maximum = fl::inf,
+            const std::vector<Term*>& terms = std::vector<Term*>()
+        );
         explicit OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);
         virtual ~OutputVariable() FL_IOVERRIDE;
@@ -101,7 +106,6 @@ namespace fuzzylite {
         /**
           Gets the fuzzy output value @f$\tilde{y}@f$
           @return the fuzzy output value @f$\tilde{y}@f$
-          @todo rename to fuzzyValue
          */
         virtual Aggregated* fuzzyOutput() const;
 
@@ -173,6 +177,12 @@ namespace fuzzylite {
           previous output value
          */
         virtual void defuzzify();
+        /**
+          @deprecated
+          Defuzzifies the output variable using version 6.0 and stores the output value and the
+          previous output value.
+         */
+        virtual void defuzzify_v6();
 
         /**
           Gets a string representation of the fuzzy output value @f$\tilde{y}@f$

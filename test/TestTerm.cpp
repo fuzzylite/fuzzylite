@@ -15,7 +15,7 @@
  */
 #include "Headers.h"
 
-namespace fuzzylite {
+namespace fuzzylite { namespace test {
 
     template <typename T>
     struct TermAssert {
@@ -213,7 +213,7 @@ namespace fuzzylite {
         }
     }
 
-    TEST_CASE("All terms can copy and move", "[term][constructor][x]") {
+    TEST_CASE("All terms can copy and move", "[term][constructor]") {
         // TermFactory* termFactory = fl::FactoryManager::instance()->term();
         // const std::string& parameters = fl::Op::join(std::vector<scalar>{1., 2., 3., 4., 5., 6., 7., 8.}, " ");
         // std::vector<std::string> o;
@@ -235,6 +235,12 @@ namespace fuzzylite {
         // o.push_back("AssertConstructor().can_copy_and_move(Function{\"Function\", \"1.0 + 2.0\"}, compare);");
         // FL_LOG(Op::join(o, "\n"));
         auto compare = &Term::toString;
+        auto triangle = std::make_unique<Triangle>("triangle", 1.0, 2.0, 3.0);
+        auto minimum = std::make_unique<Minimum>();
+        AssertConstructor().can_copy_and_move(Activated{triangle.get(), 0.5, minimum.get()}, compare);
+        AssertConstructor().can_copy_and_move(
+            Aggregated{"Aggregated", -1., 1., new Maximum, {Activated{triangle.get(), 0.5, minimum.get()}}}, compare
+        );
         AssertConstructor().can_copy_and_move(Bell{"Bell", 1.000, 2.000, 3.000, 0.500}, compare);
         AssertConstructor().can_copy_and_move(Binary{"Binary", 1.000, 2.000, 0.500}, compare);
         AssertConstructor().can_copy_and_move(Concave{"Concave", 1.000, 2.000, 0.500}, compare);
@@ -307,6 +313,13 @@ namespace fuzzylite {
 
         CHECK(Activated(&term, 0.5).toString() == "(0.500*triangle)");
         CHECK(Activated(&term, 0.5).parameters() == "0.500 none term: triangle Triangle -0.400 0.000 0.400");
+
+        CHECK(Activated(&term, 0.5).fuzzyValue() == "+0.500/triangle");
+        CHECK(Activated(&term, 0).fuzzyValue() == "+0.000/triangle");
+        CHECK(Activated(&term, -0.5).fuzzyValue() == "-0.500/triangle");
+        CHECK(Activated(&term, inf).fuzzyValue() == "+inf/triangle");
+        CHECK(Activated(&term, -inf).fuzzyValue() == "-inf/triangle");
+        CHECK(Activated(&term, nan).fuzzyValue() == "+nan/triangle");
 
         Activated activated;
         CHECK(activated.className() == "Activated");
@@ -448,7 +461,7 @@ namespace fuzzylite {
         CHECK(aggregated.highestActivatedTerm().getTerm() == dark.get());
 
         aggregated.clear();
-        CHECK(aggregated.highestActivatedTerm().getTerm() == fl::null);
+        CHECK(aggregated.maximallyActivatedTerms().empty());
     }
 
     TEST_CASE("Aggregated: grouped terms", "[term][aggregated]") {
@@ -468,11 +481,11 @@ namespace fuzzylite {
 
         // Without aggregation
         auto grouped = aggregated.groupedTerms();
-        CHECK(grouped.at(0).getTerm() == bright.get());
-        CHECK(grouped.at(0).getDegree() == 0.5);
+        CHECK(grouped.at(0).getTerm() == dark.get());
+        CHECK(grouped.at(0).getDegree() == 1.0);
 
-        CHECK(grouped.at(1).getTerm() == dark.get());
-        CHECK(grouped.at(1).getDegree() == 1.0);
+        CHECK(grouped.at(1).getTerm() == bright.get());
+        CHECK(grouped.at(1).getDegree() == 0.5);
 
         CHECK(grouped.at(2).getTerm() == medium.get());
         CHECK(grouped.at(2).getDegree() == scalar(0.1));
@@ -480,11 +493,11 @@ namespace fuzzylite {
         // With aggregation
         aggregated.setAggregation(new Maximum);
         grouped = aggregated.groupedTerms();
-        CHECK(grouped.at(0).getTerm() == bright.get());
-        CHECK(grouped.at(0).getDegree() == 0.25);
+        CHECK(grouped.at(0).getTerm() == dark.get());
+        CHECK(grouped.at(0).getDegree() == 0.5);
 
-        CHECK(grouped.at(1).getTerm() == dark.get());
-        CHECK(grouped.at(1).getDegree() == 0.5);
+        CHECK(grouped.at(1).getTerm() == bright.get());
+        CHECK(grouped.at(1).getDegree() == 0.25);
 
         CHECK(grouped.at(2).getTerm() == medium.get());
         CHECK(grouped.at(2).getDegree() == scalar(0.1));
@@ -2351,4 +2364,4 @@ namespace fuzzylite {
         CHECK(f.root()->treeSize(Function::Element::Operator) == 5);
     }
 
-}  // namespace fl
+}}

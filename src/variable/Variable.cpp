@@ -21,14 +21,17 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
+#include "fuzzylite/term/Activated.h"
+#include "fuzzylite/term/Aggregated.h"
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 
 namespace fuzzylite {
 
-    Variable::Variable(const std::string& name, scalar minimum, scalar maximum) :
+    Variable::Variable(const std::string& name, scalar minimum, scalar maximum, const std::vector<Term*>& terms) :
         _name(name),
         _description(""),
+        _terms(terms),
         _value(fl::nan),
         _minimum(minimum),
         _maximum(maximum),
@@ -135,46 +138,36 @@ namespace fuzzylite {
         return None;
     }
 
-    std::string Variable::fuzzify(scalar x) const {
-        std::ostringstream ss;
+    std::vector<Activated> Variable::activations(scalar x) const {
+        std::vector<Activated> activations;
+        activations.reserve(terms().size());
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            Term* term = _terms.at(i);
-            scalar fx = fl::nan;
+            const Term* term = _terms.at(i);
+            scalar y;
             try {
-                fx = term->membership(x);
-            } catch (...) {
-                // ignore
-            }
-            if (i == 0)
-                ss << Op::str(fx);
-            else if (Op::isNaN(fx) or Op::isGE(fx, 0.0))
-                ss << " + " << Op::str(fx);
-            else
-                ss << " - " << Op::str(std::abs(fx));
-            ss << "/" << term->getName();
+                y = term->membership(x);
+            } catch (...) { y = nan; }
+            activations.push_back(Activated(term, y));
         }
-        return ss.str();
+        return activations;
+    }
+
+    std::string Variable::fuzzify(scalar x) const {
+        return Aggregated().terms(activations(x)).fuzzyValue();
+    }
+
+    std::vector<Activated> Variable::maxActivations(scalar x) const {
+        return Aggregated().terms(activations(x)).maximallyActivatedTerms();
     }
 
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
-        Term* result = fl::null;
-        scalar ymax = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar y = fl::nan;
-            Term* term = _terms.at(i);
-            try {
-                y = term->membership(x);
-            } catch (...) {
-                // ignore
-            }
-            if (Op::isGt(y, ymax)) {
-                ymax = y;
-                result = term;
-            }
-        }
+        Activated result(null, nan);
+        std::vector<Activated> maxActivations = this->maxActivations(x);
+        if (not maxActivations.empty())
+            result = maxActivations.front();
         if (yhighest)
-            *yhighest = ymax;
-        return result;
+            *yhighest = result.getDegree();
+        return const_cast<Term*>(result.getTerm());
     }
 
     std::string Variable::toString() const {

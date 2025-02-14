@@ -9,7 +9,6 @@
  * https://github.com/catchorg/Catch2/blob/fa43b77429ba76c462b1898d6cd2f2d7a9416b14/examples/210-Evt-EventListeners.cpp#L314
  */
 namespace fuzzylite { namespace test {
-
     std::string ws(const int level) {
         return std::string(2 * level, ' ');
     }

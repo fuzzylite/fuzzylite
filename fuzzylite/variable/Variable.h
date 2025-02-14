@@ -27,6 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     class Term;
+    class Activated;
 
     /**
       The Variable class is the base class for linguistic variables.
@@ -57,11 +58,17 @@ namespace fuzzylite {
         void copyFrom(const Variable& source);
 
       public:
-        explicit Variable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
-        explicit Variable(const Variable& other);
+        explicit Variable(
+            const std::string& name = "",
+            scalar minimum = -fl::inf,
+            scalar maximum = fl::inf,
+            const std::vector<Term*>& terms = std::vector<Term*>()
+        );
+        Variable(const Variable& other);
         Variable& operator=(const Variable& other);
-        virtual ~Variable();
+        //@todo: implement move assign without leaking memory
         FL_DEFAULT_MOVE(Variable)
+        virtual ~Variable();
 
         /**
           Sets the name of the variable
@@ -185,6 +192,13 @@ namespace fuzzylite {
         virtual bool isLockValueInRange() const;
 
         /**
+          Computes the term activations for value @f$x@f$
+           @param x is the value of interest
+           @return the activated terms
+         */
+        virtual std::vector<Activated> activations(scalar x) const;
+
+        /**
           Evaluates the membership function of value @f$x@f$ for each
           term @f$i@f$, resulting in a fuzzy value in the form
           @f$\tilde{x}=\sum_i{\mu_i(x)/i}@f$
@@ -200,8 +214,16 @@ namespace fuzzylite {
           @param[out] yhighest is a pointer where the highest membership
           function value will be stored
           @return the term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
+          @deprecated will be removed in fuzzylite 8. use `maxActivations` instead
          */
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
+        /**
+          Gets the terms with the highest membership function value for
+          @f$x@f$.
+          @param x is the value of interest
+          @return each activated term @f$i@f$ that maximimizes @f$\mu_i(x)@f$
+         */
+        virtual std::vector<Activated> maxActivations(scalar x) const;
 
         /**
          Returns the type of the variable

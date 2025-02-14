@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 RUN apt-get update; \
-    apt-get -y install clang-18 g++-14; \
+    apt-get -y install clang-18 g++-14 gdb; \
     apt-get -y install cmake build-essential git; \
     apt-get -y install python3.12 python3-pip python3-venv;
 

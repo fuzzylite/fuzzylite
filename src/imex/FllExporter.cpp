@@ -152,6 +152,14 @@ namespace fuzzylite {
         return Op::join(result, _separator);
     }
 
+    std::string FllExporter::toString(const std::vector<Term*>& terms) const {
+        std::vector<std::string> result;
+        result.reserve(terms.size());
+        for (std::size_t i = 0; i < terms.size(); ++i)
+            result.push_back(toString(terms.at(i)));
+        return Op::join(result, _separator);
+    }
+
     std::string FllExporter::toString(const Rule* rule) const {
         return "rule: " + rule->getText();
     }
