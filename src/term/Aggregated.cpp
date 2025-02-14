@@ -144,7 +144,7 @@ namespace fuzzylite {
         // Preserve order of terms when grouping
         for (std::size_t i = 0; i < terms().size() and not groups.empty(); ++i) {
             const Activated& activated = terms().at(i);
-            std::map<std::string, Activated>::const_iterator it = groups.find(activated.getTerm()->getName());
+            std::map<std::string, Activated>::iterator it = groups.find(activated.getTerm()->getName());
             if (it != groups.end()) {
                 activations.push_back(it->second);
                 groups.erase(it);
