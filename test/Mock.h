@@ -18,9 +18,8 @@ namespace fuzzylite { namespace test {
             return _loaded;
         }
 
-        scalar activationDegree(const TNorm* conjunction,
-                                const SNorm* disjunction,
-                                const Expression* node) const override {
+        scalar
+        activationDegree(const TNorm* conjunction, const SNorm* disjunction, const Expression* node) const override {
             (void)conjunction;
             (void)disjunction;
             (void)node;
@@ -31,8 +30,7 @@ namespace fuzzylite { namespace test {
     struct MockConsequent : Consequent {
         bool _loaded;
 
-        explicit MockConsequent(const std::string& text = "", bool loaded = true) :
-            _loaded(loaded) {
+        explicit MockConsequent(const std::string& text = "", bool loaded = true) : _loaded(loaded) {
             Consequent::setText(text);
         }
 
@@ -48,7 +46,6 @@ namespace fuzzylite { namespace test {
         scalar _weight;
         bool _loaded;
 
-
         explicit MockRule(
             const std::string& variable,
             const std::string& term,
@@ -63,11 +60,17 @@ namespace fuzzylite { namespace test {
             _loaded(loaded) {
             Rule::setAntecedent(new MockAntecedent(variable + " is " + term, activation_degree, loaded));
             Rule::setConsequent(new MockConsequent(variable + " is " + term, loaded));
-            Rule::setText(Op::join(std::vector<std::string>{
-                                       "if", Rule::getAntecedent()->getText(), //
-                                       "then", Rule::getConsequent()->getText(),
-                                       "with", Op::str(weight)},
-                                   " "));
+            Rule::setText(Op::join(
+                std::vector<std::string>{
+                    "if",
+                    Rule::getAntecedent()->getText(),  //
+                    "then",
+                    Rule::getConsequent()->getText(),
+                    "with",
+                    Op::str(weight)
+                },
+                " "
+            ));
         }
 
         MockRule* clone() const override {
@@ -106,7 +109,6 @@ namespace fuzzylite { namespace test {
             return self();
         }
 
-
         MockRule* pointer() {
             return this;
         }
@@ -121,18 +123,15 @@ namespace fuzzylite { namespace test {
             return Rule::getActivationDegree();
         }
 
-
         scalar activateWith(const TNorm* conjunction, const SNorm* disjunction) override {
             (void)conjunction;
             (void)disjunction;
             return getActivationDegree();
         }
 
-
         scalar getWeight() const override {
             return _weight;
         }
-
 
         bool isLoaded() const override {
             return _loaded;

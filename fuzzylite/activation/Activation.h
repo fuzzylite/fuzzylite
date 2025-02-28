@@ -42,7 +42,7 @@ namespace fuzzylite {
      */
 
     class FL_API Activation {
-    public:
+      public:
         Activation() {}
 
         virtual ~Activation() {}
