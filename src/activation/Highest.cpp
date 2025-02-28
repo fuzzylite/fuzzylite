@@ -24,7 +24,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/RuleBlock.h"
 
 namespace fuzzylite {
-
     Highest::Highest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {}
 
     Highest::~Highest() {}
@@ -38,7 +37,11 @@ namespace fuzzylite {
     }
 
     void Highest::configure(const std::string& parameters) {
-        setNumberOfRules((int)Op::toScalar(parameters));
+        if (parameters.empty())
+            return;
+        const std::vector<std::string> values = Op::split(parameters, " ");
+        if (not values.empty())
+            setNumberOfRules((int)Op::toScalar(values.front()));
     }
 
     int Highest::getNumberOfRules() const {
@@ -87,5 +90,4 @@ namespace fuzzylite {
     Activation* Highest::constructor() {
         return new Highest;
     }
-
 }
