@@ -19,6 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_ACTIVATION_H
 
 #include "fuzzylite/fuzzylite.h"
+#include "fuzzylite/imex/FllExporter.h"
 
 namespace fuzzylite {
     class RuleBlock;
@@ -41,7 +42,7 @@ namespace fuzzylite {
      */
 
     class FL_API Activation {
-      public:
+    public:
         Activation() {}
 
         virtual ~Activation() {}
@@ -80,8 +81,13 @@ namespace fuzzylite {
           @return a clone of the activation method
          */
         virtual Activation* clone() const = 0;
+
+        virtual std::string toString() const;
     };
 
+    inline std::string Activation::toString() const {
+        return FllExporter().toString(this);
+    }
 }
 
 #endif /* FL_ACTIVATION_H */
