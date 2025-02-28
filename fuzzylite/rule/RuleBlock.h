@@ -59,7 +59,10 @@ namespace fuzzylite {
         explicit RuleBlock(
             const std::string& name = "",
             const std::vector<Rule*>& rules = std::vector<Rule*>(),
-            Activation* activation = null
+            Activation* activation = null,
+            TNorm* conjunction = null,
+            SNorm* disjunction = null,
+            TNorm* implication = null
         );
 
         RuleBlock(const RuleBlock& other);

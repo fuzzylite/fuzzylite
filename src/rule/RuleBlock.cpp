@@ -26,10 +26,20 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    RuleBlock::RuleBlock(const std::string& name, const std::vector<Rule*>& rules, Activation* activation) :
+    RuleBlock::RuleBlock(
+        const std::string& name,
+        const std::vector<Rule*>& rules,
+        Activation* activation,
+        TNorm* conjunction,
+        SNorm* disjunction,
+        TNorm* implication
+    ) :
         _enabled(true),
         _name(name),
         _rules(rules),
+        _conjunction(conjunction),
+        _disjunction(disjunction),
+        _implication(implication),
         _activation(activation) {}
 
     RuleBlock::RuleBlock(const RuleBlock& other) :

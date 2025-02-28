@@ -225,23 +225,15 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("Activation", "[activation][operation]") {
-        RuleBlock rb_all_zero = RuleBlock("all_zero")
-                                    .rules(
-                                        {new MockRule("A", "a", 0.0),  //
-                                         new MockRule("B", "b", 0.0),
-                                         new MockRule("C", "c", 0.0)}
-                                    );
+        RuleBlock rb_all_zero
+            = RuleBlock("all_zero")
+                  .rules({new MockRule("A", "a", 0.0), new MockRule("B", "b", 0.0), new MockRule("C", "c", 0.0)});
         RuleBlock rb_all_one = RuleBlock("all_one").rules(
-            {new MockRule("A", "a", 1.0),  //
-             new MockRule("B", "b", 1.0),
-             new MockRule("C", "c", 1.0)}
+            {new MockRule("A", "a", 1.0), new MockRule("B", "b", 1.0), new MockRule("C", "c", 1.0)}
         );
-        RuleBlock rb_one_to_zero = RuleBlock("one_to_zero")
-                                       .rules(
-                                           {new MockRule("A", "a", 1.0),  //
-                                            new MockRule("B", "b", 0.5),
-                                            new MockRule("C", "c", 0.0)}
-                                       );
+        RuleBlock rb_one_to_zero
+            = RuleBlock("one_to_zero")
+                  .rules({new MockRule("A", "a", 1.0), new MockRule("B", "b", 0.5), new MockRule("C", "c", 0.0)});
 
         SECTION("General") {
             AssertActivation(rb_all_zero.activation(new General))

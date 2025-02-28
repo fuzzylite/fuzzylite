@@ -177,6 +177,7 @@ namespace fuzzylite {
         virtual bool isTriggered() const;
         /**
          Set whether the rule was triggered
+         @param triggered whether the rule was triggered
          */
         virtual void setTriggered(bool triggered);
 
