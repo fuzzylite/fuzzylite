@@ -48,15 +48,23 @@ namespace fuzzylite {
         std::string _name;
         std::string _description;
         std::vector<Rule*> _rules;
+        FL_unique_ptr<Activation> _activation;
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
         FL_unique_ptr<TNorm> _implication;
-        FL_unique_ptr<Activation> _activation;
 
         void copyFrom(const RuleBlock& source);
 
       public:
-        explicit RuleBlock(const std::string& name = "");
+        explicit RuleBlock(
+            const std::string& name = "",
+            const std::vector<Rule*>& rules = std::vector<Rule*>(),
+            Activation* activation = null,
+            TNorm* conjunction = null,
+            SNorm* disjunction = null,
+            TNorm* implication = null
+        );
+
         RuleBlock(const RuleBlock& other);
         RuleBlock& operator=(const RuleBlock& other);
         virtual ~RuleBlock();
@@ -219,6 +227,43 @@ namespace fuzzylite {
           @return a clone of the rule block without the rules being loaded
          */
         virtual RuleBlock* clone() const;
+
+        /**
+          Fluid interface to append rules to the rule block
+          @param rules is the rules to append
+          @return self with the rules appended
+         */
+        virtual RuleBlock& rules(const std::vector<Rule*>& rules);
+        /**
+          Fluid interface to append a rule to the rule block
+          @param rule is the rule to append
+          @return self with the rule appended
+        */
+        virtual RuleBlock& rule(Rule* rule);
+        /**
+          Fluid interface to set the conjunction
+          @param conjunction is the conjunction
+          @return self with the conjunction set
+         */
+        virtual RuleBlock& conjunction(TNorm* conjunction);
+        /**
+          Fluid interface to set the disjunction
+          @param disjunction is the disjunction
+          @return self with the disjunction set
+         */
+        virtual RuleBlock& disjunction(SNorm* disjunction);
+        /**
+          Fluid interface to set the implication
+          @param implication is the implication
+          @return self with the implication set
+         */
+        virtual RuleBlock& implication(TNorm* implication);
+        /**
+          Fluid interface to set the activation
+          @param activation is the activation
+          @return self with the activation set
+         */
+        virtual RuleBlock& activation(Activation* activation);
     };
 }
 #endif /* RULEBLOCK_H */

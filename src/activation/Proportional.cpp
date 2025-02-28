@@ -22,7 +22,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/RuleBlock.h"
 
 namespace fuzzylite {
-
     Proportional::Proportional() : Activation() {}
 
     Proportional::~Proportional() {}
@@ -61,7 +60,7 @@ namespace fuzzylite {
         for (std::size_t i = 0; i < rulesToActivate.size(); ++i) {
             Rule* rule = rulesToActivate.at(i);
             scalar activationDegree = rule->getActivationDegree() / sumActivationDegrees;
-            rule->setActivationDegree(activationDegree);
+            rule->setActivationDegree(Op::isNaN(activationDegree) ? 0.0 : activationDegree);
             rule->trigger(implication);
         }
     }
@@ -73,5 +72,4 @@ namespace fuzzylite {
     Activation* Proportional::constructor() {
         return new Proportional;
     }
-
 }

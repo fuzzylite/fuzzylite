@@ -175,6 +175,11 @@ namespace fuzzylite {
           @return whether the rule's implication was triggered
          */
         virtual bool isTriggered() const;
+        /**
+         Set whether the rule was triggered
+         @param triggered whether the rule was triggered
+         */
+        virtual void setTriggered(bool triggered);
 
         /**
           Returns a string representation of the rule in the FuzzyLite Language

@@ -24,7 +24,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/RuleBlock.h"
 
 namespace fuzzylite {
-
     Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {}
 
     Lowest::~Lowest() {}
@@ -38,7 +37,11 @@ namespace fuzzylite {
     }
 
     void Lowest::configure(const std::string& parameters) {
-        setNumberOfRules((int)Op::toScalar(parameters));
+        if (parameters.empty())
+            return;
+        const std::vector<std::string> values = Op::split(parameters, " ");
+        if (not values.empty())
+            setNumberOfRules((int)Op::toScalar(values.front()));
     }
 
     int Lowest::getNumberOfRules() const {
@@ -88,5 +91,4 @@ namespace fuzzylite {
     Activation* Lowest::constructor() {
         return new Lowest;
     }
-
 }
