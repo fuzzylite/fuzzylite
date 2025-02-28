@@ -26,7 +26,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    RuleBlock::RuleBlock(const std::string& name) : _enabled(true), _name(name), _description("") {}
+    RuleBlock::RuleBlock(const std::string& name, const std::vector<Rule*>& rules, Activation* activation) :
+        _enabled(true),
+        _name(name),
+        _rules(rules),
+        _activation(activation) {}
 
     RuleBlock::RuleBlock(const RuleBlock& other) :
         _enabled(true),
@@ -212,6 +216,36 @@ namespace fuzzylite {
 
     RuleBlock* RuleBlock::clone() const {
         return new RuleBlock(*this);
+    }
+
+    RuleBlock& RuleBlock::rules(const std::vector<Rule*>& rules) {
+        _rules.insert(_rules.end(), rules.begin(), rules.end());
+        return *this;
+    }
+
+    RuleBlock& RuleBlock::rule(Rule* rule) {
+        addRule(rule);
+        return *this;
+    }
+
+    RuleBlock& RuleBlock::conjunction(TNorm* conjunction) {
+        setConjunction(conjunction);
+        return *this;
+    }
+
+    RuleBlock& RuleBlock::disjunction(SNorm* disjunction) {
+        setDisjunction(disjunction);
+        return *this;
+    }
+
+    RuleBlock& RuleBlock::implication(TNorm* implication) {
+        setImplication(implication);
+        return *this;
+    }
+
+    RuleBlock& RuleBlock::activation(Activation* activation) {
+        setActivation(activation);
+        return *this;
     }
 
 }
