@@ -48,10 +48,10 @@ namespace fuzzylite {
         std::string _name;
         std::string _description;
         std::vector<Rule*> _rules;
+        FL_unique_ptr<Activation> _activation;
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
         FL_unique_ptr<TNorm> _implication;
-        FL_unique_ptr<Activation> _activation;
 
         void copyFrom(const RuleBlock& source);
 

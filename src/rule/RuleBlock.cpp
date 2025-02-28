@@ -37,10 +37,10 @@ namespace fuzzylite {
         _enabled(true),
         _name(name),
         _rules(rules),
+        _activation(activation),
         _conjunction(conjunction),
         _disjunction(disjunction),
-        _implication(implication),
-        _activation(activation) {}
+        _implication(implication) {}
 
     RuleBlock::RuleBlock(const RuleBlock& other) :
         _enabled(true),
