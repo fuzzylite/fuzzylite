@@ -1,6 +1,7 @@
 test/Assert.h
 test/Headers.h
 test/Listener.h
+test/Mock.h
 test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp
