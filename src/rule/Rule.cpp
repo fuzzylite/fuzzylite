@@ -23,7 +23,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/norm/Norm.h"
 
 namespace fuzzylite {
-
     Rule::Rule(const std::string& text, scalar weight) :
         _enabled(true),
         _text(text),
@@ -94,8 +93,8 @@ namespace fuzzylite {
         return this->_consequent.get();
     }
 
-    void Rule::setEnabled(bool active) {
-        this->_enabled = active;
+    void Rule::setEnabled(bool enabled) {
+        this->_enabled = enabled;
     }
 
     bool Rule::isEnabled() const {
@@ -111,24 +110,24 @@ namespace fuzzylite {
     }
 
     void Rule::deactivate() {
-        _activationDegree = 0.0;
-        _triggered = false;
+        setActivationDegree(0.0);
+        setTriggered(false);
     }
 
     scalar Rule::activateWith(const TNorm* conjunction, const SNorm* disjunction) {
         if (not isLoaded())
             throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
-        _activationDegree = _weight * _antecedent->activationDegree(conjunction, disjunction);
-        return _activationDegree;
+        setActivationDegree(getWeight() * getAntecedent()->activationDegree(conjunction, disjunction));
+        return getActivationDegree();
     }
 
     void Rule::trigger(const TNorm* implication) {
         if (not isLoaded())
             throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
-        if (_enabled and Op::isGt(_activationDegree, 0.0)) {
-            FL_DBG("[firing with " << Op::str(_activationDegree) << "] " << toString());
-            _consequent->modify(_activationDegree, implication);
-            _triggered = true;
+        if (isEnabled() and Op::isGt(getActivationDegree(), 0.0)) {
+            FL_DBG("[firing with " << Op::str(getActivationDegree()) << "] " << toString());
+            getConsequent()->modify(getActivationDegree(), implication);
+            setTriggered(true);
         }
     }
 
@@ -136,8 +135,12 @@ namespace fuzzylite {
         return this->_triggered;
     }
 
+    void Rule::setTriggered(bool triggered) {
+        this->_triggered = triggered;
+    }
+
     bool Rule::isLoaded() const {
-        return _antecedent.get() and _consequent.get() and _antecedent->isLoaded() and _consequent->isLoaded();
+        return getAntecedent() and getAntecedent()->isLoaded() and getConsequent() and getConsequent()->isLoaded();
     }
 
     void Rule::unload() {
@@ -229,7 +232,6 @@ namespace fuzzylite {
             getAntecedent()->load(ossAntecedent.str(), engine);
             getConsequent()->load(ossConsequent.str(), engine);
             setWeight(weight);
-
         } catch (...) {
             unload();
             throw;
@@ -249,5 +251,4 @@ namespace fuzzylite {
         result->load(rule, engine);
         return result.release();
     }
-
 }
