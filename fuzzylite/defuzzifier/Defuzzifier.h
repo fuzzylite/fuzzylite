@@ -21,6 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 
 #include "fuzzylite/fuzzylite.h"
+#include "fuzzylite/imex/FllExporter.h"
 
 namespace fuzzylite {
     class Term;
@@ -59,7 +60,13 @@ namespace fuzzylite {
           @return the defuzzified value of the given fuzzy term
          */
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;
+
+        virtual std::string toString() const;
     };
+
+    inline std::string Defuzzifier::toString() const {
+        return FllExporter().toString(this);
+    }
 }
 
 #endif /* FL_DEFUZZIFIER_H */
