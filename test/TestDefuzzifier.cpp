@@ -116,6 +116,14 @@ namespace fuzzylite { namespace test {
         }
     };
 
+    TEST_CASE("IntegralDefuzzifier", "[defuzzifier][integral]") {
+        CHECK(IntegralDefuzzifier::defaultResolution() == 1000);
+        IntegralDefuzzifier::setDefaultResolution(1000000);
+        CHECK(IntegralDefuzzifier::defaultResolution() == 1000000);
+        IntegralDefuzzifier::setDefaultResolution(1000);
+        CHECK(IntegralDefuzzifier::defaultResolution() == 1000);
+    }
+
     TEST_CASE("Bisector", "[defuzzifier][bisector]") {
         DefuzzifierAssert<Bisector>()
             .exports_fll("Bisector")
@@ -421,7 +429,13 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("WeightedAverage", "[defuzzifier][weighted]") {
+        CHECK(WeightedAverage("TakagiSugeno").toString() == "WeightedAverage TakagiSugeno");
+        CHECK(WeightedAverage("Tsukamoto").toString() == "WeightedAverage Tsukamoto");
+        CHECK(WeightedAverage("Automatic").toString() == "WeightedAverage");
+        CHECK(WeightedAverage("Invalid").toString() == "WeightedAverage");
+
         DefuzzifierAssert<WeightedAverage>().exports_fll("WeightedAverage").can_clone();
+
         DefuzzifierAssert<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .exports_fll("WeightedAverage TakagiSugeno")
@@ -585,7 +599,13 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("WeightedSum", "[defuzzifier][weighted]") {
-        DefuzzifierAssert<WeightedAverage>().exports_fll("WeightedAverage").can_clone();
+        CHECK(WeightedSum("TakagiSugeno").toString() == "WeightedSum TakagiSugeno");
+        CHECK(WeightedSum("Tsukamoto").toString() == "WeightedSum Tsukamoto");
+        CHECK(WeightedSum("Automatic").toString() == "WeightedSum");
+        CHECK(WeightedSum("Invalid").toString() == "WeightedSum");
+
+        DefuzzifierAssert<WeightedSum>().exports_fll("WeightedSum").can_clone();
+
         DefuzzifierAssert<WeightedSum>()
             .exports_fll("WeightedSum")
             .configured_as("TakagiSugeno")
