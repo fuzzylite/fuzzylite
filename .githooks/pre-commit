@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# to configure git hooks locally:
+# > git config --local core.hooksPath .githooks
+
+# make sure virtual environment is activated
+
+nox -e lint
