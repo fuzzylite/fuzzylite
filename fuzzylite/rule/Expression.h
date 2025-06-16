@@ -75,7 +75,11 @@ namespace fuzzylite {
         /**Term in `variable is [hedge]* term`*/
         Term* term;
 
-        Proposition();
+        explicit Proposition(
+            Variable* variable = fl::null,
+            const std::vector<Hedge*>& hedges = std::vector<Hedge*>(),
+            Term* term = fl::null
+        );
         ~Proposition() FL_IOVERRIDE;
 
         Expression::Type type() const FL_IOVERRIDE;
@@ -110,7 +114,7 @@ namespace fuzzylite {
         /**Right expression in the binary tree*/
         Expression* right;
 
-        Operator();
+        explicit Operator(const std::string& name = "", Expression* left = fl::null, Expression* right = fl::null);
         ~Operator() FL_IOVERRIDE;
 
         Expression::Type type() const FL_IOVERRIDE;

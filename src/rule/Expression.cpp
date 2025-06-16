@@ -28,7 +28,11 @@ namespace fuzzylite {
 
     Expression::~Expression() {}
 
-    Proposition::Proposition() : Expression(), variable(fl::null), term(fl::null) {}
+    Proposition::Proposition(Variable* variable, const std::vector<Hedge*>& hedges, Term* term) :
+        Expression(),
+        variable(variable),
+        hedges(hedges),
+        term(term) {}
 
     Proposition::~Proposition() {
         for (std::size_t i = 0; i < hedges.size(); ++i)
@@ -44,8 +48,7 @@ namespace fuzzylite {
         std::ostringstream ss;
         if (variable)
             ss << variable->getName();
-        else
-            ss << "?";
+
         if (not hedges.empty()) {
             ss << " " << Rule::isKeyword() << " ";
             for (std::size_t i = 0; i < hedges.size(); ++i)
@@ -60,7 +63,11 @@ namespace fuzzylite {
         return ss.str();
     }
 
-    Operator::Operator() : Expression(), name(""), left(fl::null), right(fl::null) {}
+    Operator::Operator(const std::string& name, Expression* left, Expression* right) :
+        Expression(),
+        name(name),
+        left(left),
+        right(right) {}
 
     Operator::~Operator() {
         if (left)
