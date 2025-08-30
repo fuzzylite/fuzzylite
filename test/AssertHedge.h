@@ -20,12 +20,12 @@
 #include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
-    struct HedgeAssert {
+    struct AssertHedge {
         FL_unique_ptr<Hedge> actual;
 
-        HedgeAssert(Hedge* actual) : actual(actual) {}
+        AssertHedge(Hedge* actual) : actual(actual) {}
 
-        HedgeAssert& has_name(const std::string& name, bool checkFactory = true, bool canClone = true) {
+        AssertHedge& has_name(const std::string& name, bool checkFactory = true, bool canClone = true) {
             CHECK(actual->name() == name);
             if (checkFactory)
                 in_factory();
@@ -34,19 +34,19 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        HedgeAssert& in_factory() {
+        AssertHedge& in_factory() {
             const HedgeFactory hf;
             CHECK(hf.hasConstructor(actual->name()));
             CHECK(FL_unique_ptr<Hedge>(hf.constructObject(actual->name()))->name() == actual->name());
             return *this;
         }
 
-        HedgeAssert& can_clone() {
+        AssertHedge& can_clone() {
             CHECK(FL_unique_ptr<Hedge>(actual->clone())->name() == actual->name());
             return *this;
         }
 
-        HedgeAssert& evaluates(const std::vector<std::vector<double>>& az) {
+        AssertHedge& evaluates(const std::vector<std::vector<double>>& az) {
             for (const auto& item : az) {
                 CAPTURE(item);
                 CHECK(item.size() == 2);
