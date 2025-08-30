@@ -1,3 +1,5 @@
+test/Assert.h
+test/AssertActivation.h
 test/AssertConstructor.h
 test/Headers.h
 test/Listener.h
