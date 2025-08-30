@@ -21,25 +21,25 @@
 
 namespace fuzzylite { namespace test {
     template <typename T>
-    struct ConstructionFactoryAssert {
+    struct AssertConstructionFactory {
         using Constructor = std::tuple<std::string, typename ConstructionFactory<T*>::Constructor, std::string>;
         std::unique_ptr<ConstructionFactory<T*>> actual;
 
-        explicit ConstructionFactoryAssert(ConstructionFactory<T*>* actual) : actual(actual) {}
+        explicit AssertConstructionFactory(ConstructionFactory<T*>* actual) : actual(actual) {}
 
-        ConstructionFactoryAssert& has_class_name(const std::string& name) {
+        AssertConstructionFactory& has_class_name(const std::string& name) {
             CHECK(actual->name() == name);
             return *this;
         }
 
-        ConstructionFactoryAssert& contains(const std::vector<std::string>& names, bool contains = true) {
+        AssertConstructionFactory& contains(const std::vector<std::string>& names, bool contains = true) {
             CAPTURE(names, contains);
             for (const std::string& name : names)
                 CHECK(actual->hasConstructor(name) == contains);
             return *this;
         }
 
-        ConstructionFactoryAssert&
+        AssertConstructionFactory&
         constructs_exactly(const std::map<std::string, typename ConstructionFactory<T*>::Constructor>& constructors) {
             std::vector<std::string> expected;
             for (const auto& name_value : constructors) {
@@ -57,7 +57,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        ConstructionFactoryAssert& constructs_exactly(const std::vector<Constructor>& constructors) {
+        AssertConstructionFactory& constructs_exactly(const std::vector<Constructor>& constructors) {
             std::vector<std::string> expected;
             for (const auto& name_constructor_fll : constructors) {
                 std::string name;
@@ -78,7 +78,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        ConstructionFactoryAssert& deregister_all() {
+        AssertConstructionFactory& deregister_all() {
             for (const auto& constructor : actual->available()) {
                 CAPTURE(constructor);
                 CHECK(actual->hasConstructor(constructor));
@@ -89,7 +89,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        ConstructionFactoryAssert& clones() {
+        AssertConstructionFactory& clones() {
             std::unique_ptr<ConstructionFactory<T*>> clone(actual->clone());
             CAPTURE(actual->name(), clone->name());
             CHECK(actual->name() == clone->name());
@@ -105,14 +105,14 @@ namespace fuzzylite { namespace test {
         }
     };
 
-    struct ActivationFactoryAssert : ConstructionFactoryAssert<Activation> {
-        explicit ActivationFactoryAssert(ActivationFactory* actual) : ConstructionFactoryAssert(actual) {}
+    struct AssertActivationFactory : AssertConstructionFactory<Activation> {
+        explicit AssertActivationFactory(ActivationFactory* actual) : AssertConstructionFactory(actual) {}
     };
 
-    struct DefuzzifierFactoryAssert : ConstructionFactoryAssert<Defuzzifier> {
-        explicit DefuzzifierFactoryAssert(DefuzzifierFactory* actual) : ConstructionFactoryAssert(actual) {}
+    struct AssertDefuzzifierFactory : AssertConstructionFactory<Defuzzifier> {
+        explicit AssertDefuzzifierFactory(DefuzzifierFactory* actual) : AssertConstructionFactory(actual) {}
 
-        DefuzzifierFactoryAssert& construct_weighted(
+        AssertDefuzzifierFactory& construct_weighted(
             const std::string& name, WeightedDefuzzifier::Type type, const WeightedDefuzzifier& expected
         ) {
             CAPTURE(name, type, FllExporter().toString(&expected));
@@ -122,7 +122,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        DefuzzifierFactoryAssert&
+        AssertDefuzzifierFactory&
         construct_integral(const std::string& name, int resolution, const IntegralDefuzzifier& expected) {
             CAPTURE(name, resolution, FllExporter().toString(&expected));
             const DefuzzifierFactory* actualFactory = dynamic_cast<const DefuzzifierFactory*>(actual.get());
@@ -132,43 +132,43 @@ namespace fuzzylite { namespace test {
         }
     };
 
-    struct HedgeFactoryAssert : ConstructionFactoryAssert<Hedge> {
-        explicit HedgeFactoryAssert(HedgeFactory* actual) : ConstructionFactoryAssert(actual) {}
+    struct AssertHedgeFactory : AssertConstructionFactory<Hedge> {
+        explicit AssertHedgeFactory(HedgeFactory* actual) : AssertConstructionFactory(actual) {}
     };
 
-    struct SNormFactoryAssert : ConstructionFactoryAssert<SNorm> {
-        explicit SNormFactoryAssert(SNormFactory* actual) : ConstructionFactoryAssert(actual) {}
+    struct AssertSNormFactory : AssertConstructionFactory<SNorm> {
+        explicit AssertSNormFactory(SNormFactory* actual) : AssertConstructionFactory(actual) {}
     };
 
-    struct TNormFactoryAssert : ConstructionFactoryAssert<TNorm> {
-        explicit TNormFactoryAssert(TNormFactory* actual) : ConstructionFactoryAssert(actual) {}
+    struct AssertTNormFactory : AssertConstructionFactory<TNorm> {
+        explicit AssertTNormFactory(TNormFactory* actual) : AssertConstructionFactory(actual) {}
     };
 
-    struct TermFactoryAssert : ConstructionFactoryAssert<Term> {
-        explicit TermFactoryAssert(TermFactory* actual) : ConstructionFactoryAssert(actual) {}
+    struct AssertTermFactory : AssertConstructionFactory<Term> {
+        explicit AssertTermFactory(TermFactory* actual) : AssertConstructionFactory(actual) {}
     };
 
     template <typename T>
-    struct CloningFactoryAssert {
+    struct AssertCloningFactory {
         std::unique_ptr<CloningFactory<T*>> actual;
 
         using Clone = std::tuple<const std::string&, const T&>;
 
-        explicit CloningFactoryAssert(CloningFactory<T*>* actual) : actual(actual) {}
+        explicit AssertCloningFactory(CloningFactory<T*>* actual) : actual(actual) {}
 
-        CloningFactoryAssert& has_class_name(const std::string& name) {
+        AssertCloningFactory& has_class_name(const std::string& name) {
             CHECK(actual->name() == name);
             return *this;
         }
 
-        CloningFactoryAssert& contains(const std::vector<std::string>& names, bool contains = true) {
+        AssertCloningFactory& contains(const std::vector<std::string>& names, bool contains = true) {
             CAPTURE(names, contains);
             for (const std::string& name : names)
                 CHECK(actual->hasObject(name) == contains);
             return *this;
         }
 
-        CloningFactoryAssert& copies_exactly(const std::vector<Clone>& clones) {
+        AssertCloningFactory& copies_exactly(const std::vector<Clone>& clones) {
             std::vector<std::string> expected;
             for (const auto& name_clone : clones) {
                 std::string name;
@@ -186,7 +186,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        CloningFactoryAssert& deregister_all() {
+        AssertCloningFactory& deregister_all() {
             for (const auto& clone : actual->available()) {
                 CAPTURE(clone);
                 CHECK(actual->hasObject(clone));
@@ -198,8 +198,8 @@ namespace fuzzylite { namespace test {
         }
     };
 
-    struct FunctionFactoryAssert : CloningFactoryAssert<Function::Element> {
-        explicit FunctionFactoryAssert(FunctionFactory* actual) : CloningFactoryAssert(actual) {}
+    struct AssertFunctionFactory : AssertCloningFactory<Function::Element> {
+        explicit AssertFunctionFactory(FunctionFactory* actual) : AssertCloningFactory(actual) {}
 
         const scalar pi = std::atan(1) * 4;
 
@@ -225,35 +225,35 @@ namespace fuzzylite { namespace test {
             fl::inf
         };
 
-        FunctionFactoryAssert& precedence_is_the_same(const std::string& a, const std::string& b) {
+        AssertFunctionFactory& precedence_is_the_same(const std::string& a, const std::string& b) {
             CAPTURE(actual->getObject(a)->toString());
             CAPTURE(actual->getObject(b)->toString());
             CHECK(actual->getObject(a)->precedence == actual->getObject(b)->precedence);
             return *this;
         }
 
-        FunctionFactoryAssert& precedence_is_higher(const std::string& a, const std::string& b) {
+        AssertFunctionFactory& precedence_is_higher(const std::string& a, const std::string& b) {
             CAPTURE(actual->getObject(a)->toString());
             CAPTURE(actual->getObject(b)->toString());
             CHECK(actual->getObject(a)->precedence > actual->getObject(b)->precedence);
             return *this;
         }
 
-        FunctionFactoryAssert& operation_is(const std::string& name, scalar parameter, scalar expected) {
+        AssertFunctionFactory& operation_is(const std::string& name, scalar parameter, scalar expected) {
             CAPTURE(name, parameter, expected);
             CAPTURE(actual->getObject(name)->toString());
             CHECK_THAT(actual->getObject(name)->unary(parameter), Approximates(expected));
             return *this;
         }
 
-        FunctionFactoryAssert& operation_is(const std::string& name, scalar a, scalar b, scalar expected) {
+        AssertFunctionFactory& operation_is(const std::string& name, scalar a, scalar b, scalar expected) {
             CAPTURE(name, a, b, expected);
             CAPTURE(actual->getObject(name)->toString());
             CHECK_THAT(actual->getObject(name)->binary(a, b), Approximates(expected));
             return *this;
         }
 
-        FunctionFactoryAssert& unary_operation_equals(const std::string& name, Function::Unary expected) {
+        AssertFunctionFactory& unary_operation_equals(const std::string& name, Function::Unary expected) {
             CHECK(not values.empty());
             for (auto x : values) {
                 CAPTURE(name, x, expected(x));
@@ -264,7 +264,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        FunctionFactoryAssert& binary_operation_equals(const std::string& name, Function::Binary expected) {
+        AssertFunctionFactory& binary_operation_equals(const std::string& name, Function::Binary expected) {
             CHECK(not values.empty());
             for (auto x : values) {
                 for (auto y : values) {
