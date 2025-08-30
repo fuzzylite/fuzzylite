@@ -257,11 +257,11 @@ namespace fuzzylite { namespace test {
         }
     };
 
-    struct VariableAssert : Assert<VariableAssert, Variable> {
+    struct AssertVariable : Assert<AssertVariable, Variable> {
         using Assert::Assert;  // inherit constructors
     };
 
-    struct InputVariableAssert : Assert<InputVariableAssert, InputVariable> {
+    struct AssertInputVariable : Assert<AssertInputVariable, InputVariable> {
         using Assert::Assert;  // inherit constructors
 
         auto& has_fuzzy_value(scalar input, const std::string& expected) {
@@ -278,12 +278,12 @@ namespace fuzzylite { namespace test {
             return self();
         }
 
-        InputVariableAssert& equals(const InputVariable& another) override {
+        AssertInputVariable& equals(const InputVariable& another) override {
             return Assert::equals(another);
         }
     };
 
-    struct OutputVariableAssert : Assert<OutputVariableAssert, OutputVariable> {
+    struct AssertOutputVariable : Assert<AssertOutputVariable, OutputVariable> {
         using Assert::Assert;
 
         auto& has_previous_value(scalar value) {
@@ -333,7 +333,7 @@ namespace fuzzylite { namespace test {
             return self();
         }
 
-        OutputVariableAssert& equals(const OutputVariable& another) override {
+        AssertOutputVariable& equals(const OutputVariable& another) override {
             Assert::equals(another);
             CHECK_THAT(variable->getDefaultValue(), Approximates(another.getDefaultValue()));
             CHECK_THAT(variable->getPreviousValue(), Approximates(another.getPreviousValue()));
@@ -344,7 +344,7 @@ namespace fuzzylite { namespace test {
             return self();
         }
 
-        OutputVariableAssert& fsm(const std::vector<Combination>& combinations) {
+        AssertOutputVariable& fsm(const std::vector<Combination>& combinations) {
             for (auto& combination : combinations) {
                 SECTION("Combination " + combination.number()) {
                     CAPTURE(combination.number());
@@ -359,7 +359,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        OutputVariableAssert& fsm_deprecated_v6(const std::vector<Combination>& combinations) {
+        AssertOutputVariable& fsm_deprecated_v6(const std::vector<Combination>& combinations) {
             Constant dummy;
             for (auto& combination : combinations) {
                 variable->fuzzyOutput()->clear();

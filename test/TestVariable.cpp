@@ -35,7 +35,7 @@ namespace fuzzylite { namespace test { namespace variable {
 
     TEST_CASE("Constructors", "[variable][constructor]") {
         SECTION("Default constructor") {
-            VariableAssert(std::make_unique<Variable>())
+            AssertVariable(std::make_unique<Variable>())
                 .has_name("")
                 .has_description("")
                 .is_enabled(true)
@@ -47,7 +47,7 @@ namespace fuzzylite { namespace test { namespace variable {
                 );
         }
         SECTION("Copy constructor") {
-            VariableAssert(std::make_unique<Variable>(testVariable()))
+            AssertVariable(std::make_unique<Variable>(testVariable()))
                 .has_name("Test")
                 .has_description("A test variable")
                 .is_enabled(false)
@@ -71,7 +71,7 @@ namespace fuzzylite { namespace test { namespace variable {
             Variable copy("copy", nan, nan, {new Constant()});
             Variable test = testVariable();
             copy = test;
-            VariableAssert(std::make_unique<Variable>(copy))
+            AssertVariable(std::make_unique<Variable>(copy))
                 .has_name("Test")
                 .has_description("A test variable")
                 .is_enabled(false)
@@ -92,7 +92,7 @@ namespace fuzzylite { namespace test { namespace variable {
         }
 
         SECTION("Clone") {
-            VariableAssert(std::make_unique<Variable>(testVariable())).can_clone();
+            AssertVariable(std::make_unique<Variable>(testVariable())).can_clone();
         }
     }
 
@@ -108,7 +108,7 @@ namespace fuzzylite { namespace test { namespace variable {
         test_variable.setTerms({new Constant{"pi", 3.1413}});
 
         SECTION("Check setters") {
-            VariableAssert(std::make_unique<Variable>(test_variable))
+            AssertVariable(std::make_unique<Variable>(test_variable))
                 .has_name("Test")
                 .has_description("A test variable")
                 .is_enabled(false)
@@ -249,7 +249,7 @@ namespace fuzzylite { namespace test { namespace variable {
     }
 
     TEST_CASE("Variable fuzzifies", "[variable]") {
-        VariableAssert(
+        AssertVariable(
             std::make_unique<Variable>(
                 "Temperature",
                 0,
@@ -275,7 +275,7 @@ namespace fuzzylite { namespace test { namespace variable {
                 {inf, "0.000/Low + 0.000/Medium + 0.000/High"},
                 {-inf, "0.000/Low + 0.000/Medium + 0.000/High"},
             });
-        VariableAssert(
+        AssertVariable(
             std::make_unique<Variable>(
                 "Temperature",
                 -inf,
@@ -298,7 +298,7 @@ namespace fuzzylite { namespace test { namespace variable {
         const auto low = new Triangle("Low", -1.0, -0.5, 0.0);
         const auto medium = new Triangle("Medium", -0.5, 0.0, 0.5);
         const auto high = new Triangle("High", 0.0, 0.5, 1.0);
-        VariableAssert(std::make_unique<Variable>("name", -1.0, 1.0, std::vector<Term*>{low, medium, high}))
+        AssertVariable(std::make_unique<Variable>("name", -1.0, 1.0, std::vector<Term*>{low, medium, high}))
             .highest_activation({
                 {-1.0, {}},
                 {-0.75, {Activated(low, 0.5)}},
@@ -330,7 +330,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
 
     TEST_CASE("InputVariable: Constructors", "[variable][input][constructor]") {
         SECTION("Default constructor") {
-            InputVariableAssert(std::make_unique<InputVariable>())
+            AssertInputVariable(std::make_unique<InputVariable>())
                 .has_name("")
                 .has_description("")
                 .is_enabled()
@@ -343,7 +343,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
                 );
         }
         SECTION("Custom constructor") {
-            InputVariableAssert(
+            AssertInputVariable(
                 std::make_unique<InputVariable>(
                     "Test",
                     -1.0,
@@ -368,7 +368,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
                 );
         }
         SECTION("Copy constructor") {
-            InputVariableAssert(std::make_unique<InputVariable>(testVariable()))
+            AssertInputVariable(std::make_unique<InputVariable>(testVariable()))
                 .equals(testVariable())
                 .exports_fll(
                     std::vector<std::string>{
@@ -385,7 +385,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
             InputVariable copy;
             InputVariable test = testVariable();
             copy = test;
-            InputVariableAssert(std::make_unique<InputVariable>(copy))
+            AssertInputVariable(std::make_unique<InputVariable>(copy))
                 .equals(testVariable())
                 .exports_fll(
                     std::vector<std::string>{
@@ -400,7 +400,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
         }
 
         SECTION("Clone") {
-            InputVariableAssert(std::make_unique<InputVariable>(testVariable())).can_clone();
+            AssertInputVariable(std::make_unique<InputVariable>(testVariable())).can_clone();
         }
         SECTION("Type") {
             CHECK(InputVariable().type() == Variable::Input);
@@ -408,7 +408,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
     }
 
     TEST_CASE("InputVariable: fuzzy values") {
-        InputVariableAssert(
+        AssertInputVariable(
             std::make_unique<InputVariable>(
                 "name",
                 -1.0,
@@ -456,7 +456,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
 
     TEST_CASE("OutputVariable: Constructors", "[variable][output][constructor]") {
         SECTION("Default constructor") {
-            OutputVariableAssert(std::make_unique<OutputVariable>())
+            AssertOutputVariable(std::make_unique<OutputVariable>())
                 .has_name("")
                 .has_description("")
                 .is_enabled()
@@ -480,7 +480,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 );
         }
         SECTION("Custom constructor") {
-            OutputVariableAssert(
+            AssertOutputVariable(
                 std::make_unique<OutputVariable>(
                     "Test",
                     -1.0,
@@ -515,7 +515,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
 
         // OutputVariable
         SECTION("Copy constructor") {
-            OutputVariableAssert(std::make_unique<OutputVariable>(testVariable()))
+            AssertOutputVariable(std::make_unique<OutputVariable>(testVariable()))
                 .equals(testVariable())
                 .exports_fll(
                     std::vector<std::string>{
@@ -536,7 +536,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
             OutputVariable copy;
             OutputVariable test = testVariable();
             copy = test;
-            OutputVariableAssert(std::make_unique<OutputVariable>(copy))
+            AssertOutputVariable(std::make_unique<OutputVariable>(copy))
                 .equals(testVariable())
                 .exports_fll(
                     std::vector<std::string>{
@@ -555,7 +555,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         }
 
         SECTION("Clone") {
-            OutputVariableAssert(std::make_unique<OutputVariable>(testVariable())).can_clone();
+            AssertOutputVariable(std::make_unique<OutputVariable>(testVariable())).can_clone();
         }
         SECTION("Type") {
             CHECK(OutputVariable().type() == Variable::Output);
@@ -566,7 +566,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         const auto low = new Triangle("Low", -1.0, -0.5, 0.0);
         const auto medium = new Triangle("Medium", -0.5, 0.0, 0.5);
         const auto high = new Triangle("High", 0.0, 0.5, 1.0);
-        OutputVariableAssert assert_that(
+        AssertOutputVariable assert_that(
             std::make_unique<OutputVariable>("test", -1, 1, std::vector<Term*>{low, medium, high})
         );
         assert_that.when_fuzzy_output_is({}).has_fuzzy_value("0.000/Low + 0.000/Medium + 0.000/High");
@@ -580,7 +580,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         const auto low = new Triangle("Low", -1.0, -0.5, 0.0);
         const auto medium = new Triangle("Medium", -0.5, 0.0, 0.5);
         const auto high = new Triangle("High", 0.0, 0.5, 1.0);
-        OutputVariableAssert assert_that(
+        AssertOutputVariable assert_that(
             std::make_unique<OutputVariable>("test", -1, 1, std::vector<Term*>{low, medium, high})
         );
         assert_that.variable->setValue(0.0);
@@ -662,7 +662,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
     }
 
     TEST_CASE("Defuzzifification State Machine", "[output][variable][defuzzify][fsm]") {
-        OutputVariableAssert assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
+        AssertOutputVariable assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
         SECTION("(a) When default is nan and no locks, value is defuzzified and previous value is updated") {
             const scalar def = nan;
             assert_that.variable->setDefaultValue(def);
@@ -878,7 +878,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
     }
 
     TEST_CASE("Defuzzifification State Machine v6", "[output][variable][defuzzify][fsm][v6]") {
-        OutputVariableAssert assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
+        AssertOutputVariable assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
         SECTION("(a) When default is nan and no locks, value is defuzzified and previous value is updated") {
             const scalar def = nan;
             assert_that.variable->setDefaultValue(def);
