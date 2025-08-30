@@ -13,7 +13,7 @@
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
-#include "test/Assert.h"
+#include "test/AssertConstructor.h"
 #include "test/Headers.h"
 
 namespace fuzzylite { namespace test {

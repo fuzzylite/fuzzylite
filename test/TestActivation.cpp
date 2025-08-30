@@ -1,4 +1,6 @@
-#include "test/Assert.h"
+
+#include "test/AssertActivation.h"
+#include "test/AssertConstructor.h"
 #include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
