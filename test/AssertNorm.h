@@ -21,28 +21,28 @@
 
 namespace fuzzylite { namespace test {
     template <class T>
-    struct NormAssert {
+    struct AssertNorm {
         FL_unique_ptr<T> actual;
 
-        explicit NormAssert() : actual(new T) {}
+        explicit AssertNorm() : actual(new T) {}
 
-        NormAssert& repr_is(const std::string& repr) {
+        AssertNorm& repr_is(const std::string& repr) {
             FL_IUNUSED(repr);
             return *this;
         }
 
-        NormAssert& can_clone() {
+        AssertNorm& can_clone() {
             auto clone = actual->clone();
             CHECK(clone->className() == actual->className());
             return *this;
         }
 
-        NormAssert& exports_fll(const std::string& fll) {
+        AssertNorm& exports_fll(const std::string& fll) {
             CHECK(actual->className() == fll);
             return *this;
         }
 
-        NormAssert& is_t_norm() {
+        AssertNorm& is_t_norm() {
             CHECK(dynamic_cast<TNorm*>(actual.get()));
             TNormFactory tnorm;
             if (not dynamic_cast<TNormFunction*>(actual.get())) {
@@ -54,7 +54,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        NormAssert& is_s_norm() {
+        AssertNorm& is_s_norm() {
             CHECK(dynamic_cast<SNorm*>(actual.get()));
             SNormFactory snorm;
             if (not dynamic_cast<SNormFunction*>(actual.get())) {
@@ -66,7 +66,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        NormAssert&
+        AssertNorm&
         evaluates(const std::vector<std::vector<scalar>>& abz, bool commutative = true, bool associative = true) {
             for (const auto& ab_z : abz) {
                 CHECK(ab_z.size() == 3);
@@ -90,7 +90,7 @@ namespace fuzzylite { namespace test {
             return *this;
         }
 
-        NormAssert& can_construct() {
+        AssertNorm& can_construct() {
             std::unique_ptr<Norm> object(T::constructor());
             FllExporter exporter;
             CHECK(exporter.toString(object.get()) == exporter.toString(actual.get()));
