@@ -54,16 +54,14 @@ namespace fuzzylite { namespace test { namespace variable {
                 .has_value(0.0)
                 .has_range(-1, 1)
                 .locks_value_in_range(true)
-                .exports_fll(
-                    std::vector<std::string>{
-                        "Variable: Test",
-                        "description: A test variable",
-                        "enabled: false",
-                        "range: -1.000 1.000",
-                        "lock-range: true",
-                        "term: triangle Triangle 1.000 2.000 3.000 0.500"
-                    }
-                )
+                .exports_fll(std::vector<std::string>{
+                    "Variable: Test",
+                    "description: A test variable",
+                    "enabled: false",
+                    "range: -1.000 1.000",
+                    "lock-range: true",
+                    "term: triangle Triangle 1.000 2.000 3.000 0.500"
+                })
                 .equals(testVariable());
         }
 
@@ -78,16 +76,14 @@ namespace fuzzylite { namespace test { namespace variable {
                 .has_value(0.0)
                 .has_range(-1, 1)
                 .locks_value_in_range(true)
-                .exports_fll(
-                    std::vector<std::string>{
-                        "Variable: Test",
-                        "description: A test variable",
-                        "enabled: false",
-                        "range: -1.000 1.000",
-                        "lock-range: true",
-                        "term: triangle Triangle 1.000 2.000 3.000 0.500"
-                    }
-                )
+                .exports_fll(std::vector<std::string>{
+                    "Variable: Test",
+                    "description: A test variable",
+                    "enabled: false",
+                    "range: -1.000 1.000",
+                    "lock-range: true",
+                    "term: triangle Triangle 1.000 2.000 3.000 0.500"
+                })
                 .equals(testVariable());
         }
 
@@ -115,16 +111,14 @@ namespace fuzzylite { namespace test { namespace variable {
                 .has_value(0.0)
                 .has_range(-1, 1)
                 .locks_value_in_range(true)
-                .exports_fll(
-                    std::vector<std::string>{
-                        "Variable: Test",
-                        "description: A test variable",
-                        "enabled: false",
-                        "range: -1.000 1.000",
-                        "lock-range: true",
-                        "term: pi Constant 3.141"
-                    }
-                )
+                .exports_fll(std::vector<std::string>{
+                    "Variable: Test",
+                    "description: A test variable",
+                    "enabled: false",
+                    "range: -1.000 1.000",
+                    "lock-range: true",
+                    "term: pi Constant 3.141"
+                })
                 .equals(test_variable);
         }
 
@@ -249,18 +243,16 @@ namespace fuzzylite { namespace test { namespace variable {
     }
 
     TEST_CASE("Variable fuzzifies", "[variable]") {
-        AssertVariable(
-            std::make_unique<Variable>(
-                "Temperature",
-                0,
-                100,
-                std::vector<Term*>{
-                    new Triangle("Low", -1.0, -1.0, 0.0),
-                    new Triangle("Medium", -0.5, 0.0, 0.5),
-                    new Triangle("High", 0.0, 1.0, 1.0)
-                }
-            )
-        )
+        AssertVariable(std::make_unique<Variable>(
+                           "Temperature",
+                           0,
+                           100,
+                           std::vector<Term*>{
+                               new Triangle("Low", -1.0, -1.0, 0.0),
+                               new Triangle("Medium", -0.5, 0.0, 0.5),
+                               new Triangle("High", 0.0, 1.0, 1.0)
+                           }
+                       ))
             .fuzzy_values({
                 {-1.00, "1.000/Low + 0.000/Medium + 0.000/High"},
                 {-0.50, "0.500/Low + 0.000/Medium + 0.000/High"},
@@ -275,21 +267,19 @@ namespace fuzzylite { namespace test { namespace variable {
                 {inf, "0.000/Low + 0.000/Medium + 0.000/High"},
                 {-inf, "0.000/Low + 0.000/Medium + 0.000/High"},
             });
-        AssertVariable(
-            std::make_unique<Variable>(
-                "Temperature",
-                -inf,
-                inf,
-                std::vector<Term*>{
-                    new Constant("A", -1),
-                    new Constant("B", 0),
-                    new Constant("C", 1),
-                    new Constant("D", -inf),
-                    new Constant("E", inf),
-                    new Constant("F", nan),
-                }
-            )
-        )
+        AssertVariable(std::make_unique<Variable>(
+                           "Temperature",
+                           -inf,
+                           inf,
+                           std::vector<Term*>{
+                               new Constant("A", -1),
+                               new Constant("B", 0),
+                               new Constant("C", 1),
+                               new Constant("D", -inf),
+                               new Constant("E", inf),
+                               new Constant("F", nan),
+                           }
+                       ))
             //@todo: in pyfuzzylite, expected = "-1.000/A + 0.000/B + 1.000/C + 0.000/D + 1.000/E + 0.000/F"
             .fuzzify(nan, "-1.000/A + 0.000/B + 1.000/C - inf/D + inf/E + nan/F");
     }
@@ -336,50 +326,42 @@ namespace fuzzylite { namespace test { namespace input_variable {
                 .is_enabled()
                 .has_range(-inf, inf)
                 .locks_value_in_range(false)
-                .exports_fll(
-                    std::vector<std::string>{
-                        "InputVariable: _", "enabled: true", "range: -inf inf", "lock-range: false"
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    "InputVariable: _", "enabled: true", "range: -inf inf", "lock-range: false"
+                });
         }
         SECTION("Custom constructor") {
-            AssertInputVariable(
-                std::make_unique<InputVariable>(
-                    "Test",
-                    -1.0,
-                    1.0,  //
-                    std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
-                )
-            )
+            AssertInputVariable(std::make_unique<InputVariable>(
+                                    "Test",
+                                    -1.0,
+                                    1.0,  //
+                                    std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
+                                ))
                 .has_name("Test")
                 .has_description("")
                 .is_enabled()
                 .has_range(-1, 1)
                 .locks_value_in_range(false)
-                .exports_fll(
-                    std::vector<std::string>{
-                        {"InputVariable: Test",
-                         "enabled: true",
-                         "range: -1.000 1.000",
-                         "lock-range: false",
-                         "term: A Constant 1.000",
-                         "term: B Constant 2.000"}
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    {"InputVariable: Test",
+                     "enabled: true",
+                     "range: -1.000 1.000",
+                     "lock-range: false",
+                     "term: A Constant 1.000",
+                     "term: B Constant 2.000"}
+                });
         }
         SECTION("Copy constructor") {
             AssertInputVariable(std::make_unique<InputVariable>(testVariable()))
                 .equals(testVariable())
-                .exports_fll(
-                    std::vector<std::string>{
-                        "InputVariable: Test",
-                        "enabled: true",
-                        "range: -1.000 1.000",
-                        "lock-range: false",
-                        "term: A Constant 1.000",
-                        "term: B Constant 2.000"
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    "InputVariable: Test",
+                    "enabled: true",
+                    "range: -1.000 1.000",
+                    "lock-range: false",
+                    "term: A Constant 1.000",
+                    "term: B Constant 2.000"
+                });
         }
         SECTION("Copy assign") {
             InputVariable copy;
@@ -387,16 +369,14 @@ namespace fuzzylite { namespace test { namespace input_variable {
             copy = test;
             AssertInputVariable(std::make_unique<InputVariable>(copy))
                 .equals(testVariable())
-                .exports_fll(
-                    std::vector<std::string>{
-                        "InputVariable: Test",
-                        "enabled: true",
-                        "range: -1.000 1.000",
-                        "lock-range: false",
-                        "term: A Constant 1.000",
-                        "term: B Constant 2.000"
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    "InputVariable: Test",
+                    "enabled: true",
+                    "range: -1.000 1.000",
+                    "lock-range: false",
+                    "term: A Constant 1.000",
+                    "term: B Constant 2.000"
+                });
         }
 
         SECTION("Clone") {
@@ -408,18 +388,16 @@ namespace fuzzylite { namespace test { namespace input_variable {
     }
 
     TEST_CASE("InputVariable: fuzzy values") {
-        AssertInputVariable(
-            std::make_unique<InputVariable>(
-                "name",
-                -1.0,
-                1.0,
-                std::vector<Term*>{
-                    new Triangle{"Low", -1.0, -1.0, 0.0},
-                    new Triangle{"Medium", -0.5, 0.0, 0.5},
-                    new Triangle{"High", 0.0, 1.0, 1.0},
-                }
-            )
-        )
+        AssertInputVariable(std::make_unique<InputVariable>(
+                                "name",
+                                -1.0,
+                                1.0,
+                                std::vector<Term*>{
+                                    new Triangle{"Low", -1.0, -1.0, 0.0},
+                                    new Triangle{"Medium", -0.5, 0.0, 0.5},
+                                    new Triangle{"High", 0.0, 1.0, 1.0},
+                                }
+                            ))
             .has_fuzzy_values({
                 {-1.00, "1.000/Low + 0.000/Medium + 0.000/High"},
                 {-0.50, "0.500/Low + 0.000/Medium + 0.000/High"},
@@ -466,28 +444,24 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 .has_default_value(nan)
                 .locks_previous_value(false)
                 .has_aggregation("none")
-                .exports_fll(
-                    std::vector<std::string>{
-                        "OutputVariable: _",
-                        "enabled: true",
-                        "range: -inf inf",
-                        "lock-range: false",
-                        "aggregation: none",
-                        "defuzzifier: none",
-                        "default: nan",
-                        "lock-previous: false"
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    "OutputVariable: _",
+                    "enabled: true",
+                    "range: -inf inf",
+                    "lock-range: false",
+                    "aggregation: none",
+                    "defuzzifier: none",
+                    "default: nan",
+                    "lock-previous: false"
+                });
         }
         SECTION("Custom constructor") {
-            AssertOutputVariable(
-                std::make_unique<OutputVariable>(
-                    "Test",
-                    -1.0,
-                    1.0,  //
-                    std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
-                )
-            )
+            AssertOutputVariable(std::make_unique<OutputVariable>(
+                                     "Test",
+                                     -1.0,
+                                     1.0,  //
+                                     std::vector<Term*>{new Constant("A", 1), new Constant("B", 2)}
+                                 ))
                 .has_name("Test")
                 .has_description("")
                 .is_enabled()
@@ -497,40 +471,36 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 .has_default_value(nan)
                 .locks_previous_value(false)
                 .has_aggregation("none")
-                .exports_fll(
-                    std::vector<std::string>{
-                        {"OutputVariable: Test",
-                         "enabled: true",
-                         "range: -1.000 1.000",
-                         "lock-range: false",
-                         "aggregation: none",
-                         "defuzzifier: none",
-                         "default: nan",
-                         "lock-previous: false",
-                         "term: A Constant 1.000",
-                         "term: B Constant 2.000"}
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    {"OutputVariable: Test",
+                     "enabled: true",
+                     "range: -1.000 1.000",
+                     "lock-range: false",
+                     "aggregation: none",
+                     "defuzzifier: none",
+                     "default: nan",
+                     "lock-previous: false",
+                     "term: A Constant 1.000",
+                     "term: B Constant 2.000"}
+                });
         }
 
         // OutputVariable
         SECTION("Copy constructor") {
             AssertOutputVariable(std::make_unique<OutputVariable>(testVariable()))
                 .equals(testVariable())
-                .exports_fll(
-                    std::vector<std::string>{
-                        "OutputVariable: Test",
-                        "enabled: true",
-                        "range: -1.000 1.000",
-                        "lock-range: false",
-                        "aggregation: Maximum",
-                        "defuzzifier: Centroid",
-                        "default: 0.000",
-                        "lock-previous: true",
-                        "term: A Constant 1.000",
-                        "term: B Constant 2.000"
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    "OutputVariable: Test",
+                    "enabled: true",
+                    "range: -1.000 1.000",
+                    "lock-range: false",
+                    "aggregation: Maximum",
+                    "defuzzifier: Centroid",
+                    "default: 0.000",
+                    "lock-previous: true",
+                    "term: A Constant 1.000",
+                    "term: B Constant 2.000"
+                });
         }
         SECTION("Copy assign") {
             OutputVariable copy;
@@ -538,20 +508,18 @@ namespace fuzzylite { namespace test { namespace output_variable {
             copy = test;
             AssertOutputVariable(std::make_unique<OutputVariable>(copy))
                 .equals(testVariable())
-                .exports_fll(
-                    std::vector<std::string>{
-                        "OutputVariable: Test",
-                        "enabled: true",
-                        "range: -1.000 1.000",
-                        "lock-range: false",
-                        "aggregation: Maximum",
-                        "defuzzifier: Centroid",
-                        "default: 0.000",
-                        "lock-previous: true",
-                        "term: A Constant 1.000",
-                        "term: B Constant 2.000"
-                    }
-                );
+                .exports_fll(std::vector<std::string>{
+                    "OutputVariable: Test",
+                    "enabled: true",
+                    "range: -1.000 1.000",
+                    "lock-range: false",
+                    "aggregation: Maximum",
+                    "defuzzifier: Centroid",
+                    "default: 0.000",
+                    "lock-previous: true",
+                    "term: A Constant 1.000",
+                    "term: B Constant 2.000"
+                });
         }
 
         SECTION("Clone") {
@@ -614,11 +582,9 @@ namespace fuzzylite { namespace test { namespace output_variable {
             CHECK_THROWS_MATCHES(
                 variable.defuzzify(),
                 Exception,
-                Catch::Matchers::MessageMatches(
-                    Catch::Matchers::StartsWith(
-                        "[defuzzify error] expected a defuzzifier in variable 'test', but got null"
-                    )
-                )
+                Catch::Matchers::MessageMatches(Catch::Matchers::StartsWith(
+                    "[defuzzify error] expected a defuzzifier in variable 'test', but got null"
+                ))
             );
         }
 
@@ -701,11 +667,9 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("27").when().previous(inf).current(inf).defuzzify(inf).current(inf).previous(inf),
             });
         }
-        SECTION(
-            "(b) When default is not nan and no locks, value is defuzzified, default is used, and previous "
-            "value "
-            "is updated"
-        ) {
+        SECTION("(b) When default is not nan and no locks, value is defuzzified, default is used, and previous "
+                "value "
+                "is updated") {
             const scalar def = 0.7;
             assert_that.variable->setDefaultValue(def);
             assert_that.variable->setLockValueInRange(false);
@@ -744,11 +708,9 @@ namespace fuzzylite { namespace test { namespace output_variable {
             });
         }
 
-        SECTION(
-            "(c) When default is higher than the range, and locks previous and value, then default is "
-            "capped when used"
-            "used and stored in previous"
-        ) {
+        SECTION("(c) When default is higher than the range, and locks previous and value, then default is "
+                "capped when used"
+                "used and stored in previous") {
             const scalar def = 7.7;
             const scalar def_cap = 1.0;
             const scalar cap = 1.0;
@@ -789,10 +751,8 @@ namespace fuzzylite { namespace test { namespace output_variable {
             });
         }
 
-        SECTION(
-            "(d) When default is higher than the range, and locks value in range, then default is capped when "
-            "used and stored in previous"
-        ) {
+        SECTION("(d) When default is higher than the range, and locks value in range, then default is capped when "
+                "used and stored in previous") {
             const scalar def = 7.7;
             const scalar def_cap = 1.0;
             const scalar cap = 1.0;
@@ -833,11 +793,9 @@ namespace fuzzylite { namespace test { namespace output_variable {
             });
         }
 
-        SECTION(
-            "(e) When default is higher than the range, and locks previous value, "
-            "previous is used when defuzzification is nan"
-            "default is used when previous is nan"
-        ) {
+        SECTION("(e) When default is higher than the range, and locks previous value, "
+                "previous is used when defuzzification is nan"
+                "default is used when previous is nan") {
             const scalar def = 7.7;
             assert_that.variable->setDefaultValue(def);
             assert_that.variable->setLockValueInRange(false);
@@ -890,23 +848,17 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("02").when().previous(0.0).current(0.0).defuzzify(nan).current(def).previous(0.0),
                 Combination("03").when().previous(0.0).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 // previous values won't update to non-finite current values
-                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(def).previous(
-                    0.0
+                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(def).previous(0.0
                 ),  //.previous(nan),
-                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(inf).previous(
-                    0.0
+                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(inf).previous(0.0
                 ),  //.previous(nan),
-                Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(inf),
-                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(def).previous(
-                    0.0
+                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(def).previous(0.0
                 ),  //.previous(inf),
-                Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(inf).previous(
-                    0.0
+                Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(inf).previous(0.0
                 ),  //.previous(inf),
 
                 Combination("10").when().previous(nan).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
@@ -916,38 +868,30 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("14").when().previous(nan).current(nan).defuzzify(nan).current(def).previous(nan),
                 Combination("15").when().previous(nan).current(nan).defuzzify(inf).current(inf).previous(nan),
                 // previous values won't update to non-finite current values
-                Combination("16").when().previous(nan).current(inf).defuzzify(0.0).current(0.0).previous(
-                    nan
+                Combination("16").when().previous(nan).current(inf).defuzzify(0.0).current(0.0).previous(nan
                 ),  //.previous(inf),
-                Combination("17").when().previous(nan).current(inf).defuzzify(nan).current(def).previous(
-                    nan
+                Combination("17").when().previous(nan).current(inf).defuzzify(nan).current(def).previous(nan
                 ),  //.previous(inf),
-                Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(inf).previous(
-                    nan
+                Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(inf).previous(nan
                 ),  //.previous(inf),
 
                 Combination("19").when().previous(inf).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
                 Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(def).previous(0.0),
                 Combination("21").when().previous(inf).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 // previous values won't update to non-finite current values
-                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(
-                    inf
+                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(inf
                 ),  //.previous(nan),
-                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def).previous(
-                    inf
+                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def).previous(inf
                 ),  //.previous(nan),
-                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(inf).previous(
-                    inf
+                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(inf).previous(inf
                 ),  //.previous(nan),
                 Combination("25").when().previous(inf).current(inf).defuzzify(0.0).current(0.0).previous(inf),
                 Combination("26").when().previous(inf).current(inf).defuzzify(nan).current(def).previous(inf),
                 Combination("27").when().previous(inf).current(inf).defuzzify(inf).current(inf).previous(inf),
             });
         }
-        SECTION(
-            "(b) When default is not nan and no locks, value is defuzzified, default is used, and previous "
-            "value is updated"
-        ) {
+        SECTION("(b) When default is not nan and no locks, value is defuzzified, default is used, and previous "
+                "value is updated") {
             const scalar def = 0.7;
             assert_that.variable->setDefaultValue(def);
             assert_that.variable->setLockValueInRange(false);
@@ -958,23 +902,17 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("02").when().previous(0.0).current(0.0).defuzzify(nan).current(def).previous(0.0),
                 Combination("03").when().previous(0.0).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 // previous values won't update to non-finite values
-                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(def).previous(
-                    0.0
+                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(def).previous(0.0
                 ),  //.previous(nan),
-                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(inf).previous(
-                    0.0
+                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(inf).previous(0.0
                 ),  //.previous(nan),
-                Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(inf),
-                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(def).previous(
-                    0.0
+                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(def).previous(0.0
                 ),  //.previous(inf),
-                Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(inf).previous(
-                    0.0
+                Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(inf).previous(0.0
                 ),  //.previous(inf),
 
                 Combination("10").when().previous(nan).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
@@ -985,28 +923,22 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("15").when().previous(nan).current(nan).defuzzify(inf).current(inf).previous(nan),
 
                 // previous values won't update to non-finite current values
-                Combination("16").when().previous(nan).current(inf).defuzzify(0.0).current(0.0).previous(
-                    nan
+                Combination("16").when().previous(nan).current(inf).defuzzify(0.0).current(0.0).previous(nan
                 ),  //.previous(inf),
-                Combination("17").when().previous(nan).current(inf).defuzzify(nan).current(def).previous(
-                    nan
+                Combination("17").when().previous(nan).current(inf).defuzzify(nan).current(def).previous(nan
                 ),  //.previous(inf),
-                Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(inf).previous(
-                    nan
+                Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(inf).previous(nan
                 ),  //.previous(inf),
 
                 Combination("19").when().previous(inf).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
                 Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(def).previous(0.0),
                 Combination("21").when().previous(inf).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 // previous values won't update to non-finite current values
-                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(
-                    inf
+                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(inf
                 ),  //.previous(nan),
-                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def).previous(
-                    inf
+                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def).previous(inf
                 ),  //.previous(nan),
-                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(inf).previous(
-                    inf
+                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(inf).previous(inf
                 ),  //.previous(nan),
                 Combination("25").when().previous(inf).current(inf).defuzzify(0.0).current(0.0).previous(inf),
                 Combination("26").when().previous(inf).current(inf).defuzzify(nan).current(def).previous(inf),
@@ -1014,11 +946,9 @@ namespace fuzzylite { namespace test { namespace output_variable {
             });
         }
 
-        SECTION(
-            "(c) When default is higher than the range, and locks previous and value, then default is "
-            "capped when used"
-            "used and stored in previous"
-        ) {
+        SECTION("(c) When default is higher than the range, and locks previous and value, then default is "
+                "capped when used"
+                "used and stored in previous") {
             const scalar def = 7.7;
             const scalar def_cap = 1.0;
             const scalar cap = 1.0;
@@ -1031,25 +961,20 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("02").when().previous(0.0).current(0.0).defuzzify(nan).current(0.0).previous(0.0),
                 Combination("03").when().previous(0.0).current(0.0).defuzzify(inf).current(cap).previous(0.0),
                 // previous values won't update to non-finite current values
-                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(cap).previous(
-                    0.0
+                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(cap).previous(0.0
                 ),  //.previous(nan),
                 Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(cap),
                 // current = cap (won't change), previous = cap because updates
-                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(cap).previous(
-                    cap
+                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(cap).previous(cap
                 ),  // current(0.0),
                 Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(cap).previous(cap),
 
                 Combination("10").when().previous(nan).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
-                Combination("11").when().previous(nan).current(0.0).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("11").when().previous(nan).current(0.0).defuzzify(nan).current(0.0).previous(0.0
                 ),  // current(def_cap).previous(0.0),
                 Combination("12").when().previous(nan).current(0.0).defuzzify(inf).current(cap).previous(0.0),
                 Combination("13").when().previous(nan).current(nan).defuzzify(0.0).current(0.0).previous(nan),
@@ -1060,18 +985,14 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(cap).previous(cap),
 
                 Combination("19").when().previous(inf).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
-                Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(0.0).previous(0.0
                 ),  // current(def_cap)
                 Combination("21").when().previous(inf).current(0.0).defuzzify(inf).current(cap).previous(0.0),
-                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(
-                    inf
+                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(inf
                 ),  //.previous(nan),
-                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def_cap).previous(
-                    inf
+                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def_cap).previous(inf
                 ),  //.previous(nan),
-                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(cap).previous(
-                    inf
+                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(cap).previous(inf
                 ),  //.previous(nan),
                 Combination("25").when().previous(inf).current(inf).defuzzify(0.0).current(0.0).previous(cap),
                 Combination("26").when().previous(inf).current(inf).defuzzify(nan).current(def_cap).previous(cap),
@@ -1079,10 +1000,8 @@ namespace fuzzylite { namespace test { namespace output_variable {
             });
         }
 
-        SECTION(
-            "(d) When default is higher than the range, and locks value in range, then default is capped when "
-            "used and stored in previous"
-        ) {
+        SECTION("(d) When default is higher than the range, and locks value in range, then default is capped when "
+                "used and stored in previous") {
             const scalar def = 7.7;
             const scalar def_cap = 1.0;
             const scalar cap = 1.0;
@@ -1094,14 +1013,11 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("01").when().previous(0.0).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
                 Combination("02").when().previous(0.0).current(0.0).defuzzify(nan).current(def_cap).previous(0.0),
                 Combination("03").when().previous(0.0).current(0.0).defuzzify(inf).current(cap).previous(0.0),
-                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(def_cap).previous(
-                    0.0
+                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(def_cap).previous(0.0
                 ),  //.previous(nan),
-                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(cap).previous(
-                    0.0
+                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(cap).previous(0.0
                 ),  //.previous(nan),
                 Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(cap),
                 Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(def_cap).previous(cap),
@@ -1120,14 +1036,11 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("19").when().previous(inf).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
                 Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(def_cap).previous(0.0),
                 Combination("21").when().previous(inf).current(0.0).defuzzify(inf).current(cap).previous(0.0),
-                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(
-                    inf
+                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(inf
                 ),  //.previous(nan),
-                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def_cap).previous(
-                    inf
+                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(def_cap).previous(inf
                 ),  //.previous(nan),
-                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(cap).previous(
-                    inf
+                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(cap).previous(inf
                 ),  //.previous(nan),
                 Combination("25").when().previous(inf).current(inf).defuzzify(0.0).current(0.0).previous(cap),
                 Combination("26").when().previous(inf).current(inf).defuzzify(nan).current(def_cap).previous(cap),
@@ -1135,11 +1048,9 @@ namespace fuzzylite { namespace test { namespace output_variable {
             });
         }
 
-        SECTION(
-            "(e) When default is higher than the range, and locks previous value, "
-            "previous is used when defuzzification is nan"
-            "default is used when previous is nan"
-        ) {
+        SECTION("(e) When default is higher than the range, and locks previous value, "
+                "previous is used when defuzzification is nan"
+                "default is used when previous is nan") {
             const scalar def = 7.7;
             assert_that.variable->setDefaultValue(def);
             assert_that.variable->setLockValueInRange(false);
@@ -1150,58 +1061,44 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 Combination("02").when().previous(0.0).current(0.0).defuzzify(nan).current(0.0).previous(0.0),
                 Combination("03").when().previous(0.0).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 // previous value won't update to non-finite current value
-                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("04").when().previous(0.0).current(nan).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("05").when().previous(0.0).current(nan).defuzzify(nan).current(0.0).previous(0.0
                 ),  //.previous(nan),
-                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(inf).previous(
-                    0.0
+                Combination("06").when().previous(0.0).current(nan).defuzzify(inf).current(inf).previous(0.0
                 ),  //.previous(nan),
-                Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(
-                    0.0
+                Combination("07").when().previous(0.0).current(inf).defuzzify(0.0).current(0.0).previous(0.0
                 ),  //.previous(inf),
-                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("08").when().previous(0.0).current(inf).defuzzify(nan).current(0.0).previous(0.0
                 ),  //.previous(inf),
-                Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(inf).previous(
-                    0.0
+                Combination("09").when().previous(0.0).current(inf).defuzzify(inf).current(inf).previous(0.0
                 ),  //.previous(inf),
 
                 Combination("10").when().previous(nan).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
-                Combination("11").when().previous(nan).current(0.0).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("11").when().previous(nan).current(0.0).defuzzify(nan).current(0.0).previous(0.0
                 ),  //.current(def)
                 Combination("12").when().previous(nan).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 Combination("13").when().previous(nan).current(nan).defuzzify(0.0).current(0.0).previous(nan),
                 Combination("14").when().previous(nan).current(nan).defuzzify(nan).current(def).previous(nan),
                 Combination("15").when().previous(nan).current(nan).defuzzify(inf).current(inf).previous(nan),
                 // previous value won't update to non-finite current value
-                Combination("16").when().previous(nan).current(inf).defuzzify(0.0).current(0.0).previous(
-                    nan
+                Combination("16").when().previous(nan).current(inf).defuzzify(0.0).current(0.0).previous(nan
                 ),  //.previous(inf),
-                Combination("17").when().previous(nan).current(inf).defuzzify(nan).current(def).previous(
-                    nan
+                Combination("17").when().previous(nan).current(inf).defuzzify(nan).current(def).previous(nan
                 ),  //.previous(inf),
-                Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(inf).previous(
-                    nan
+                Combination("18").when().previous(nan).current(inf).defuzzify(inf).current(inf).previous(nan
                 ),  //.previous(inf),
 
                 Combination("19").when().previous(inf).current(0.0).defuzzify(0.0).current(0.0).previous(0.0),
-                Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(0.0).previous(
-                    0.0
+                Combination("20").when().previous(inf).current(0.0).defuzzify(nan).current(0.0).previous(0.0
                 ),  //.current(inf)
                 Combination("21").when().previous(inf).current(0.0).defuzzify(inf).current(inf).previous(0.0),
                 // previous value won't update to non-finite current value
-                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(
-                    inf
+                Combination("22").when().previous(inf).current(nan).defuzzify(0.0).current(0.0).previous(inf
                 ),  //.previous(nan),
-                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(inf).previous(
-                    inf
+                Combination("23").when().previous(inf).current(nan).defuzzify(nan).current(inf).previous(inf
                 ),  //.previous(nan),
-                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(inf).previous(
-                    inf
+                Combination("24").when().previous(inf).current(nan).defuzzify(inf).current(inf).previous(inf
                 ),  //.previous(nan),
                 Combination("25").when().previous(inf).current(inf).defuzzify(0.0).current(0.0).previous(inf),
                 Combination("26").when().previous(inf).current(inf).defuzzify(nan).current(inf).previous(inf),
