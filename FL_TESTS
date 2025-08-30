@@ -5,6 +5,7 @@ test/AssertFactory.h
 test/AssertHedge.h
 test/AssertNorm.h
 test/AssertTerm.h
+test/AssertVariable.h
 test/Headers.h
 test/Listener.h
 test/Mock.h
