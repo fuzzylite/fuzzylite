@@ -14,48 +14,10 @@ fuzzylite (R), a fuzzy logic control library in C++.
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "Headers.h"
+#include "test/AssertHedge.h"
+#include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
-    struct HedgeAssert {
-        FL_unique_ptr<Hedge> actual;
-
-        HedgeAssert(Hedge* actual) : actual(actual) {}
-
-        HedgeAssert& has_name(const std::string& name, bool checkFactory = true, bool canClone = true) {
-            CHECK(actual->name() == name);
-            if (checkFactory)
-                in_factory();
-            if (canClone)
-                can_clone();
-            return *this;
-        }
-
-        HedgeAssert& in_factory() {
-            const HedgeFactory hf;
-            CHECK(hf.hasConstructor(actual->name()));
-            CHECK(FL_unique_ptr<Hedge>(hf.constructObject(actual->name()))->name() == actual->name());
-            return *this;
-        }
-
-        HedgeAssert& can_clone() {
-            CHECK(FL_unique_ptr<Hedge>(actual->clone())->name() == actual->name());
-            return *this;
-        }
-
-        HedgeAssert& evaluates(const std::vector<std::vector<double>>& az) {
-            for (const auto& item : az) {
-                CAPTURE(item);
-                CHECK(item.size() == 2);
-                const double a = item.front();
-                const double z = item.back();
-
-                CAPTURE(a, z);
-                CHECK_THAT(actual->hedge(a), Approximates(z));
-            }
-            return *this;
-        }
-    };
 
     TEST_CASE("Hedge", "[hedge]") {
         SECTION("Any") {
