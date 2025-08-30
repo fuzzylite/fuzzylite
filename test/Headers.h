@@ -4,7 +4,7 @@
 
 #include <catch2/catch_all.hpp>
 
-#include "Assert.h"
+#include "AssertConstructor.h"
 #include "fuzzylite/Headers.h"
 
 namespace fuzzylite { namespace test {

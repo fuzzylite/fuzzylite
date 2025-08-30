@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Assert.h"
+#include "AssertConstructor.h"
 
 struct TestTerm {
     std::string name;
