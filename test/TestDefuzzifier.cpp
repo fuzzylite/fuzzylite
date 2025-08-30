@@ -14,107 +14,11 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "Headers.h"
+#include "test/AssertDefuzzifier.h"
+#include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
     class NaN : public Constant {};
-
-    template <class T>
-    struct DefuzzifierAssert {
-        FL_unique_ptr<T> actual;
-
-        DefuzzifierAssert() : actual(new T) {}
-
-        DefuzzifierAssert& configured_as(const std::string& parameters) {
-            FL_IUNUSED(parameters);
-            if (auto integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*>(actual.get()))
-                integralDefuzzifier->setResolution(std::stoi(parameters));
-            else if (auto weightedDefuzzifier = dynamic_cast<WeightedDefuzzifier*>(actual.get()))
-                weightedDefuzzifier->setType(parameters);
-            return *this;
-        }
-
-        DefuzzifierAssert& has_parameters(const std::string& parameters) {
-            FL_IUNUSED(parameters);
-            return *this;
-        }
-
-        DefuzzifierAssert& exports_fll(const std::string& fll) {
-            CHECK(FllExporter().toString(actual.get()) == fll);
-            return *this;
-        }
-
-        DefuzzifierAssert& can_clone() {
-            std::unique_ptr<T> clone(actual->clone());
-            FllExporter exporter;
-            CHECK(exporter.toString(clone.get()) == exporter.toString(actual.get()));
-            return *this;
-        }
-
-        DefuzzifierAssert& defuzzifies(
-            scalar minimum,
-            scalar maximum,
-            const std::map<fl::Term*, scalar>& terms,
-            scalar precision = fuzzylite::absoluteTolerance()
-        ) {
-            for (const auto& pair : terms) {
-                const auto obtained = actual->defuzzify(pair.first, minimum, maximum);
-                const auto expected = pair.second;
-                CAPTURE(pair.first->toString());
-                CHECK_THAT(obtained, Approximates(expected, precision));
-                delete pair.first;
-            }
-            return *this;
-        }
-    };
-
-    class WeightedDefuzzifierAssert {
-      public:
-        class MockDefuzzifier : public fl::WeightedDefuzzifier {
-          public:
-            std::string className() const {
-                return "BasicWeightedDefuzzifier";
-            }
-
-            scalar takagiSugeno(const Aggregated* term) const {
-                FL_IUNUSED(term);
-                return fl::nan;
-            }
-
-            scalar tsukamoto(const Aggregated* term) const {
-                FL_IUNUSED(term);
-                return fl::nan;
-            }
-
-            Defuzzifier* clone() const {
-                return fl::null;
-            }
-
-            scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-                FL_IUNUSED(term);
-                FL_IUNUSED(minimum + maximum);
-                return fl::nan;
-            }
-        };
-
-        WeightedDefuzzifierAssert&
-        inferredType(const std::vector<fl::Term*>& terms, WeightedDefuzzifier::Type expected) {
-            MockDefuzzifier defuzzifier;
-            for (const fl::Term* term : terms) {
-                CAPTURE(term->toString());
-                CHECK(defuzzifier.inferType(term) == expected);
-            }
-
-            std::vector<const fl::Term*> constTerms(terms.begin(), terms.end());
-            CHECK(defuzzifier.inferType(constTerms) == expected);
-
-            Variable variable;
-            variable.setTerms(terms);
-            CAPTURE(variable.toString());
-            CHECK(defuzzifier.inferType(&variable) == expected);
-            return *this;
-        }
-    };
 
     TEST_CASE("IntegralDefuzzifier", "[defuzzifier][integral]") {
         CHECK(IntegralDefuzzifier::defaultResolution() == 1000);
@@ -125,13 +29,13 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("Bisector", "[defuzzifier][bisector]") {
-        DefuzzifierAssert<Bisector>()
+        AssertDefuzzifier<Bisector>()
             .exports_fll("Bisector")
             .configured_as("200")
             .exports_fll("Bisector 200")
             .can_clone();
 
-        DefuzzifierAssert<Bisector>().defuzzifies(
+        AssertDefuzzifier<Bisector>().defuzzifies(
             0,
             1,
             {{new Triangle("", 0, 1, 1), 0.7065},
@@ -139,7 +43,7 @@ namespace fuzzylite { namespace test {
              {new Triangle("", 0, 0.5, 1), 0.4995},
              {new Rectangle("", 0, 1), 0.4995}}
         );
-        DefuzzifierAssert<Bisector>().defuzzifies(
+        AssertDefuzzifier<Bisector>().defuzzifies(
             -1,
             1,
             {
@@ -150,7 +54,7 @@ namespace fuzzylite { namespace test {
         FL_unique_ptr<AlgebraicProduct> algebraicProduct(new AlgebraicProduct());
         FL_unique_ptr<Triangle> low(new Triangle("low", -1, -1, -0.5));
         FL_unique_ptr<Triangle> high(new Triangle("high", 0.5, 1, 1));
-        DefuzzifierAssert<Bisector>().defuzzifies(
+        AssertDefuzzifier<Bisector>().defuzzifies(
             -1,
             1,
             {
@@ -167,25 +71,25 @@ namespace fuzzylite { namespace test {
                  -0.001},
             }
         );
-        DefuzzifierAssert<Bisector>().defuzzifies(0, 2, {{new NaN(), fl::nan}});
+        AssertDefuzzifier<Bisector>().defuzzifies(0, 2, {{new NaN(), fl::nan}});
     }
 
     TEST_CASE("Centroid", "[defuzzifier][centroid]") {
-        DefuzzifierAssert<Centroid>()
+        AssertDefuzzifier<Centroid>()
             .exports_fll("Centroid")
             .configured_as("200")
             .has_parameters("200")
             .exports_fll("Centroid 200")
             .can_clone();
 
-        DefuzzifierAssert<Centroid>().defuzzifies(-inf, 0.0, {{new Triangle(), nan}});
-        DefuzzifierAssert<Centroid>().defuzzifies(0.0, inf, {{new Triangle(), nan}});
-        DefuzzifierAssert<Centroid>().defuzzifies(nan, 0.0, {{new Triangle(), nan}});
+        AssertDefuzzifier<Centroid>().defuzzifies(-inf, 0.0, {{new Triangle(), nan}});
+        AssertDefuzzifier<Centroid>().defuzzifies(0.0, inf, {{new Triangle(), nan}});
+        AssertDefuzzifier<Centroid>().defuzzifies(nan, 0.0, {{new Triangle(), nan}});
         //
         FL_unique_ptr<Minimum> minimum(new Minimum());
         FL_unique_ptr<Triangle> medium(new Triangle("Medium", 0.25, 0.5, 0.75));
         FL_unique_ptr<Triangle> high(new Triangle("High", 0.5, 0.75, 1.0));
-        DefuzzifierAssert<Centroid>().defuzzifies(
+        AssertDefuzzifier<Centroid>().defuzzifies(
             -1,
             1,
             {{new Triangle("", -inf, 0), nan},
@@ -207,12 +111,12 @@ namespace fuzzylite { namespace test {
               0.6896552}}
 
         );
-        DefuzzifierAssert<Centroid>().defuzzifies(-1, 1, {{new NaN(), nan}});
+        AssertDefuzzifier<Centroid>().defuzzifies(-1, 1, {{new NaN(), nan}});
     }
 
     TEST_CASE("SmallestOfMaximum", "[defuzzifier][som]") {
         SECTION("SmallestOfMaximum") {
-            DefuzzifierAssert<SmallestOfMaximum>()
+            AssertDefuzzifier<SmallestOfMaximum>()
                 .exports_fll("SmallestOfMaximum")
                 .configured_as("200")
                 .exports_fll("SmallestOfMaximum 200")
@@ -238,14 +142,14 @@ namespace fuzzylite { namespace test {
                 }
             ));
 
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
 
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(
                 0,
                 1,
                 {
@@ -253,12 +157,12 @@ namespace fuzzylite { namespace test {
                     {new Trapezoid("", 0.0, 0.2, 0.4, 0.6), 0.2},
                 }
             );
-            DefuzzifierAssert<SmallestOfMaximum>().defuzzifies(-1, 1, {{new NaN(), fl::nan}});
+            AssertDefuzzifier<SmallestOfMaximum>().defuzzifies(-1, 1, {{new NaN(), fl::nan}});
         }
     }
 
     TEST_CASE("LargestOfMaximum", "[defuzzifier][lom]") {
-        DefuzzifierAssert<LargestOfMaximum>()
+        AssertDefuzzifier<LargestOfMaximum>()
             .exports_fll("LargestOfMaximum")
             .configured_as("200")
             .has_parameters("200")
@@ -286,14 +190,14 @@ namespace fuzzylite { namespace test {
             }
         ));
 
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
 
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(
             0,
             1,
             {
@@ -301,11 +205,11 @@ namespace fuzzylite { namespace test {
                 {new Trapezoid("", 0.0, 0.2, 0.4, 0.6), 0.4},
             }
         );
-        DefuzzifierAssert<LargestOfMaximum>().defuzzifies(-1, 1, {{new NaN(), fl::nan}});
+        AssertDefuzzifier<LargestOfMaximum>().defuzzifies(-1, 1, {{new NaN(), fl::nan}});
     }
 
     TEST_CASE("MeanOfMaximum", "[defuzzifier][mom]") {
-        DefuzzifierAssert<MeanOfMaximum>()
+        AssertDefuzzifier<MeanOfMaximum>()
             .exports_fll("MeanOfMaximum")
             .configured_as("200")
             .has_parameters("200")
@@ -332,14 +236,14 @@ namespace fuzzylite { namespace test {
             }
         ));
 
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
 
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(
             0,
             1,
             {{term->clone(), 0.7},
@@ -348,7 +252,7 @@ namespace fuzzylite { namespace test {
                  0.3,
              }}
         );
-        DefuzzifierAssert<MeanOfMaximum>().defuzzifies(-1, 1, {{new NaN(), fl::nan}});
+        AssertDefuzzifier<MeanOfMaximum>().defuzzifies(-1, 1, {{new NaN(), fl::nan}});
     }
 
     TEST_CASE("Infer defuzzifier type", "[defuzzifier][weighted]") {
@@ -365,7 +269,7 @@ namespace fuzzylite { namespace test {
             new fl::ZShape(),
         };
         SECTION("TakagiSugeno") {
-            WeightedDefuzzifierAssert().inferredType(takagiSugenoTerms, WeightedDefuzzifier::TakagiSugeno);
+            AssertWeightedDefuzzifier().inferredType(takagiSugenoTerms, WeightedDefuzzifier::TakagiSugeno);
         }
         SECTION("TakagiSugenoActivated") {
             std::vector<fl::Term*> activatedTerms;
@@ -374,7 +278,7 @@ namespace fuzzylite { namespace test {
                 activated->setTerm(term);
                 activatedTerms.push_back(activated);
             }
-            WeightedDefuzzifierAssert().inferredType(activatedTerms, WeightedDefuzzifier::TakagiSugeno);
+            AssertWeightedDefuzzifier().inferredType(activatedTerms, WeightedDefuzzifier::TakagiSugeno);
         }
         SECTION("TakagiSugenoAggregated") {
             std::vector<Activated> activatedTerms;
@@ -385,11 +289,11 @@ namespace fuzzylite { namespace test {
             }
             Aggregated* aggregated = new Aggregated;
             aggregated->setTerms(activatedTerms);
-            WeightedDefuzzifierAssert().inferredType({aggregated}, WeightedDefuzzifier::TakagiSugeno);
+            AssertWeightedDefuzzifier().inferredType({aggregated}, WeightedDefuzzifier::TakagiSugeno);
         }
 
         SECTION("Tsukamoto") {
-            WeightedDefuzzifierAssert().inferredType(tsukamotoTerms, WeightedDefuzzifier::Tsukamoto);
+            AssertWeightedDefuzzifier().inferredType(tsukamotoTerms, WeightedDefuzzifier::Tsukamoto);
         }
 
         SECTION("TsukamotoActivated") {
@@ -399,7 +303,7 @@ namespace fuzzylite { namespace test {
                 activated->setTerm(term);
                 activatedTerms.push_back(activated);
             }
-            WeightedDefuzzifierAssert().inferredType(activatedTerms, WeightedDefuzzifier::Tsukamoto);
+            AssertWeightedDefuzzifier().inferredType(activatedTerms, WeightedDefuzzifier::Tsukamoto);
         }
         SECTION("TsukamotoAggregated") {
             std::vector<Activated> activatedTerms;
@@ -410,15 +314,15 @@ namespace fuzzylite { namespace test {
             }
             Aggregated* aggregated = new Aggregated;
             aggregated->setTerms(activatedTerms);
-            WeightedDefuzzifierAssert().inferredType({aggregated}, WeightedDefuzzifier::Tsukamoto);
+            AssertWeightedDefuzzifier().inferredType({aggregated}, WeightedDefuzzifier::Tsukamoto);
         }
 
         SECTION("Can't infer") {
-            WeightedDefuzzifierAssert().inferredType({new Aggregated}, WeightedDefuzzifier::Automatic);
+            AssertWeightedDefuzzifier().inferredType({new Aggregated}, WeightedDefuzzifier::Automatic);
         }
 
         SECTION("Mixed types") {
-            WeightedDefuzzifierAssert::MockDefuzzifier defuzzifier;
+            AssertWeightedDefuzzifier::MockDefuzzifier defuzzifier;
             std::vector<const fl::Term*> mixedTypes = {new Constant, new Concave};
             CHECK_THROWS_AS(defuzzifier.inferType(mixedTypes), fl::Exception);
             CHECK_THROWS_WITH(
@@ -434,9 +338,9 @@ namespace fuzzylite { namespace test {
         CHECK(WeightedAverage("Automatic").toString() == "WeightedAverage");
         CHECK(WeightedAverage("Invalid").toString() == "WeightedAverage");
 
-        DefuzzifierAssert<WeightedAverage>().exports_fll("WeightedAverage").can_clone();
+        AssertDefuzzifier<WeightedAverage>().exports_fll("WeightedAverage").can_clone();
 
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .exports_fll("WeightedAverage TakagiSugeno")
             .configured_as("Tsukamoto")
@@ -449,7 +353,7 @@ namespace fuzzylite { namespace test {
         a->setValue(1.0);
         b->setValue(2.0);
         c->setValue(3.0);
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -477,7 +381,7 @@ namespace fuzzylite { namespace test {
         a->setValue(-1.0);
         b->setValue(-2.0);
         c->setValue(3.0);
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -497,7 +401,7 @@ namespace fuzzylite { namespace test {
         a->setValue(1.0);
         b->setValue(-2.0);
         c->setValue(-3.0);
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -524,7 +428,7 @@ namespace fuzzylite { namespace test {
         b->setValue(2.0);
         c->setValue(3.0);
 
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -556,7 +460,7 @@ namespace fuzzylite { namespace test {
         a->setValue(-1.0);
         b->setValue(-2.0);
         c->setValue(3.0);
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -577,7 +481,7 @@ namespace fuzzylite { namespace test {
         a->setValue(1.0);
         b->setValue(-2.0);
         c->setValue(-3.0);
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -604,9 +508,9 @@ namespace fuzzylite { namespace test {
         CHECK(WeightedSum("Automatic").toString() == "WeightedSum");
         CHECK(WeightedSum("Invalid").toString() == "WeightedSum");
 
-        DefuzzifierAssert<WeightedSum>().exports_fll("WeightedSum").can_clone();
+        AssertDefuzzifier<WeightedSum>().exports_fll("WeightedSum").can_clone();
 
-        DefuzzifierAssert<WeightedSum>()
+        AssertDefuzzifier<WeightedSum>()
             .exports_fll("WeightedSum")
             .configured_as("TakagiSugeno")
             .exports_fll("WeightedSum TakagiSugeno")
@@ -620,7 +524,7 @@ namespace fuzzylite { namespace test {
         a->setValue(1.0);
         b->setValue(2.0);
         c->setValue(3.0);
-        DefuzzifierAssert<WeightedSum>()
+        AssertDefuzzifier<WeightedSum>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -656,7 +560,7 @@ namespace fuzzylite { namespace test {
         b->setValue(-2.0);
         c->setValue(3.0);
 
-        DefuzzifierAssert<WeightedSum>()
+        AssertDefuzzifier<WeightedSum>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -678,7 +582,7 @@ namespace fuzzylite { namespace test {
         a->setValue(1.0);
         b->setValue(-2.0);
         c->setValue(-3.0);
-        DefuzzifierAssert<WeightedSum>()
+        AssertDefuzzifier<WeightedSum>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -700,7 +604,7 @@ namespace fuzzylite { namespace test {
 
     TEST_CASE("WeightedSum Grouped", "[defuzzifier][weighted]") {
         FL_unique_ptr<Constant> a(new Constant("A", 1.0));
-        DefuzzifierAssert<WeightedSum>()
+        AssertDefuzzifier<WeightedSum>()
             .configured_as("TakagiSugeno")
             .defuzzifies(
                 -fl::inf,
@@ -758,7 +662,7 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("WeightedSum Tsukamoto", "[defuzzifier][weighted][tsukamoto]") {
-        DefuzzifierAssert<WeightedSum>()
+        AssertDefuzzifier<WeightedSum>()
             .configured_as("Tsukamoto")
             .defuzzifies(
                 -fl::inf,
@@ -810,7 +714,7 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("WeightedAverage Tsukamoto", "[defuzzifier][weighted][tsukamoto]") {
-        DefuzzifierAssert<WeightedAverage>()
+        AssertDefuzzifier<WeightedAverage>()
             .configured_as("Tsukamoto")
             .defuzzifies(
                 -fl::inf,
@@ -862,7 +766,7 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("WeightedSum Tsukamoto Grouped", "[defuzzifier][weighted][tsukamoto]") {
-        DefuzzifierAssert<fl::WeightedSum>()
+        AssertDefuzzifier<fl::WeightedSum>()
             .configured_as("Tsukamoto")
             .defuzzifies(
                 -fl::inf,
@@ -910,7 +814,7 @@ namespace fuzzylite { namespace test {
     }
 
     TEST_CASE("WeightedAverage Tsukamoto Grouped", "[defuzzifier][weighted][tsukamoto]") {
-        DefuzzifierAssert<fl::WeightedAverage>()
+        AssertDefuzzifier<fl::WeightedAverage>()
             .configured_as("Tsukamoto")
             .defuzzifies(
                 -fl::inf,

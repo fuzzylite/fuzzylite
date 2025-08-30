@@ -1,4 +1,11 @@
-test/Assert.h
+test/AssertActivation.h
+test/AssertConstructor.h
+test/AssertDefuzzifier.h
+test/AssertFactory.h
+test/AssertHedge.h
+test/AssertNorm.h
+test/AssertTerm.h
+test/AssertVariable.h
 test/Headers.h
 test/Listener.h
 test/Mock.h
@@ -6,7 +13,7 @@ test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp
 test/TestActivation.cpp
-test/TestAssert.cpp
+test/TestConstructor.cpp
 test/TestDefuzzifier.cpp
 test/TestFactory.cpp
 test/TestHedge.cpp

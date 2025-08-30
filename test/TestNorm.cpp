@@ -14,90 +14,14 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "Headers.h"
+#include "test/AssertNorm.h"
+#include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
-    template <class T>
-    struct NormAssert {
-        FL_unique_ptr<T> actual;
-
-        explicit NormAssert() : actual(new T) {}
-
-        NormAssert& repr_is(const std::string& repr) {
-            FL_IUNUSED(repr);
-            return *this;
-        }
-
-        NormAssert& can_clone() {
-            auto clone = actual->clone();
-            CHECK(clone->className() == actual->className());
-            return *this;
-        }
-
-        NormAssert& exports_fll(const std::string& fll) {
-            CHECK(actual->className() == fll);
-            return *this;
-        }
-
-        NormAssert& is_t_norm() {
-            CHECK(dynamic_cast<TNorm*>(actual.get()));
-            TNormFactory tnorm;
-            if (not dynamic_cast<TNormFunction*>(actual.get())) {
-                CAPTURE(actual->className(), tnorm.available());
-                CHECK(tnorm.hasConstructor(actual->className()));
-                FL_unique_ptr<TNorm> constructed(tnorm.constructObject(actual->className()));
-                CHECK(constructed->className() == actual->className());
-            }
-            return *this;
-        }
-
-        NormAssert& is_s_norm() {
-            CHECK(dynamic_cast<SNorm*>(actual.get()));
-            SNormFactory snorm;
-            if (not dynamic_cast<SNormFunction*>(actual.get())) {
-                CAPTURE(actual->className(), snorm.available());
-                CHECK(snorm.hasConstructor(actual->className()));
-                FL_unique_ptr<SNorm> constructed(snorm.constructObject(actual->className()));
-                CHECK(constructed->className() == actual->className());
-            }
-            return *this;
-        }
-
-        NormAssert&
-        evaluates(const std::vector<std::vector<scalar>>& abz, bool commutative = true, bool associative = true) {
-            for (const auto& ab_z : abz) {
-                CHECK(ab_z.size() == 3);
-                const auto a = ab_z.at(0);
-                const auto b = ab_z.at(1);
-                const auto z = ab_z.at(2);
-
-                CAPTURE(a, b, z);
-                CHECK_THAT(actual->compute(a, b), Approximates(z));
-                if (commutative)
-                    CHECK_THAT(actual->compute(b, a), Approximates(z));
-                if (associative) {
-                    const auto c = (a + b) / 2.0;
-                    const auto abc = actual->compute(actual->compute(a, b), c);
-                    const auto bca = actual->compute(actual->compute(b, c), a);
-                    const auto cab = actual->compute(actual->compute(c, a), b);
-                    CHECK_THAT(abc, Approximates(bca));
-                    CHECK_THAT(bca, Approximates(cab));
-                }
-            }
-            return *this;
-        }
-
-        NormAssert& can_construct() {
-            std::unique_ptr<Norm> object(T::constructor());
-            FllExporter exporter;
-            CHECK(exporter.toString(object.get()) == exporter.toString(actual.get()));
-            return *this;
-        }
-    };
 
     TEST_CASE("TNorm", "[norm][t]") {
         SECTION("AlgebraicProduct") {
-            NormAssert<AlgebraicProduct>()
+            AssertNorm<AlgebraicProduct>()
                 .is_t_norm()
                 .repr_is("fl.AlgebraicProduct()")
                 .exports_fll("AlgebraicProduct")
@@ -125,7 +49,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("BoundedDifference") {
-            NormAssert<BoundedDifference>()
+            AssertNorm<BoundedDifference>()
                 .is_t_norm()
                 .repr_is("fl.BoundedDifference()")
                 .exports_fll("BoundedDifference")
@@ -153,7 +77,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("DrasticProduct") {
-            NormAssert<DrasticProduct>()
+            AssertNorm<DrasticProduct>()
                 .is_t_norm()
                 .repr_is("fl.DrasticProduct()")
                 .exports_fll("DrasticProduct")
@@ -181,7 +105,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("EinsteinProduct") {
-            NormAssert<EinsteinProduct>()
+            AssertNorm<EinsteinProduct>()
                 .is_t_norm()
                 .repr_is("fl.EinsteinProduct()")
                 .exports_fll("EinsteinProduct")
@@ -209,7 +133,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("HamacherProduct") {
-            NormAssert<HamacherProduct>()
+            AssertNorm<HamacherProduct>()
                 .is_t_norm()
                 .repr_is("fl.HamacherProduct()")
                 .exports_fll("HamacherProduct")
@@ -237,7 +161,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Minimum") {
-            NormAssert<Minimum>()
+            AssertNorm<Minimum>()
                 .is_t_norm()
                 .repr_is("fl.Minimum()")
                 .exports_fll("Minimum")
@@ -265,7 +189,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("NilpotentMinimum") {
-            NormAssert<NilpotentMinimum>()
+            AssertNorm<NilpotentMinimum>()
                 .is_t_norm()
                 .repr_is("fl.NilpotentMinimum()")
                 .exports_fll("NilpotentMinimum")
@@ -293,7 +217,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("TNormFunction") {
-            auto assert = NormAssert<TNormFunction>();
+            auto assert = AssertNorm<TNormFunction>();
             assert.actual->setFormula("a * b");
             assert.exports_fll("TNormFunction")
                 .is_t_norm()
@@ -324,7 +248,7 @@ namespace fuzzylite { namespace test {
 
     TEST_CASE("SNorm", "[norm][s]") {
         SECTION("AlgebraicSum") {
-            NormAssert<AlgebraicSum>()
+            AssertNorm<AlgebraicSum>()
                 .is_s_norm()
                 .repr_is("fl.AlgebraicSum()")
                 .exports_fll("AlgebraicSum")
@@ -361,7 +285,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("BoundedSum") {
-            NormAssert<BoundedSum>()
+            AssertNorm<BoundedSum>()
                 .is_s_norm()
                 .repr_is("fl.BoundedSum()")
                 .exports_fll("BoundedSum")
@@ -388,7 +312,7 @@ namespace fuzzylite { namespace test {
                 });
         }
         SECTION("DrasticSum") {
-            NormAssert<DrasticSum>()
+            AssertNorm<DrasticSum>()
                 .is_s_norm()
                 .repr_is("fl.DrasticSum()")
                 .exports_fll("DrasticSum")
@@ -416,7 +340,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("EinsteinSum") {
-            NormAssert<EinsteinSum>()
+            AssertNorm<EinsteinSum>()
                 .is_s_norm()
                 .repr_is("fl.EinsteinSum()")
                 .exports_fll("EinsteinSum")
@@ -443,7 +367,7 @@ namespace fuzzylite { namespace test {
                 });
         }
         SECTION("HamacherSum") {
-            NormAssert<HamacherSum>()
+            AssertNorm<HamacherSum>()
                 .is_s_norm()
                 .repr_is("fl.HamacherSum()")
                 .exports_fll("HamacherSum")
@@ -471,7 +395,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Maximum") {
-            NormAssert<Maximum>()
+            AssertNorm<Maximum>()
                 .is_s_norm()
                 .repr_is("fl.Maximum()")
                 .exports_fll("Maximum")
@@ -498,7 +422,7 @@ namespace fuzzylite { namespace test {
                 });
         }
         SECTION("NilpotentMaximum") {
-            NormAssert<NilpotentMaximum>()
+            AssertNorm<NilpotentMaximum>()
                 .is_s_norm()
                 .repr_is("fl.NilpotentMaximum()")
                 .exports_fll("NilpotentMaximum")
@@ -525,7 +449,7 @@ namespace fuzzylite { namespace test {
                 });
         }
         SECTION("NormalizedSum") {
-            NormAssert<NormalizedSum>()
+            AssertNorm<NormalizedSum>()
                 .is_s_norm()
                 .repr_is("fl.NormalizedSum()")
                 .exports_fll("NormalizedSum")
@@ -552,7 +476,7 @@ namespace fuzzylite { namespace test {
                 });
         }
         SECTION("UnboundedSum") {
-            NormAssert<UnboundedSum>()
+            AssertNorm<UnboundedSum>()
                 .is_s_norm()
                 .repr_is("fl.UnboundedSum()")
                 .exports_fll("UnboundedSum")
@@ -579,7 +503,7 @@ namespace fuzzylite { namespace test {
                 });
         }
         SECTION("SNormFunction") {
-            auto assert = NormAssert<SNormFunction>();
+            auto assert = AssertNorm<SNormFunction>();
             assert.actual->setFormula("a + b - (a * b)");
             assert.exports_fll("SNormFunction")
                 .is_s_norm()

@@ -14,52 +14,14 @@ fuzzylite (R), a fuzzy logic control library in C++.
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "Headers.h"
+#include "test/AssertHedge.h"
+#include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
-    struct HedgeAssert {
-        FL_unique_ptr<Hedge> actual;
-
-        HedgeAssert(Hedge* actual) : actual(actual) {}
-
-        HedgeAssert& has_name(const std::string& name, bool checkFactory = true, bool canClone = true) {
-            CHECK(actual->name() == name);
-            if (checkFactory)
-                in_factory();
-            if (canClone)
-                can_clone();
-            return *this;
-        }
-
-        HedgeAssert& in_factory() {
-            const HedgeFactory hf;
-            CHECK(hf.hasConstructor(actual->name()));
-            CHECK(FL_unique_ptr<Hedge>(hf.constructObject(actual->name()))->name() == actual->name());
-            return *this;
-        }
-
-        HedgeAssert& can_clone() {
-            CHECK(FL_unique_ptr<Hedge>(actual->clone())->name() == actual->name());
-            return *this;
-        }
-
-        HedgeAssert& evaluates(const std::vector<std::vector<double>>& az) {
-            for (const auto& item : az) {
-                CAPTURE(item);
-                CHECK(item.size() == 2);
-                const double a = item.front();
-                const double z = item.back();
-
-                CAPTURE(a, z);
-                CHECK_THAT(actual->hedge(a), Approximates(z));
-            }
-            return *this;
-        }
-    };
 
     TEST_CASE("Hedge", "[hedge]") {
         SECTION("Any") {
-            HedgeAssert(new Any()).has_name("any").evaluates({
+            AssertHedge(new Any()).has_name("any").evaluates({
                 {-1.0, 1.0},
                 {-0.5, 1.0},
                 {0.00, 1.0},
@@ -74,7 +36,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Extremely") {
-            HedgeAssert(new Extremely())
+            AssertHedge(new Extremely())
                 .has_name("extremely")
                 .evaluates({
                     {-1.0, 2.0},
@@ -91,7 +53,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Not") {
-            HedgeAssert(new Not()).has_name("not").evaluates({
+            AssertHedge(new Not()).has_name("not").evaluates({
                 {-1.0, 2.0},
                 {-0.5, 1.5},
                 {0.00, 1.0},
@@ -106,7 +68,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Seldom") {
-            HedgeAssert(new Seldom())
+            AssertHedge(new Seldom())
                 .has_name("seldom")
                 .evaluates({
                     {-1.0, nan},
@@ -123,7 +85,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Somewhat") {
-            HedgeAssert(new Somewhat())
+            AssertHedge(new Somewhat())
                 .has_name("somewhat")
                 .evaluates({
                     {-1.0, nan},
@@ -140,7 +102,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Very") {
-            HedgeAssert(new Very())
+            AssertHedge(new Very())
                 .has_name("very")
                 .evaluates({
                     {-1.0, 1.0},
@@ -157,7 +119,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Function") {
-            HedgeAssert(new HedgeFunction("x^2", "my_hedge"))
+            AssertHedge(new HedgeFunction("x^2", "my_hedge"))
                 .has_name("my_hedge", false)
                 .evaluates({
                     {-1.0, 1.0},

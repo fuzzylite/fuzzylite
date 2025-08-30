@@ -14,368 +14,8 @@ fuzzylite (R), a fuzzy logic control library in C++.
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "Headers.h"
-
-namespace fuzzylite { namespace test {
-    // curiously recurring template pattern (CRTP): https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
-    template <typename DerivedAssert, typename T>
-    struct Assert {
-        std::unique_ptr<T> variable;
-        Assert() = default;
-
-        explicit Assert(std::unique_ptr<T> actual) : variable(std::move(actual)) {}
-
-        explicit Assert(T* actual) : variable(actual) {}
-
-        DerivedAssert& self() {
-            return static_cast<DerivedAssert&>(*this);
-        }
-
-        auto& has_name(const std::string& name) {
-            CHECK(variable->getName() == name);
-            return self();
-        }
-
-        auto& has_description(const std::string& description) {
-            CHECK(variable->getDescription() == description);
-            return self();
-        }
-
-        auto& is_enabled(bool enabled = true) {
-            CHECK(variable->isEnabled() == enabled);
-            return self();
-        }
-
-        auto& has_type(Variable::Type type) {
-            CHECK(variable->type() == type);
-            return self();
-        }
-
-        auto& has_range(scalar minimum, scalar maximum) {
-            CHECK_THAT(variable->getMinimum(), Approximates(minimum));
-            CHECK_THAT(variable->getMaximum(), Approximates(maximum));
-            return self();
-        }
-
-        auto& has_value(scalar value) {
-            CHECK_THAT(variable->getValue(), Approximates(value));
-            return self();
-        }
-
-        auto& locks_value_in_range(bool locks = true) {
-            CHECK(variable->isLockValueInRange() == locks);
-            return self();
-        }
-
-        auto& exports_fll(const std::string& fll) {
-            CHECK(variable->toString() == fll);
-            return self();
-        }
-
-        auto& exports_fll(const std::vector<std::string>& expected) {
-            auto obtained = Op::split(variable->toString(), "\n");
-            for (std::size_t i = 0; i < obtained.size(); ++i)
-                obtained[i] = Op::trim(obtained[i]);
-            CHECK(obtained == expected);
-            return self();
-        }
-
-        auto& fuzzify(scalar value, const std::string& expected) {
-            auto obtained = variable->fuzzify(value);
-            CHECK(obtained == expected);
-            return self();
-        }
-
-        auto& fuzzy_values(std::vector<std::pair<scalar, std::string>> values_expected) {
-            for (const auto& pair : values_expected) {
-                const std::string& expected = pair.second;
-                auto obtained = variable->fuzzify(pair.first);
-                CHECK(obtained == expected);
-            }
-            return self();
-        }
-
-        auto& highest_membership(scalar x, const Activated& expected) {
-            scalar degree;
-            Term* highest = variable->highestMembership(x, &degree);
-            CHECK(highest == expected.getTerm());
-            CHECK_THAT(degree, Approximates(expected.getDegree()));
-            return self();
-        }
-
-        auto& highest_activation(scalar x, std::vector<Activated> expected) {
-            CAPTURE(x);
-            auto maxActivations = variable->maxActivations(x);
-            REQUIRE(maxActivations.size() == expected.size());
-            for (std::size_t i = 0; i < expected.size(); ++i) {
-                CHECK(maxActivations.at(i).getTerm() == expected.at(i).getTerm());
-                CHECK_THAT(maxActivations.at(i).getDegree(), Approximates(expected.at(i).getDegree()));
-            }
-            if (expected.size() == 1)
-                highest_membership(x, expected.front());
-            return self();
-        }
-
-        auto& highest_activation(const std::vector<std::pair<scalar, std::vector<Activated>>>& highestActivations) {
-            for (auto& pair : highestActivations)
-                highest_activation(pair.first, pair.second);
-            return self();
-        }
-
-        virtual DerivedAssert& equals(const T& another) {
-            CHECK(variable->getName() == another.getName());
-            CHECK(variable->getDescription() == another.getDescription());
-            CHECK(variable->isEnabled() == another.isEnabled());
-            CHECK(variable->isLockValueInRange() == another.isLockValueInRange());
-
-            CHECK_THAT(variable->getMinimum(), Approximates(another.getMinimum()));
-            CHECK_THAT(variable->getMaximum(), Approximates(another.getMaximum()));
-            CHECK_THAT(variable->getValue(), Approximates(another.getValue()));
-
-            CHECK(variable->toString() == another.toString());
-            return self();
-        }
-
-        auto& can_clone() {
-            auto clone = std::unique_ptr<T>(variable->clone());
-            return equals(*clone.get());
-        }
-    };
-
-    struct VariableAssert : Assert<VariableAssert, Variable> {
-        using Assert::Assert;  // inherit constructors
-    };
-
-    struct InputVariableAssert : Assert<InputVariableAssert, InputVariable> {
-        using Assert::Assert;  // inherit constructors
-
-        auto& has_fuzzy_value(scalar input, const std::string& expected) {
-            const scalar previousInput = variable->getValue();
-            variable->setValue(input);
-            CHECK(variable->fuzzyInputValue() == expected);
-            variable->setValue(previousInput);
-            return self();
-        }
-
-        auto& has_fuzzy_values(const std::vector<std::pair<scalar, std::string>> expected) {
-            for (auto& pair : expected)
-                has_fuzzy_value(pair.first, pair.second);
-            return self();
-        }
-
-        InputVariableAssert& equals(const InputVariable& another) override {
-            return Assert::equals(another);
-        }
-    };
-
-    struct MockDefuzzifier : Centroid {
-        scalar return_value;
-
-        explicit MockDefuzzifier(scalar return_value = nan) : return_value(return_value) {}
-
-        scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const override {
-            (void)term;
-            (void)minimum;
-            (void)maximum;
-            return return_value;
-        }
-    };
-
-    class State {
-        scalar _previous, _current;
-
-      public:
-        explicit State(scalar previous = nan, scalar current = nan) : _previous(previous), _current(current) {}
-
-        State& previous(scalar value) {
-            _previous = value;
-            return *this;
-        }
-
-        State& current(scalar value) {
-            _current = value;
-            return *this;
-        }
-
-        scalar previous() const {
-            return _previous;
-        }
-
-        scalar current() const {
-            return _current;
-        }
-    };
-
-    class Combination {
-        std::string _number;
-        State _before, _after;
-        scalar _defuzzify;
-
-        enum Selector { BEFORE, AFTER } _selector = BEFORE;
-
-      public:
-        explicit Combination(std::string number) :
-            _number(number),
-            _before(State()),
-            _after(State()),
-            _defuzzify(nan) {}
-
-        std::string number() const {
-            return _number;
-        }
-
-        Combination& when() {
-            _selector = BEFORE;
-            return *this;
-        }
-
-        scalar defuzzify() const {
-            return _defuzzify;
-        }
-
-        Combination& defuzzify(scalar value) {
-            _defuzzify = value;
-            _selector = AFTER;
-            return *this;
-        }
-
-        State& state() {
-            switch (_selector) {
-                case BEFORE:
-                    return _before;
-                case AFTER:
-                    return _after;
-                default:
-                    return _before;
-            }
-        }
-
-        Combination& previous(scalar value) {
-            state().previous(value);
-            return *this;
-        }
-
-        Combination& current(scalar value) {
-            state().current(value);
-            return *this;
-        }
-
-        Combination& before(State state) {
-            _before = state;
-            return *this;
-        }
-
-        Combination& after(State state) {
-            _after = state;
-            return *this;
-        }
-
-        State before() const {
-            return _before;
-        }
-
-        State after() const {
-            return _after;
-        }
-    };
-
-    struct OutputVariableAssert : Assert<OutputVariableAssert, OutputVariable> {
-        using Assert::Assert;
-
-        auto& has_previous_value(scalar value) {
-            CHECK_THAT(variable->getPreviousValue(), Approximates(value));
-            return self();
-        }
-
-        auto& has_default_value(scalar value) {
-            CHECK_THAT(variable->getDefaultValue(), Approximates(value));
-            return self();
-        }
-
-        auto& locks_previous_value(bool locks = true) {
-            CHECK(variable->isLockPreviousValue() == locks);
-            return self();
-        }
-
-        auto& has_defuzzifier(const std::string& fll) {
-            CHECK(FllExporter().toString(variable->getDefuzzifier()) == fll);
-            return self();
-        }
-
-        auto& has_aggregation(const std::string& fll) {
-            CHECK(FllExporter().toString(variable->getAggregation()) == fll);
-            return self();
-        }
-
-        auto& when_fuzzy_output_is(const std::vector<Activated>& terms) {
-            variable->fuzzyOutput()->clear();
-            variable->fuzzyOutput()->setTerms(terms);
-            return self();
-        }
-
-        auto& when_defuzzify() {
-            variable->defuzzify();
-            return self();
-        }
-
-        auto& when_mock_defuzzify(scalar return_value) {
-            variable->setDefuzzifier(new MockDefuzzifier(return_value));
-            variable->defuzzify();
-            return self();
-        }
-
-        auto& has_fuzzy_value(const std::string& value) {
-            CHECK(variable->fuzzyOutputValue() == value);
-            return self();
-        }
-
-        OutputVariableAssert& equals(const OutputVariable& another) override {
-            Assert::equals(another);
-            CHECK_THAT(variable->getDefaultValue(), Approximates(another.getDefaultValue()));
-            CHECK_THAT(variable->getPreviousValue(), Approximates(another.getPreviousValue()));
-            CHECK(
-                FllExporter().toString(variable->getDefuzzifier()) == FllExporter().toString(another.getDefuzzifier())
-            );
-            CHECK(variable->isLockPreviousValue() == another.isLockPreviousValue());
-            return self();
-        }
-
-        OutputVariableAssert& fsm(const std::vector<Combination>& combinations) {
-            for (auto& combination : combinations) {
-                SECTION("Combination " + combination.number()) {
-                    CAPTURE(combination.number());
-                    variable->setPreviousValue(combination.before().previous());
-                    variable->setValue(combination.before().current());
-                    variable->setDefuzzifier(new MockDefuzzifier(combination.defuzzify()));
-                    variable->defuzzify();
-                    CHECK_THAT(variable->getPreviousValue(), Approximates(combination.after().previous()));
-                    CHECK_THAT(variable->getValue(), Approximates(combination.after().current()));
-                }
-            }
-            return *this;
-        }
-
-        OutputVariableAssert& fsm_deprecated_v6(const std::vector<Combination>& combinations) {
-            Constant dummy;
-            for (auto& combination : combinations) {
-                variable->fuzzyOutput()->clear();
-                SECTION("Combination " + combination.number()) {
-                    CAPTURE(combination.number());
-                    variable->setPreviousValue(combination.before().previous());
-                    variable->setValue(combination.before().current());
-                    variable->setDefuzzifier(new MockDefuzzifier(combination.defuzzify()));
-                    if (not Op::isNaN(combination.defuzzify()))
-                        variable->fuzzyOutput()->setTerms({Activated(&dummy)});
-                    variable->defuzzify_v6();
-                    CHECK_THAT(variable->getValue(), Approximates(combination.after().current()));
-                    CHECK_THAT(variable->getPreviousValue(), Approximates(combination.after().previous()));
-                }
-            }
-            return *this;
-        }
-    };
-
-}}
+#include "test/AssertVariable.h"
+#include "test/Headers.h"
 
 namespace fuzzylite { namespace test { namespace variable {
 
@@ -395,7 +35,7 @@ namespace fuzzylite { namespace test { namespace variable {
 
     TEST_CASE("Constructors", "[variable][constructor]") {
         SECTION("Default constructor") {
-            VariableAssert(std::make_unique<Variable>())
+            AssertVariable(std::make_unique<Variable>())
                 .has_name("")
                 .has_description("")
                 .is_enabled(true)
@@ -407,7 +47,7 @@ namespace fuzzylite { namespace test { namespace variable {
                 );
         }
         SECTION("Copy constructor") {
-            VariableAssert(std::make_unique<Variable>(testVariable()))
+            AssertVariable(std::make_unique<Variable>(testVariable()))
                 .has_name("Test")
                 .has_description("A test variable")
                 .is_enabled(false)
@@ -429,7 +69,7 @@ namespace fuzzylite { namespace test { namespace variable {
             Variable copy("copy", nan, nan, {new Constant()});
             Variable test = testVariable();
             copy = test;
-            VariableAssert(std::make_unique<Variable>(copy))
+            AssertVariable(std::make_unique<Variable>(copy))
                 .has_name("Test")
                 .has_description("A test variable")
                 .is_enabled(false)
@@ -448,7 +88,7 @@ namespace fuzzylite { namespace test { namespace variable {
         }
 
         SECTION("Clone") {
-            VariableAssert(std::make_unique<Variable>(testVariable())).can_clone();
+            AssertVariable(std::make_unique<Variable>(testVariable())).can_clone();
         }
     }
 
@@ -464,7 +104,7 @@ namespace fuzzylite { namespace test { namespace variable {
         test_variable.setTerms({new Constant{"pi", 3.1413}});
 
         SECTION("Check setters") {
-            VariableAssert(std::make_unique<Variable>(test_variable))
+            AssertVariable(std::make_unique<Variable>(test_variable))
                 .has_name("Test")
                 .has_description("A test variable")
                 .is_enabled(false)
@@ -603,7 +243,7 @@ namespace fuzzylite { namespace test { namespace variable {
     }
 
     TEST_CASE("Variable fuzzifies", "[variable]") {
-        VariableAssert(std::make_unique<Variable>(
+        AssertVariable(std::make_unique<Variable>(
                            "Temperature",
                            0,
                            100,
@@ -627,7 +267,7 @@ namespace fuzzylite { namespace test { namespace variable {
                 {inf, "0.000/Low + 0.000/Medium + 0.000/High"},
                 {-inf, "0.000/Low + 0.000/Medium + 0.000/High"},
             });
-        VariableAssert(std::make_unique<Variable>(
+        AssertVariable(std::make_unique<Variable>(
                            "Temperature",
                            -inf,
                            inf,
@@ -648,7 +288,7 @@ namespace fuzzylite { namespace test { namespace variable {
         const auto low = new Triangle("Low", -1.0, -0.5, 0.0);
         const auto medium = new Triangle("Medium", -0.5, 0.0, 0.5);
         const auto high = new Triangle("High", 0.0, 0.5, 1.0);
-        VariableAssert(std::make_unique<Variable>("name", -1.0, 1.0, std::vector<Term*>{low, medium, high}))
+        AssertVariable(std::make_unique<Variable>("name", -1.0, 1.0, std::vector<Term*>{low, medium, high}))
             .highest_activation({
                 {-1.0, {}},
                 {-0.75, {Activated(low, 0.5)}},
@@ -680,7 +320,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
 
     TEST_CASE("InputVariable: Constructors", "[variable][input][constructor]") {
         SECTION("Default constructor") {
-            InputVariableAssert(std::make_unique<InputVariable>())
+            AssertInputVariable(std::make_unique<InputVariable>())
                 .has_name("")
                 .has_description("")
                 .is_enabled()
@@ -691,7 +331,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
                 });
         }
         SECTION("Custom constructor") {
-            InputVariableAssert(std::make_unique<InputVariable>(
+            AssertInputVariable(std::make_unique<InputVariable>(
                                     "Test",
                                     -1.0,
                                     1.0,  //
@@ -712,7 +352,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
                 });
         }
         SECTION("Copy constructor") {
-            InputVariableAssert(std::make_unique<InputVariable>(testVariable()))
+            AssertInputVariable(std::make_unique<InputVariable>(testVariable()))
                 .equals(testVariable())
                 .exports_fll(std::vector<std::string>{
                     "InputVariable: Test",
@@ -727,7 +367,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
             InputVariable copy;
             InputVariable test = testVariable();
             copy = test;
-            InputVariableAssert(std::make_unique<InputVariable>(copy))
+            AssertInputVariable(std::make_unique<InputVariable>(copy))
                 .equals(testVariable())
                 .exports_fll(std::vector<std::string>{
                     "InputVariable: Test",
@@ -740,7 +380,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
         }
 
         SECTION("Clone") {
-            InputVariableAssert(std::make_unique<InputVariable>(testVariable())).can_clone();
+            AssertInputVariable(std::make_unique<InputVariable>(testVariable())).can_clone();
         }
         SECTION("Type") {
             CHECK(InputVariable().type() == Variable::Input);
@@ -748,7 +388,7 @@ namespace fuzzylite { namespace test { namespace input_variable {
     }
 
     TEST_CASE("InputVariable: fuzzy values") {
-        InputVariableAssert(std::make_unique<InputVariable>(
+        AssertInputVariable(std::make_unique<InputVariable>(
                                 "name",
                                 -1.0,
                                 1.0,
@@ -794,7 +434,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
 
     TEST_CASE("OutputVariable: Constructors", "[variable][output][constructor]") {
         SECTION("Default constructor") {
-            OutputVariableAssert(std::make_unique<OutputVariable>())
+            AssertOutputVariable(std::make_unique<OutputVariable>())
                 .has_name("")
                 .has_description("")
                 .is_enabled()
@@ -816,7 +456,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
                 });
         }
         SECTION("Custom constructor") {
-            OutputVariableAssert(std::make_unique<OutputVariable>(
+            AssertOutputVariable(std::make_unique<OutputVariable>(
                                      "Test",
                                      -1.0,
                                      1.0,  //
@@ -847,7 +487,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
 
         // OutputVariable
         SECTION("Copy constructor") {
-            OutputVariableAssert(std::make_unique<OutputVariable>(testVariable()))
+            AssertOutputVariable(std::make_unique<OutputVariable>(testVariable()))
                 .equals(testVariable())
                 .exports_fll(std::vector<std::string>{
                     "OutputVariable: Test",
@@ -866,7 +506,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
             OutputVariable copy;
             OutputVariable test = testVariable();
             copy = test;
-            OutputVariableAssert(std::make_unique<OutputVariable>(copy))
+            AssertOutputVariable(std::make_unique<OutputVariable>(copy))
                 .equals(testVariable())
                 .exports_fll(std::vector<std::string>{
                     "OutputVariable: Test",
@@ -883,7 +523,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         }
 
         SECTION("Clone") {
-            OutputVariableAssert(std::make_unique<OutputVariable>(testVariable())).can_clone();
+            AssertOutputVariable(std::make_unique<OutputVariable>(testVariable())).can_clone();
         }
         SECTION("Type") {
             CHECK(OutputVariable().type() == Variable::Output);
@@ -894,7 +534,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         const auto low = new Triangle("Low", -1.0, -0.5, 0.0);
         const auto medium = new Triangle("Medium", -0.5, 0.0, 0.5);
         const auto high = new Triangle("High", 0.0, 0.5, 1.0);
-        OutputVariableAssert assert_that(
+        AssertOutputVariable assert_that(
             std::make_unique<OutputVariable>("test", -1, 1, std::vector<Term*>{low, medium, high})
         );
         assert_that.when_fuzzy_output_is({}).has_fuzzy_value("0.000/Low + 0.000/Medium + 0.000/High");
@@ -908,7 +548,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
         const auto low = new Triangle("Low", -1.0, -0.5, 0.0);
         const auto medium = new Triangle("Medium", -0.5, 0.0, 0.5);
         const auto high = new Triangle("High", 0.0, 0.5, 1.0);
-        OutputVariableAssert assert_that(
+        AssertOutputVariable assert_that(
             std::make_unique<OutputVariable>("test", -1, 1, std::vector<Term*>{low, medium, high})
         );
         assert_that.variable->setValue(0.0);
@@ -988,7 +628,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
     }
 
     TEST_CASE("Defuzzifification State Machine", "[output][variable][defuzzify][fsm]") {
-        OutputVariableAssert assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
+        AssertOutputVariable assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
         SECTION("(a) When default is nan and no locks, value is defuzzified and previous value is updated") {
             const scalar def = nan;
             assert_that.variable->setDefaultValue(def);
@@ -1196,7 +836,7 @@ namespace fuzzylite { namespace test { namespace output_variable {
     }
 
     TEST_CASE("Defuzzifification State Machine v6", "[output][variable][defuzzify][fsm][v6]") {
-        OutputVariableAssert assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
+        AssertOutputVariable assert_that(std::make_unique<OutputVariable>("test", -1.0, 1.0));
         SECTION("(a) When default is nan and no locks, value is defuzzified and previous value is updated") {
             const scalar def = nan;
             assert_that.variable->setDefaultValue(def);

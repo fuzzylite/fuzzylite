@@ -14,93 +14,10 @@ fuzzylite (R), a fuzzy logic control library in C++.
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "Headers.h"
+#include "test/AssertFactory.h"
+#include "test/Headers.h"
 
 namespace fuzzylite { namespace test {
-    template <typename T>
-    struct ConstructionFactoryAssert {
-        using Constructor = std::tuple<std::string, typename ConstructionFactory<T*>::Constructor, std::string>;
-        std::unique_ptr<ConstructionFactory<T*>> actual;
-
-        explicit ConstructionFactoryAssert(ConstructionFactory<T*>* actual) : actual(actual) {}
-
-        ConstructionFactoryAssert& has_class_name(const std::string& name) {
-            CHECK(actual->name() == name);
-            return *this;
-        }
-
-        ConstructionFactoryAssert& contains(const std::vector<std::string>& names, bool contains = true) {
-            CAPTURE(names, contains);
-            for (const std::string& name : names)
-                CHECK(actual->hasConstructor(name) == contains);
-            return *this;
-        }
-
-        ConstructionFactoryAssert&
-        constructs_exactly(const std::map<std::string, typename ConstructionFactory<T*>::Constructor>& constructors) {
-            std::vector<std::string> expected;
-            for (const auto& name_value : constructors) {
-                CAPTURE(name_value.first);
-                expected.push_back(name_value.first);
-                CHECK(actual->hasConstructor(name_value.first));
-                CHECK(actual->getConstructor(name_value.first) == name_value.second);
-                std::unique_ptr<T> object(actual->constructObject(name_value.first));
-                if (name_value.first.empty())
-                    CHECK(object.get() == fl::null);
-                else
-                    CHECK_THAT(fl::FllExporter().toString(object.get()), Catch::Matchers::StartsWith(name_value.first));
-            }
-            CHECK(actual->available() == expected);
-            return *this;
-        }
-
-        ConstructionFactoryAssert& constructs_exactly(const std::vector<Constructor>& constructors) {
-            std::vector<std::string> expected;
-            for (const auto& name_constructor_fll : constructors) {
-                std::string name;
-                typename ConstructionFactory<T*>::Constructor constructor;
-                std::string fll;
-                std::tie(name, constructor, fll) = name_constructor_fll;
-                CAPTURE(name, fll);
-                expected.push_back(name);
-                CHECK(actual->hasConstructor(name));
-                CHECK(actual->getConstructor(name) == constructor);
-                std::unique_ptr<T> object(actual->constructObject(name));
-                if (name.empty())
-                    CHECK(object.get() == fl::null);
-                else
-                    CHECK_THAT(fl::FllExporter().toString(object.get()), Catch::Matchers::Equals(fll));
-            }
-            CHECK_THAT(actual->available(), Catch::Matchers::UnorderedEquals(expected));
-            return *this;
-        }
-
-        ConstructionFactoryAssert& deregister_all() {
-            for (const auto& constructor : actual->available()) {
-                CAPTURE(constructor);
-                CHECK(actual->hasConstructor(constructor));
-                actual->deregisterConstructor(constructor);
-                CHECK(not actual->hasConstructor(constructor));
-            }
-            CHECK(actual->constructors().empty());
-            return *this;
-        }
-
-        ConstructionFactoryAssert& clones() {
-            std::unique_ptr<ConstructionFactory<T*>> clone(actual->clone());
-            CAPTURE(actual->name(), clone->name());
-            CHECK(actual->name() == clone->name());
-            std::vector<Constructor> constructors;
-            for (auto key : actual->constructors()) {
-                CAPTURE(key.first);
-                std::unique_ptr<T> object(actual->constructObject(key.first));
-                const std::string fll = object.get() ? fl::FllExporter().toString(object.get()) : "";
-                constructors.push_back(std::make_tuple(key.first, key.second, fll));
-            }
-            this->constructs_exactly(constructors);
-            return *this;
-        }
-    };
 
     TEST_CASE("ConstructionFactory", "[factory]") {
         SECTION("Unregistered constructor returns null") {
@@ -142,61 +59,18 @@ namespace fuzzylite { namespace test {
         }
     }
 
-    struct ActivationFactoryAssert : ConstructionFactoryAssert<Activation> {
-        explicit ActivationFactoryAssert(ActivationFactory* actual) : ConstructionFactoryAssert(actual) {}
-    };
-
-    struct DefuzzifierFactoryAssert : ConstructionFactoryAssert<Defuzzifier> {
-        explicit DefuzzifierFactoryAssert(DefuzzifierFactory* actual) : ConstructionFactoryAssert(actual) {}
-
-        DefuzzifierFactoryAssert& construct_weighted(
-            const std::string& name, WeightedDefuzzifier::Type type, const WeightedDefuzzifier& expected
-        ) {
-            CAPTURE(name, type, FllExporter().toString(&expected));
-            const DefuzzifierFactory* actualFactory = dynamic_cast<const DefuzzifierFactory*>(actual.get());
-            std::unique_ptr<Defuzzifier> obtained(actualFactory->constructWeighted(name, type));
-            CHECK(FllExporter().toString(obtained.get()) == FllExporter().toString(&expected));
-            return *this;
-        }
-
-        DefuzzifierFactoryAssert&
-        construct_integral(const std::string& name, int resolution, const IntegralDefuzzifier& expected) {
-            CAPTURE(name, resolution, FllExporter().toString(&expected));
-            const DefuzzifierFactory* actualFactory = dynamic_cast<const DefuzzifierFactory*>(actual.get());
-            std::unique_ptr<Defuzzifier> obtained(actualFactory->constructIntegral(name, resolution));
-            CHECK(FllExporter().toString(obtained.get()) == FllExporter().toString(&expected));
-            return *this;
-        }
-    };
-
-    struct HedgeFactoryAssert : ConstructionFactoryAssert<Hedge> {
-        explicit HedgeFactoryAssert(HedgeFactory* actual) : ConstructionFactoryAssert(actual) {}
-    };
-
-    struct SNormFactoryAssert : ConstructionFactoryAssert<SNorm> {
-        explicit SNormFactoryAssert(SNormFactory* actual) : ConstructionFactoryAssert(actual) {}
-    };
-
-    struct TNormFactoryAssert : ConstructionFactoryAssert<TNorm> {
-        explicit TNormFactoryAssert(TNormFactory* actual) : ConstructionFactoryAssert(actual) {}
-    };
-
-    struct TermFactoryAssert : ConstructionFactoryAssert<Term> {
-        explicit TermFactoryAssert(TermFactory* actual) : ConstructionFactoryAssert(actual) {}
-    };
-
     TEST_CASE("ActivationFactory", "[factory][activation]") {
         SECTION("Default name") {
-            ActivationFactoryAssert(new ActivationFactory).has_class_name("Activation");
+            AssertActivationFactory(new ActivationFactory).has_class_name("Activation");
         }
         SECTION("Contains") {
-            ActivationFactoryAssert(new ActivationFactory).contains({"First", "Last", "Threshold"});
+            AssertActivationFactory(new ActivationFactory).contains({"First", "Last", "Threshold"});
         }
         SECTION("Does not contain") {
-            ActivationFactoryAssert(new ActivationFactory).contains({"Second", "Third"}, false);
+            AssertActivationFactory(new ActivationFactory).contains({"Second", "Third"}, false);
         }
         SECTION("Construct exactly") {
-            std::vector<ConstructionFactoryAssert<Activation>::Constructor> constructs{
+            std::vector<AssertConstructionFactory<Activation>::Constructor> constructs{
                 {"", fl::null, ""},
                 {"First", First::constructor, "First 1 0.000"},
                 {"General", General::constructor, "General"},
@@ -206,28 +80,28 @@ namespace fuzzylite { namespace test {
                 {"Proportional", Proportional::constructor, "Proportional"},
                 {"Threshold", Threshold::constructor, "Threshold >= 0.000"},
             };
-            ActivationFactoryAssert(new ActivationFactory).constructs_exactly(constructs);
+            AssertActivationFactory(new ActivationFactory).constructs_exactly(constructs);
         }
         SECTION("Deregister all") {
-            ActivationFactoryAssert(new ActivationFactory).deregister_all();
+            AssertActivationFactory(new ActivationFactory).deregister_all();
         }
         SECTION("Clones") {
-            ActivationFactoryAssert(new ActivationFactory).clones();
+            AssertActivationFactory(new ActivationFactory).clones();
         }
     }
 
     TEST_CASE("DefuzzifierFactory", "[factory][defuzzifier]") {
         SECTION("Default name") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory).has_class_name("Defuzzifier");
+            AssertDefuzzifierFactory(new DefuzzifierFactory).has_class_name("Defuzzifier");
         }
         SECTION("Contains") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory).contains({"Bisector", "Centroid", "WeightedAverage"});
+            AssertDefuzzifierFactory(new DefuzzifierFactory).contains({"Bisector", "Centroid", "WeightedAverage"});
         }
         SECTION("Does not contain") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory).contains({"CenterOfGravity", "CoG"}, false);
+            AssertDefuzzifierFactory(new DefuzzifierFactory).contains({"CenterOfGravity", "CoG"}, false);
         }
         SECTION("Construct exactly") {
-            std::vector<ConstructionFactoryAssert<Defuzzifier>::Constructor> constructs{
+            std::vector<AssertConstructionFactory<Defuzzifier>::Constructor> constructs{
                 {"", fl::null, ""},
                 {"Bisector", Bisector::constructor, "Bisector"},
                 {"Centroid", Centroid::constructor, "Centroid"},
@@ -237,10 +111,10 @@ namespace fuzzylite { namespace test {
                 {"WeightedAverage", WeightedAverage::constructor, "WeightedAverage"},
                 {"WeightedSum", WeightedSum::constructor, "WeightedSum"},
             };
-            DefuzzifierFactoryAssert(new DefuzzifierFactory).constructs_exactly(constructs);
+            AssertDefuzzifierFactory(new DefuzzifierFactory).constructs_exactly(constructs);
         }
         SECTION("Construct integral with parameters") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory)
+            AssertDefuzzifierFactory(new DefuzzifierFactory)
                 .construct_integral("Bisector", 300, Bisector(300))
                 .construct_integral("Centroid", 600, Centroid(600))
                 .construct_integral("LargestOfMaximum", 900, LargestOfMaximum(900))
@@ -248,7 +122,7 @@ namespace fuzzylite { namespace test {
                 .construct_integral("SmallestOfMaximum", 100, SmallestOfMaximum(100));
         }
         SECTION("Construct integral with parameters") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory)
+            AssertDefuzzifierFactory(new DefuzzifierFactory)
                 .construct_weighted("WeightedAverage", WeightedDefuzzifier::Automatic, WeightedAverage("Automatic"))
                 .construct_weighted(
                     "WeightedAverage", WeightedDefuzzifier::TakagiSugeno, WeightedAverage("TakagiSugeno")
@@ -265,25 +139,25 @@ namespace fuzzylite { namespace test {
                 );
         }
         SECTION("Deregister all") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory).deregister_all();
+            AssertDefuzzifierFactory(new DefuzzifierFactory).deregister_all();
         }
         SECTION("Clones") {
-            DefuzzifierFactoryAssert(new DefuzzifierFactory).clones();
+            AssertDefuzzifierFactory(new DefuzzifierFactory).clones();
         }
     }
 
     TEST_CASE("HedgeFactory", "[factory][hedge]") {
         SECTION("Default name") {
-            HedgeFactoryAssert(new HedgeFactory).has_class_name("Hedge");
+            AssertHedgeFactory(new HedgeFactory).has_class_name("Hedge");
         }
         SECTION("Contains") {
-            HedgeFactoryAssert(new HedgeFactory).contains({"very", "extremely", "not"});
+            AssertHedgeFactory(new HedgeFactory).contains({"very", "extremely", "not"});
         }
         SECTION("Does not contain") {
-            HedgeFactoryAssert(new HedgeFactory).contains({"way", "often"}, false);
+            AssertHedgeFactory(new HedgeFactory).contains({"way", "often"}, false);
         }
         SECTION("Construct exactly") {
-            std::vector<ConstructionFactoryAssert<Hedge>::Constructor> constructs{
+            std::vector<AssertConstructionFactory<Hedge>::Constructor> constructs{
                 {"", fl::null, ""},
                 {"any", Any::constructor, "any"},
                 {"extremely", Extremely::constructor, "extremely"},
@@ -292,28 +166,28 @@ namespace fuzzylite { namespace test {
                 {"somewhat", Somewhat::constructor, "somewhat"},
                 {"very", Very::constructor, "very"},
             };
-            HedgeFactoryAssert(new HedgeFactory).constructs_exactly(constructs);
+            AssertHedgeFactory(new HedgeFactory).constructs_exactly(constructs);
         }
         SECTION("Deregister all") {
-            HedgeFactoryAssert(new HedgeFactory).deregister_all();
+            AssertHedgeFactory(new HedgeFactory).deregister_all();
         }
         SECTION("Clones") {
-            HedgeFactoryAssert(new HedgeFactory).clones();
+            AssertHedgeFactory(new HedgeFactory).clones();
         }
     }
 
     TEST_CASE("SNormFactory", "[factory][snorm]") {
         SECTION("Default name") {
-            SNormFactoryAssert(new SNormFactory).has_class_name("SNorm");
+            AssertSNormFactory(new SNormFactory).has_class_name("SNorm");
         }
         SECTION("Contains") {
-            SNormFactoryAssert(new SNormFactory).contains({"AlgebraicSum", "EinsteinSum", "Maximum"});
+            AssertSNormFactory(new SNormFactory).contains({"AlgebraicSum", "EinsteinSum", "Maximum"});
         }
         SECTION("Does not contain") {
-            SNormFactoryAssert(new SNormFactory).contains({"AlgebraicProduct", "EinsteinProduct"}, false);
+            AssertSNormFactory(new SNormFactory).contains({"AlgebraicProduct", "EinsteinProduct"}, false);
         }
         SECTION("Construct exactly") {
-            std::vector<ConstructionFactoryAssert<SNorm>::Constructor> constructs{
+            std::vector<AssertConstructionFactory<SNorm>::Constructor> constructs{
                 {"", fl::null, ""},
                 {"AlgebraicSum", AlgebraicSum::constructor, "AlgebraicSum"},
                 {"BoundedSum", BoundedSum::constructor, "BoundedSum"},
@@ -325,28 +199,28 @@ namespace fuzzylite { namespace test {
                 {"NormalizedSum", NormalizedSum::constructor, "NormalizedSum"},
                 {"UnboundedSum", UnboundedSum::constructor, "UnboundedSum"},
             };
-            SNormFactoryAssert(new SNormFactory).constructs_exactly(constructs);
+            AssertSNormFactory(new SNormFactory).constructs_exactly(constructs);
         }
         SECTION("Deregister all") {
-            SNormFactoryAssert(new SNormFactory).deregister_all();
+            AssertSNormFactory(new SNormFactory).deregister_all();
         }
         SECTION("Clones") {
-            SNormFactoryAssert(new SNormFactory).clones();
+            AssertSNormFactory(new SNormFactory).clones();
         }
     }
 
     TEST_CASE("TNormFactory", "[factory][tnorm]") {
         SECTION("Default name") {
-            TNormFactoryAssert(new TNormFactory).has_class_name("TNorm");
+            AssertTNormFactory(new TNormFactory).has_class_name("TNorm");
         }
         SECTION("Contains") {
-            TNormFactoryAssert(new TNormFactory).contains({"AlgebraicProduct", "EinsteinProduct", "Minimum"});
+            AssertTNormFactory(new TNormFactory).contains({"AlgebraicProduct", "EinsteinProduct", "Minimum"});
         }
         SECTION("Does not contain") {
-            TNormFactoryAssert(new TNormFactory).contains({"AlgebraicSum", "EinsteinSum"}, false);
+            AssertTNormFactory(new TNormFactory).contains({"AlgebraicSum", "EinsteinSum"}, false);
         }
         SECTION("Construct exactly") {
-            std::vector<ConstructionFactoryAssert<TNorm>::Constructor> constructs{
+            std::vector<AssertConstructionFactory<TNorm>::Constructor> constructs{
                 {"", fl::null, ""},
                 {"AlgebraicProduct", AlgebraicProduct::constructor, "AlgebraicProduct"},
                 {"BoundedDifference", BoundedDifference::constructor, "BoundedDifference"},
@@ -356,28 +230,28 @@ namespace fuzzylite { namespace test {
                 {"Minimum", Minimum::constructor, "Minimum"},
                 {"NilpotentMinimum", NilpotentMinimum::constructor, "NilpotentMinimum"},
             };
-            TNormFactoryAssert(new TNormFactory).constructs_exactly(constructs);
+            AssertTNormFactory(new TNormFactory).constructs_exactly(constructs);
         }
         SECTION("Deregister all") {
-            TNormFactoryAssert(new TNormFactory).deregister_all();
+            AssertTNormFactory(new TNormFactory).deregister_all();
         }
         SECTION("Clones") {
-            TNormFactoryAssert(new TNormFactory).clones();
+            AssertTNormFactory(new TNormFactory).clones();
         }
     }
 
     TEST_CASE("TermFactory", "[factory][term]") {
         SECTION("Default name") {
-            TermFactoryAssert(new TermFactory).has_class_name("Term");
+            AssertTermFactory(new TermFactory).has_class_name("Term");
         }
         SECTION("Contains") {
-            TermFactoryAssert(new TermFactory).contains({"Constant", "Function", "Triangle"});
+            AssertTermFactory(new TermFactory).contains({"Constant", "Function", "Triangle"});
         }
         SECTION("Does not contain") {
-            TermFactoryAssert(new TermFactory).contains({"Arc", "SemiEllipse"}, false);
+            AssertTermFactory(new TermFactory).contains({"Arc", "SemiEllipse"}, false);
         }
         SECTION("Construct exactly") {
-            std::vector<ConstructionFactoryAssert<Term>::Constructor> constructs{
+            std::vector<AssertConstructionFactory<Term>::Constructor> constructs{
                 {"", fl::null, ""},
                 // {"Arc", Arc::constructor, "term: _ Arc nan nan"},
                 {"Bell", Bell::constructor, "term: _ Bell nan nan nan"},
@@ -404,147 +278,15 @@ namespace fuzzylite { namespace test {
                 {"ZShape", ZShape::constructor, "term: _ ZShape nan nan"},
 
             };
-            TermFactoryAssert(new TermFactory).constructs_exactly(constructs);
+            AssertTermFactory(new TermFactory).constructs_exactly(constructs);
         }
         SECTION("Deregister all") {
-            TermFactoryAssert(new TermFactory).deregister_all();
+            AssertTermFactory(new TermFactory).deregister_all();
         }
         SECTION("Clones") {
-            TermFactoryAssert(new TermFactory).clones();
+            AssertTermFactory(new TermFactory).clones();
         }
     }
-
-    template <typename T>
-    struct CloningFactoryAssert {
-        std::unique_ptr<CloningFactory<T*>> actual;
-
-        using Clone = std::tuple<const std::string&, const T&>;
-
-        explicit CloningFactoryAssert(CloningFactory<T*>* actual) : actual(actual) {}
-
-        CloningFactoryAssert& has_class_name(const std::string& name) {
-            CHECK(actual->name() == name);
-            return *this;
-        }
-
-        CloningFactoryAssert& contains(const std::vector<std::string>& names, bool contains = true) {
-            CAPTURE(names, contains);
-            for (const std::string& name : names)
-                CHECK(actual->hasObject(name) == contains);
-            return *this;
-        }
-
-        CloningFactoryAssert& copies_exactly(const std::vector<Clone>& clones) {
-            std::vector<std::string> expected;
-            for (const auto& name_clone : clones) {
-                std::string name;
-                Clone clone;
-                std::tie(name, clone) = name_clone;
-                const std::string& fll = fl::FllExporter().toString(&clone);
-                CAPTURE(name, fll);
-                expected.push_back(name);
-                CHECK(actual->hasObject(name));
-                CHECK(fl::FllExporter().toString(actual->getObject(name)) == fll);
-                std::unique_ptr<T> object(actual->cloneObject(name));
-                CHECK_THAT(fl::FllExporter().toString(object.get()), Catch::Matchers::Equals(fll));
-            }
-            CHECK_THAT(actual->available(), Catch::Matchers::UnorderedEquals(expected));
-            return *this;
-        }
-
-        CloningFactoryAssert& deregister_all() {
-            for (const auto& clone : actual->available()) {
-                CAPTURE(clone);
-                CHECK(actual->hasObject(clone));
-                actual->deregisterObject(clone);
-                CHECK(not actual->hasObject(clone));
-            }
-            CHECK(actual->objects().empty());
-            return *this;
-        }
-    };
-
-    struct FunctionFactoryAssert : CloningFactoryAssert<Function::Element> {
-        explicit FunctionFactoryAssert(FunctionFactory* actual) : CloningFactoryAssert(actual) {}
-
-        const scalar pi = std::atan(1) * 4;
-
-        const std::vector<scalar> values{
-            fl::nan,
-            0,
-            1,
-            2,
-            4,
-            5,
-            10,
-            100,
-            1000,
-            10000,
-            pi / 4,
-            pi / 2,
-            3 * pi / 4,
-            pi,
-            5 * pi / 4,
-            3 * pi / 2,
-            7 * pi / 4,
-            2 * pi,
-            fl::inf
-        };
-
-        FunctionFactoryAssert& precedence_is_the_same(const std::string& a, const std::string& b) {
-            CAPTURE(actual->getObject(a)->toString());
-            CAPTURE(actual->getObject(b)->toString());
-            CHECK(actual->getObject(a)->precedence == actual->getObject(b)->precedence);
-            return *this;
-        }
-
-        FunctionFactoryAssert& precedence_is_higher(const std::string& a, const std::string& b) {
-            CAPTURE(actual->getObject(a)->toString());
-            CAPTURE(actual->getObject(b)->toString());
-            CHECK(actual->getObject(a)->precedence > actual->getObject(b)->precedence);
-            return *this;
-        }
-
-        FunctionFactoryAssert& operation_is(const std::string& name, scalar parameter, scalar expected) {
-            CAPTURE(name, parameter, expected);
-            CAPTURE(actual->getObject(name)->toString());
-            CHECK_THAT(actual->getObject(name)->unary(parameter), Approximates(expected));
-            return *this;
-        }
-
-        FunctionFactoryAssert& operation_is(const std::string& name, scalar a, scalar b, scalar expected) {
-            CAPTURE(name, a, b, expected);
-            CAPTURE(actual->getObject(name)->toString());
-            CHECK_THAT(actual->getObject(name)->binary(a, b), Approximates(expected));
-            return *this;
-        }
-
-        FunctionFactoryAssert& unary_operation_equals(const std::string& name, Function::Unary expected) {
-            CHECK(not values.empty());
-            for (auto x : values) {
-                CAPTURE(name, x, expected(x));
-                auto obtained = actual->getObject(name)->unary;
-                CHECK_THAT(obtained(x), Approximates(expected(x)));
-                CHECK_THAT(obtained(-x), Approximates(expected(-x)));
-            }
-            return *this;
-        }
-
-        FunctionFactoryAssert& binary_operation_equals(const std::string& name, Function::Binary expected) {
-            CHECK(not values.empty());
-            for (auto x : values) {
-                for (auto y : values) {
-                    CAPTURE(name, x, y, expected(x, y));
-                    auto obtained = actual->getObject(name)->binary;
-                    CHECK_THAT(obtained(x, y), Approximates(expected(x, y)));
-                    CHECK_THAT(obtained(-x, -y), Approximates(expected(-x, -y)));
-                    CHECK_THAT(obtained(x, -y), Approximates(expected(x, -y)));
-                    CHECK_THAT(obtained(-x, y), Approximates(expected(-x, y)));
-                }
-            }
-            return *this;
-        }
-    };
 
     const std::vector<std::string> operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
     const std::vector<std::string> functions
@@ -580,14 +322,14 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Precedence is the same") {
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .precedence_is_the_same("!", "~")
                 .precedence_is_the_same("*", "/")
                 .precedence_is_the_same("/", "%")
                 .precedence_is_the_same("+", "-");
         }
         SECTION("Precedence is higher") {
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .precedence_is_higher("!", "^")
                 .precedence_is_higher("^", "%")
                 .precedence_is_higher("*", "-")
@@ -602,7 +344,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Unary Operators") {
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .unary_operation_equals("!", &Op::logicalNot)
                 .operation_is("!", 0, 1)
                 .operation_is("!", 1, 0)
@@ -612,7 +354,7 @@ namespace fuzzylite { namespace test {
                 .operation_is("~", 0, 0);
         }
         SECTION("Binary Operators") {
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .binary_operation_equals("^", &std::pow)
                 .operation_is("^", 3, 3, 27)
                 .operation_is("^", 9, 0.5, 3)
@@ -645,7 +387,7 @@ namespace fuzzylite { namespace test {
                 .operation_is("or", 0, 0, 0);
         }
         SECTION("Unary functions") {
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .unary_operation_equals("abs", &std::abs)
                 .unary_operation_equals("acos", &std::acos)
                 .unary_operation_equals("asin", &std::asin)
@@ -666,7 +408,7 @@ namespace fuzzylite { namespace test {
                 .unary_operation_equals("tanh", &std::tanh);
 
 #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .unary_operation_equals("log1p", &log1p)
                 .unary_operation_equals("acosh", &acosh)
                 .unary_operation_equals("asinh", &asinh)
@@ -675,7 +417,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Binary Functions") {
-            FunctionFactoryAssert(new FunctionFactory)
+            AssertFunctionFactory(new FunctionFactory)
                 .binary_operation_equals("atan2", &std::atan2)
                 .binary_operation_equals("eq", &Op::eq)
                 .binary_operation_equals("fmod", &std::fmod)
@@ -697,7 +439,7 @@ namespace fuzzylite { namespace test {
         }
 
         SECTION("Deregister all") {
-            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+            AssertFunctionFactory(new FunctionFactory).deregister_all();
         }
         SECTION("Assign constructor") {
             FunctionFactory only_operators;

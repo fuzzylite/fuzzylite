@@ -15,8 +15,8 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#ifndef FL_TEST_ASSERT_H
-#define FL_TEST_ASSERT_H
+#ifndef FL_TEST_ASSERT_CONSTRUCTOR_H
+#define FL_TEST_ASSERT_CONSTRUCTOR_H
 
 #include <catch2/catch_all.hpp>
 #include <memory>
