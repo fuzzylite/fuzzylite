@@ -23,12 +23,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/variable/Variable.h"
 
 namespace fuzzylite {
-
     Expression::Expression() {}
 
     Expression::~Expression() {}
 
-    Proposition::Proposition(Variable* variable, const std::vector<Hedge*>& hedges, Term* term) :
+    Proposition::Proposition(Variable *variable, const std::vector<Hedge *> &hedges, Term *term) :
         Expression(),
         variable(variable),
         hedges(hedges),
@@ -45,25 +44,26 @@ namespace fuzzylite {
     }
 
     std::string Proposition::toString() const {
-        std::ostringstream ss;
+        std::vector<std::string> ss;
         if (variable)
-            ss << variable->getName();
+            ss.push_back(variable->getName());
 
         if (not hedges.empty()) {
-            ss << " " << Rule::isKeyword() << " ";
+            ss.push_back(Rule::isKeyword());
             for (std::size_t i = 0; i < hedges.size(); ++i)
-                ss << hedges.at(i)->name() << " ";
+                ss.push_back(hedges.at(i)->name());
         }
 
-        if (term) {  // term is fl::null if hedge is any
+        if (term) {
+            // term is fl::null if hedge is any
             if (hedges.empty())
-                ss << " " << Rule::isKeyword() << " ";
-            ss << term->getName();
+                ss.push_back(Rule::isKeyword());
+            ss.push_back(term->getName());
         }
-        return ss.str();
+        return Op::join(ss, " ");
     }
 
-    Operator::Operator(const std::string& name, Expression* left, Expression* right) :
+    Operator::Operator(const std::string &name, Expression *left, Expression *right) :
         Expression(),
         name(name),
         left(left),
@@ -83,5 +83,4 @@ namespace fuzzylite {
     std::string Operator::toString() const {
         return name;
     }
-
 }
