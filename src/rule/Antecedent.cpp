@@ -238,7 +238,7 @@ namespace fuzzylite {
                     if (token == Rule::andKeyword() or token == Rule::orKeyword()) {
                         if (expressionStack.size() < 2) {
                             std::ostringstream ex;
-                            ex << "[syntax error] logical operator <" << token << "> expects two operands,"
+                            ex << "[syntax error] logical operator <" << token << "> expects two operands, "
                                << "but found <" << expressionStack.size() << "> in antecedent";
                             throw Exception(ex.str(), FL_AT);
                         }
