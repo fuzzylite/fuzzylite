@@ -111,5 +111,68 @@ namespace fuzzylite { namespace test {
             return *this;
         }
     };
+
+    struct AssertConsequent {
+        FL_unique_ptr<Consequent> consequent;
+        FL_unique_ptr<Engine> engine;
+
+        AssertConsequent(Consequent* consequent, std::unique_ptr<Engine> engine) :
+            consequent(consequent),
+            engine(std::move(engine)) {}
+
+        AssertConsequent& can_load_consequent(const std::string& text) {
+            CAPTURE(text);
+            consequent->setText(text);
+            consequent->load(engine.get());
+            CHECK(consequent->isLoaded());
+            CHECK(not consequent->conclusions().empty());
+            CHECK(consequent->toString() == text);
+            return *this;
+        }
+
+        AssertConsequent& cannot_load_consequent(const std::string& text, const std::string& expectedException) {
+            consequent->setText(text);
+            CHECK_THROWS_AS(consequent->load(engine.get()), fl::Exception);
+            CHECK_THROWS_WITH(consequent->load(engine.get()), Catch::Matchers::StartsWith(expectedException));
+            return *this;
+        }
+
+        AssertConsequent& modify_consequent(
+            const std::string& text,
+            fl::scalar activation_degree,
+            const std::map<std::string, std::vector<fl::Activated>>& expected,
+            const TNorm* implication = fl::null
+        ) {
+            CAPTURE(text, activation_degree);
+            CHECK(not expected.empty());
+
+            consequent->setText(text);
+            consequent->load(engine.get());
+            consequent->modify(activation_degree, implication);
+
+            for (const auto& pair : expected) {
+                fl::OutputVariable* variable = engine->getOutputVariable(pair.first);
+
+                std::vector<fl::Activated> non_zero;
+                non_zero.reserve(variable->fuzzyOutput()->terms().size());
+                for (const auto& activated : variable->fuzzyOutput()->terms())
+                    if (Op::isGt(activated.getDegree(), 0.0))
+                        non_zero.push_back(activated);
+
+                const std::string& obtained_text
+                    = Aggregated().aggregation(new Maximum).terms(non_zero).grouped().fuzzyValue();
+                const std::string& expected_text
+                    = Aggregated().aggregation(new Maximum).terms(pair.second).grouped().fuzzyValue();
+
+                CAPTURE(variable->getName(), obtained_text, expected_text);
+                CHECK(obtained_text == expected_text);
+
+                variable->fuzzyOutput()->clear();
+            }
+            return *this;
+        }
+
+    };
+
 }}
 #endif

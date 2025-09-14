@@ -319,4 +319,91 @@ namespace fuzzylite { namespace test {
             );
     }
 
+    TEST_CASE("Rule/Consequent/Basic", "[rule][consequent]") {
+        Consequent consequent;
+        CHECK(not consequent.isLoaded());
+
+        consequent.conclusions().push_back(new Proposition);
+        CHECK(consequent.isLoaded());
+
+        consequent.unload();
+        CHECK(not consequent.isLoaded());
+        CHECK(consequent.conclusions().empty());
+    }
+
+    TEST_CASE("Rule/Consequent/CanLoad", "[rule][consequent]") {
+        AssertConsequent(new Consequent, std::move(engine))
+            .can_load_consequent("Power is HIGH")
+            .can_load_consequent("Power is MEDIUM")
+            .can_load_consequent("Power is LOW");
+    }
+
+    TEST_CASE("Rule/Consequent/CanLoad/Multiple", "[rule][consequent]") {
+        AssertConsequent(new Consequent, std::move(engine))
+            .can_load_consequent("Power is HIGH and Power is HIGH")
+            .can_load_consequent("Power is very HIGH and Power is very HIGH")
+            .can_load_consequent("Power is any LOW and Power is not any HIGH");
+    }
+
+    TEST_CASE("Rule/Consequent/CannotLoad", "[rule][consequent]") {
+        AssertConsequent(new Consequent, std::move(engine))
+            .cannot_load_consequent("", "[syntax error] consequent is empty")
+            .cannot_load_consequent("Power HIGH", "[syntax error] consequent expected keyword <is>, but found <HIGH>")
+            .cannot_load_consequent("Power is ALL", "[syntax error] consequent expected hedge or term, but found <ALL>")
+            .cannot_load_consequent(
+                "Power is very ALL", "[syntax error] consequent expected hedge or term, but found <ALL>"
+            )
+            .cannot_load_consequent(
+                "Power is very HIGH or Power is very HIGH",
+                "[syntax error] consequent expected operator <and> or keyword <with>, but found <or>"
+            )
+            .cannot_load_consequent("Power", "[syntax error] consequent expected keyword <is> after <Power>")
+            .cannot_load_consequent("Power is", "[syntax error] consequent expected hedge or term after <is>")
+            .cannot_load_consequent("Power is very", "[syntax error] consequent expected hedge or term after <very>")
+            .cannot_load_consequent(
+                "Power is very LOW and", "[syntax error] consequent expected output variable after <and>"
+            );
+    }
+
+    TEST_CASE("Rule/Consequent/Modify", "[rule][consequent]") {
+        auto* power = engine->getOutputVariable("Power");
+        auto* low = power->getTerm("LOW");
+        auto* high = power->getTerm("HIGH");
+
+        auto minimum = fl::Minimum();
+        auto product = fl::AlgebraicProduct();
+
+        AssertConsequent(new Consequent, std::move(engine))
+            .modify_consequent("Power is LOW", 0.5, {{"Power", {fl::Activated(low, 0.5)}}})
+            .modify_consequent("Power is LOW", 0.5, {{"Power", {fl::Activated(low, 0.5)}}}, fl::null)
+            .modify_consequent("Power is very LOW", 0.5, {{"Power", {fl::Activated(low, 0.25)}}}, &minimum)
+            .modify_consequent(
+                "Power is LOW and Power is HIGH",
+                0.25,
+                {{"Power", {fl::Activated(low, 0.25), fl::Activated(high, 0.25)}}},
+                &product
+            )
+            .modify_consequent(
+                "Power is LOW and Power is very HIGH",
+                0.5,
+                {{"Power", {fl::Activated(low, 0.5), fl::Activated(high, 0.25)}}}
+            );
+    }
+
+    TEST_CASE("Rule/Consequent/Modify/DisabledVariable", "[rule][consequent]") {
+        engine->getOutputVariable("Power")->setEnabled(false);
+        AssertConsequent(new Consequent, std::move(engine))
+            .modify_consequent("Power is LOW and Power is very HIGH", 0.5, {{"Power", {}}});
+    }
+
+    TEST_CASE("Rule/Consequent/Modify/Cannot", "[rule][consequent]") {
+        Consequent consequent;
+        Minimum minimum;
+        CHECK_THROWS_AS(consequent.modify(fl::nan, &minimum), fl::Exception);
+        CHECK_THROWS_WITH(
+            consequent.modify(fl::nan, &minimum),
+            Catch::Matchers::StartsWith("[consequent error] consequent <> is not loaded")
+        );
+    }
+
 }}
