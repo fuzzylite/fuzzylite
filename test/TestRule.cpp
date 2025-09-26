@@ -77,7 +77,7 @@ namespace fuzzylite { namespace test {
 
     FL_unique_ptr<Engine> engine(FllImporter().fromString(simple_dimmer()));
 
-    TEST_CASE("Rule/Load/Antecedent", "[rule][antecedent]") {
+    TEST_CASE("Rule/Antecedent/Load", "[rule][antecedent]") {
         Antecedent antecedent;
         CHECK(not antecedent.isLoaded());
 
@@ -89,7 +89,7 @@ namespace fuzzylite { namespace test {
         CHECK(not antecedent.getExpression());
     }
 
-    TEST_CASE("Rule/Load/Antecedent/input variable", "[rule][antecedent]") {
+    TEST_CASE("Rule/Antecedent/Load/input variable", "[rule][antecedent]") {
         AssertAntecedent(new Antecedent, std::move(engine))
             .can_load_antecedent("Ambient is DARK")
             .toInfix()
@@ -99,7 +99,7 @@ namespace fuzzylite { namespace test {
             .toInfix();
     }
 
-    TEST_CASE("Rule/Load/Antecedent/output variable", "[rule][antecedent]") {
+    TEST_CASE("Rule/Antecedent/Load/output variable", "[rule][antecedent]") {
         AssertAntecedent(new Antecedent, std::move(engine))
             .can_load_antecedent("Power is HIGH")
             .toInfix()
@@ -109,7 +109,7 @@ namespace fuzzylite { namespace test {
             .toInfix();
     }
 
-    TEST_CASE("Rule/Load/Antecedent/input variable/connectors", "[rule][antecedent]") {
+    TEST_CASE("Rule/Antecedent/Load/input variable/connectors", "[rule][antecedent]") {
         AssertAntecedent(new Antecedent, std::move(engine))
             .can_load_antecedent("Ambient is DARK and Ambient is BRIGHT")
             .toInfix()
@@ -122,7 +122,7 @@ namespace fuzzylite { namespace test {
             .toPostfix("Ambient is any Ambient is not any and");
     }
 
-    TEST_CASE("Rule/Load/Antecedent/output variable/connectors", "[rule][antecedent]") {
+    TEST_CASE("Rule/Antecedent/Load/output variable/connectors", "[rule][antecedent]") {
         AssertAntecedent(new Antecedent, std::move(engine))
             .can_load_antecedent("Power is HIGH and Power is LOW")
             .toInfix()
@@ -135,7 +135,7 @@ namespace fuzzylite { namespace test {
             .toPostfix("Power is any Power is not any and");
     }
 
-    TEST_CASE("Rule/Load/Antecedent/Fails", "[rule][antecedent]") {
+    TEST_CASE("Rule/Antecedent/Load/Fails", "[rule][antecedent]") {
         AssertAntecedent(new Antecedent, std::move(engine))
             .cannot_load_antecedent("", "[syntax error] antecedent is empty")
             .cannot_load_antecedent(
@@ -331,14 +331,14 @@ namespace fuzzylite { namespace test {
         CHECK(consequent.conclusions().empty());
     }
 
-    TEST_CASE("Rule/Consequent/CanLoad", "[rule][consequent]") {
+    TEST_CASE("Rule/Consequent/Load", "[rule][consequent]") {
         AssertConsequent(new Consequent, std::move(engine))
             .can_load_consequent("Power is HIGH")
             .can_load_consequent("Power is MEDIUM")
             .can_load_consequent("Power is LOW");
     }
 
-    TEST_CASE("Rule/Consequent/CanLoad/Multiple", "[rule][consequent]") {
+    TEST_CASE("Rule/Consequent/Load/Multiple", "[rule][consequent]") {
         AssertConsequent(new Consequent, std::move(engine))
             .can_load_consequent("Power is HIGH and Power is HIGH")
             .can_load_consequent("Power is very HIGH and Power is very HIGH")
@@ -405,5 +405,86 @@ namespace fuzzylite { namespace test {
             Catch::Matchers::StartsWith("[consequent error] consequent <> is not loaded")
         );
     }
+
+    Rule testRule() {
+        Rule rule{
+            "if Ambient is DARK then Power is LOW",
+            0.5,
+        };
+        rule.setEnabled(true);
+        rule.setActivationDegree(0.75);
+        rule.setTriggered(true);
+        rule.getAntecedent()->setText("Ambient is DARK");
+        rule.getAntecedent()->setExpression(new Proposition);  // to load it
+        rule.getConsequent()->setText("Power is LOW");
+        rule.getConsequent()->conclusions().push_back(new Proposition);  // to load it;
+        return rule;
+    }
+
+    TEST_CASE("Rule/Constructor", "[rule][constructor]") {
+        AssertRule(std::make_unique<Rule>(), engine.get())
+            .has_text("")
+            .is_enabled()
+            .is_loaded(false)
+            .is_triggered(false)
+            .has_weight(1.0)
+            .has_activation_degree(0.0)
+            .has_antecedent("")
+            .has_consequent("");
+
+        AssertRule(std::make_unique<Rule>("if Ambient is DARK then Power is LOW", 0.5), engine.get())
+            .has_text("if Ambient is DARK then Power is LOW")
+            .is_enabled()
+            .is_loaded(false)
+            .has_weight(0.5)
+            .has_activation_degree(0.0)
+            .is_triggered(false)
+            .has_antecedent("")
+            .has_consequent("");
+    }
+
+    TEST_CASE("Rule/Constructor/Copy", "[rule][constructor]") {
+        AssertRule(std::make_unique<Rule>(testRule()), engine.get())
+            .is_enabled()
+            .is_loaded()
+            .is_triggered()
+            .has_text("if Ambient is DARK then Power is LOW")
+            .has_weight(0.5)
+            .has_activation_degree(0.75)
+            .has_antecedent("Ambient is DARK")
+            .has_consequent("Power is LOW");
+    }
+
+    TEST_CASE("Rule/Constructor/CopyAssignment", "[rule][constructor]") {
+        // TODO: Deep copy antecedent and consequent
+        Rule copy("if Power is LOW then Ambient is DARK", 0.0);
+        Rule test = testRule();
+        copy = test;
+        AssertRule(std::make_unique<Rule>(copy), engine.get())
+            .is_enabled()
+            .is_loaded(false)
+            .is_triggered(false)
+            .has_text("if Ambient is DARK then Power is LOW")
+            .has_weight(0.5)
+            .has_activation_degree(0.75)
+            .has_antecedent("")
+            .has_consequent("");
+    }
+
+    TEST_CASE("Rule/Constructor/Clone") {
+        // TODO: Deep copy antecedent and consequent
+        std::unique_ptr<Rule> clone(testRule().clone());
+        AssertRule(std::make_unique<Rule>(*clone.get()), engine.get())
+            .is_enabled()
+            .is_loaded(false)
+            .is_triggered(false)
+            .has_text("if Ambient is DARK then Power is LOW")
+            .has_weight(0.5)
+            .has_activation_degree(0.75)
+            .has_antecedent("")
+            .has_consequent("");
+    }
+
+    TEST_CASE("Rule/Load") {}
 
 }}

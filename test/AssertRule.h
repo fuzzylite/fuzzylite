@@ -171,7 +171,59 @@ namespace fuzzylite { namespace test {
             }
             return *this;
         }
+    };
 
+    struct AssertRule {
+        FL_unique_ptr<Rule> rule;
+        Engine* engine;
+
+        AssertRule(std::unique_ptr<Rule> rule, Engine* engine) : rule(std::move(rule)), engine(engine) {}
+
+        AssertRule& is_enabled(bool enabled = true) {
+            CHECK(rule->isEnabled() == enabled);
+            return *this;
+        }
+
+        AssertRule& has_text(const std::string& text) {
+            CHECK(rule->getText() == text);
+            return *this;
+        }
+
+        AssertRule& has_weight(scalar weight) {
+            CHECK_THAT(rule->getWeight(), Approximates(weight));
+            return *this;
+        }
+
+        AssertRule& has_activation_degree(scalar degree) {
+            CHECK_THAT(rule->getActivationDegree(), Approximates(degree));
+            return *this;
+        }
+
+        AssertRule& is_triggered(bool triggered = true) {
+            CHECK(rule->isTriggered() == triggered);
+            return *this;
+        }
+
+        AssertRule& has_antecedent(const std::string& antedecent) {
+            CHECK(rule->getAntecedent()->getText() == antedecent);
+            return *this;
+        }
+
+        AssertRule& has_consequent(const std::string& consequent) {
+            CHECK(rule->getConsequent()->getText() == consequent);
+            return *this;
+        }
+
+        AssertRule& is_loaded(bool loaded = true) {
+            CHECK(rule->isLoaded() == loaded);
+            return *this;
+        }
+
+        AssertRule& can_parse_rule(const std::string& text, const std::string& expected = "") {
+            FL_unique_ptr<Rule> test(Rule::parse(text, engine));
+            CHECK(test->getText() == (expected.empty() ? text : expected));
+            return *this;
+        }
     };
 
 }}
