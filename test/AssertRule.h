@@ -222,6 +222,16 @@ namespace fuzzylite { namespace test {
         AssertRule& can_parse_rule(const std::string& text, const std::string& expected = "") {
             FL_unique_ptr<Rule> test(Rule::parse(text, engine));
             CHECK(test->getText() == (expected.empty() ? text : expected));
+            CHECK_THAT(test->getActivationDegree(), Approximates(0));
+            CHECK(not test->isTriggered());
+            return *this;
+        }
+
+        AssertRule& cannot_parse_rule(const std::string& text, const std::string& expected_exception = "") {
+            CHECK_THROWS_AS(FL_unique_ptr<Rule>(Rule::parse(text, engine)), fl::Exception);
+            CHECK_THROWS_WITH(
+                FL_unique_ptr<Rule>(Rule::parse(text, engine)), Catch::Matchers::StartsWith(expected_exception)
+            );
             return *this;
         }
     };

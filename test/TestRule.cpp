@@ -16,6 +16,7 @@ fuzzylite (R), a fuzzy logic control library in C++.
 
 #include "test/AssertRule.h"
 #include "test/Headers.h"
+#include "test/Mock.h"
 
 namespace fuzzylite { namespace test {
     TEST_CASE("Rule: Expression: Proposition", "[rule][expression][proposition]") {
@@ -471,7 +472,7 @@ namespace fuzzylite { namespace test {
             .has_consequent("");
     }
 
-    TEST_CASE("Rule/Constructor/Clone") {
+    TEST_CASE("Rule/Constructor/Clone", "[rule][constructor]") {
         // TODO: Deep copy antecedent and consequent
         std::unique_ptr<Rule> clone(testRule().clone());
         AssertRule(std::make_unique<Rule>(*clone.get()), engine.get())
@@ -485,6 +486,164 @@ namespace fuzzylite { namespace test {
             .has_consequent("");
     }
 
-    TEST_CASE("Rule/Load") {}
+    TEST_CASE("Rule/ParseAndLoad", "[rule]") {
+        AssertRule(std::make_unique<Rule>(), engine.get())
+            .can_parse_rule("if Ambient is DARK then Power is LOW")
+            .can_parse_rule("if Ambient is DARK then Power is LOW with 0.500")
+            .can_parse_rule("if Ambient is DARK and Ambient is BRIGHT then Power is LOW and Power is HIGH with 0.500")
+            .can_parse_rule("if Ambient is DARK or Ambient is BRIGHT then Power is LOW and Power is HIGH with 0.500");
+    }
+
+    TEST_CASE("Rule/Parse/Error", "[rule]") {
+        AssertRule(std::make_unique<Rule>(), engine.get())
+            .cannot_parse_rule("", "[syntax error] empty rule")
+            .cannot_parse_rule("if", "[syntax error] keyword <then> not found in rule: if")
+            .cannot_parse_rule("then", "[syntax error] expected keyword <if>, but found <then> in rule: then")
+            .cannot_parse_rule("if then", "[syntax error] antecedent is empty")
+            .cannot_parse_rule("if Ambient is DARK then", "[syntax error] consequent is empty")
+            .cannot_parse_rule(
+                "if Ambient is DARK then Power is LOW with",
+                "[syntax error] expected a numeric value as the weight of the rule: "
+                "if Ambient is DARK then Power is LOW with"
+            )
+            .cannot_parse_rule(
+                "if Ambient is DARK then Power is LOW with 0.5 extra",
+                "[syntax error] unexpected token <extra> at the end of rule"
+            );
+    }
+
+    TEST_CASE("Rule/Deactivate", "[rule]") {
+        Rule rule;
+        rule.setActivationDegree(fl::nan);
+        rule.setTriggered(true);
+        CHECK_THAT(rule.getActivationDegree(), Approximates(fl::nan));
+        CHECK(rule.isTriggered());
+
+        rule.deactivate();
+
+        CHECK_THAT(rule.getActivationDegree(), Approximates(0));
+        CHECK(not rule.isTriggered());
+    }
+
+    TEST_CASE("Rule/Unload", "[rule]") {
+        Minimum implication;
+        Rule rule("if Ambient is DARK then Power is LOW");
+        rule.load(engine.get());
+
+        rule.setActivationDegree(0.5);
+        rule.trigger(&implication);
+        CHECK(rule.isLoaded());
+        CHECK(rule.isTriggered());
+        CHECK_THAT(rule.getActivationDegree(), Approximates(0.5));
+
+        rule.unload();
+        CHECK(not rule.isLoaded());
+        CHECK(not rule.isTriggered());
+        CHECK_THAT(rule.getActivationDegree(), Approximates(0));
+    }
+
+    TEST_CASE("Rule/Loaded", "[rule]") {
+        Rule rule("if Ambient is DARK then Power is LOW");
+        rule.load(engine.get());
+
+        SECTION("Antecedent and Consequent: Loaded") {
+            CHECK(rule.getAntecedent()->isLoaded());
+            CHECK(rule.getConsequent()->isLoaded());
+            CHECK(rule.isLoaded());
+        }
+        SECTION("Antecedent and not Consequent: Not Loaded") {
+            rule.getConsequent()->unload();
+            CHECK(rule.getAntecedent()->isLoaded());
+            CHECK(not rule.getConsequent()->isLoaded());
+            CHECK(not rule.isLoaded());
+        }
+        SECTION("not Antecedent and Consequent: Not Loaded") {
+            rule.getAntecedent()->unload();
+            CHECK(not rule.getAntecedent()->isLoaded());
+            CHECK(rule.getConsequent()->isLoaded());
+            CHECK(not rule.isLoaded());
+        }
+        SECTION("not Antecedent and not Consequent: Not Loaded") {
+            rule.getAntecedent()->unload();
+            rule.getConsequent()->unload();
+            CHECK(not rule.getAntecedent()->isLoaded());
+            CHECK(not rule.getConsequent()->isLoaded());
+            CHECK(not rule.isLoaded());
+        }
+    }
+
+    TEST_CASE("Rule/ActivateWith/Fails", "[rule]") {
+        Rule rule("if true then false");
+        CHECK(not rule.isLoaded());
+
+        CHECK_THROWS_AS(rule.activateWith(fl::null, fl::null), fl::Exception);
+        CHECK_THROWS_WITH(
+            rule.activateWith(fl::null, fl::null),
+            Catch::Matchers::StartsWith("[rule error] the following rule is not loaded: if true then false")
+        );
+    }
+
+    TEST_CASE("Rule/ActivateWith", "[rule]") {
+        std::unique_ptr<Rule> rule(Rule::parse("if Ambient is DARK then Power is HIGH", engine.get()));
+        CHECK(rule->isLoaded());
+
+        rule->setAntecedent(new MockAntecedent("Ambient is MOCK", 0.5));
+
+        std::vector<fl::scalar> weights = {0.0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.0, -fl::inf, fl::inf};
+        std::vector<fl::scalar> expected = {0.0, 0.05, 0.125, 0.25, 0.375, 0.45, 0.5, -fl::inf, fl::inf};
+        CHECK(weights.size() == expected.size());
+        CHECK(weights.size() > 0);
+
+        for (std::size_t index = 0; index < expected.size(); ++index) {
+            CAPTURE(index);
+            rule->setWeight(weights.at(index));
+            const auto obtained = rule->activateWith(fl::null, fl::null);
+            CHECK_THAT(obtained, Approximates(expected.at(index)));
+        }
+    }
+
+    TEST_CASE("Rule/Trigger/Fails", "[rule]") {
+        Minimum minimum;
+        Rule rule("if true then false");
+        CHECK(not rule.isLoaded());
+
+        CHECK_THROWS_AS(rule.trigger(&minimum), fl::Exception);
+        CHECK_THROWS_WITH(
+            rule.trigger(&minimum),
+            Catch::Matchers::StartsWith("[rule error] the following rule is not loaded: if true then false")
+        );
+    }
+
+    TEST_CASE("Rule/Trigger", "[rule]") {
+        std::unique_ptr<Rule> rule(Rule::parse("if Ambient is DARK then Power is HIGH", engine.get()));
+        CHECK(rule->isLoaded());
+        CHECK(not rule->isTriggered());
+        rule->setConsequent(new MockConsequent("Power is HIGH"));
+
+        SECTION("not enabled and activation 0") {
+            rule->setEnabled(false);
+            rule->setActivationDegree(0.0);
+            rule->trigger(fl::null);
+            CHECK(not rule->isTriggered());
+        }
+        SECTION("enabled and activation 0") {
+            rule->setEnabled(true);
+            rule->setActivationDegree(0.0);
+            rule->trigger(fl::null);
+            CHECK(not rule->isTriggered());
+        }
+        SECTION("not enabled and activation 1") {
+            rule->setEnabled(false);
+            rule->setActivationDegree(1.0);
+            rule->trigger(fl::null);
+            CHECK(not rule->isTriggered());
+        }
+        SECTION("not enabled and activation 1") {
+            rule->setEnabled(true);
+            rule->setActivationDegree(1.0);
+            rule->trigger(fl::null);
+            CHECK(rule->isTriggered());
+        }
+    }
 
 }}
