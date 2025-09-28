@@ -238,7 +238,7 @@ namespace fuzzylite {
                     if (token == Rule::andKeyword() or token == Rule::orKeyword()) {
                         if (expressionStack.size() < 2) {
                             std::ostringstream ex;
-                            ex << "[syntax error] logical operator <" << token << "> expects two operands,"
+                            ex << "[syntax error] logical operator <" << token << "> expects two operands, "
                                << "but found <" << expressionStack.size() << "> in antecedent";
                             throw Exception(ex.str(), FL_AT);
                         }
@@ -334,7 +334,7 @@ namespace fuzzylite {
         std::stringstream ss;
         if (const Operator* fuzzyOperator = dynamic_cast<const Operator*>(node)) {
             ss << fuzzyOperator->toString() << " " << toPrefix(fuzzyOperator->left) << " "
-               << toPrefix(fuzzyOperator->right) << " ";
+               << toPrefix(fuzzyOperator->right);
         } else {
             ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
         }
@@ -351,7 +351,7 @@ namespace fuzzylite {
         std::stringstream ss;
         if (const Operator* fuzzyOperator = dynamic_cast<const Operator*>(node)) {
             ss << toInfix(fuzzyOperator->left) << " " << fuzzyOperator->toString() << " "
-               << toInfix(fuzzyOperator->right) << " ";
+               << toInfix(fuzzyOperator->right);
         } else {
             ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
         }
@@ -368,7 +368,7 @@ namespace fuzzylite {
         std::stringstream ss;
         if (const Operator* fuzzyOperator = dynamic_cast<const Operator*>(node)) {
             ss << toPostfix(fuzzyOperator->left) << " " << toPostfix(fuzzyOperator->right) << " "
-               << fuzzyOperator->toString() << " ";
+               << fuzzyOperator->toString();
         } else {
             ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
         }

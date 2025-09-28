@@ -18,6 +18,7 @@ test/TestDefuzzifier.cpp
 test/TestFactory.cpp
 test/TestHedge.cpp
 test/TestNorm.cpp
+test/TestRule.cpp
 test/TestTerm.cpp
 test/TestVariable.cpp
 test/imex/FldExporterTest.cpp

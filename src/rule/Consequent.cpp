@@ -216,13 +216,13 @@ namespace fuzzylite {
     }
 
     std::string Consequent::toString() const {
-        std::stringstream ss;
+        std::vector<std::string> ss;
         for (std::size_t i = 0; i < conclusions().size(); ++i) {
-            ss << conclusions().at(i)->toString();
+            ss.push_back(conclusions().at(i)->toString());
             if (i + 1 < conclusions().size())
-                ss << " " << Rule::andKeyword() << " ";
+                ss.push_back(Rule::andKeyword());
         }
-        return ss.str();
+        return Op::join(ss, " ");
     }
 
 }
