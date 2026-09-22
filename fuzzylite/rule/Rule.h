@@ -55,6 +55,8 @@ namespace fuzzylite {
       compulsory, `*`-marked elements may appear zero or more times, and
      `?`-marked elements may appear once or not at all.
 
+     @todo Deep copy antecedent and consequent
+
       @author Juan Rada-Vilela, Ph.D.
       @see Antecedent
       @see Consequent
