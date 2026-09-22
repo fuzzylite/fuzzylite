@@ -70,7 +70,16 @@ namespace fuzzylite { namespace test {
                 "  lock-previous: false",
                 "  term: LOW Triangle 0.000 0.250 0.500",
                 "  term: MEDIUM Triangle 0.250 0.500 0.750",
-                "  term: HIGH Triangle 0.500 0.750 1.000"
+                "  term: HIGH Triangle 0.500 0.750 1.000",
+                "RuleBlock: ",
+                "  enabled: true",
+                "  conjunction: none",
+                "  disjunction: none",
+                "  implication: Minimum",
+                "  activation: General",
+                "  rule: if Ambient is DARK then Power is HIGH",
+                "  rule: if Ambient is MEDIUM then Power is MEDIUM",
+                "  rule: if Ambient is BRIGHT then Power is LOW"
             },
             "\n"
         );
@@ -644,6 +653,99 @@ namespace fuzzylite { namespace test {
             rule->trigger(fl::null);
             CHECK(rule->isTriggered());
         }
+    }
+
+    RuleBlock testRuleBlock() {
+        RuleBlock block{
+            "Reactions",
+            {new Rule{"if Ambient is DARK then Power is HIGH"},
+             new Rule{"if Ambient is MEDIUM then Power is MEDIUM"},
+             new Rule{"if Ambient is BRIGHT then Power is LOW"}},
+            fl::null,
+            new Minimum,
+            new Maximum,
+            new AlgebraicProduct
+        };
+        block.setDescription("Reactions to the environment");
+        return block;
+    }
+
+    TEST_CASE("RuleBlock/Constructor/Default", "[rule][block][constructor]") {
+        AssertRuleBlock(std::make_unique<RuleBlock>())
+            .is_enabled()
+            .has_name("")
+            .has_description("")
+            .has_activation("")
+            .has_conjunction("")
+            .has_disjunction("")
+            .has_implication("")
+            .has_rules({});
+    }
+
+    TEST_CASE("RuleBlock/Constructor/Copy", "[rule][block][constructor]") {
+        AssertRuleBlock(std::make_unique<RuleBlock>(testRuleBlock()))
+            .is_enabled()
+            .has_name("Reactions")
+            .has_description("Reactions to the environment")
+            .has_activation("")
+            .has_conjunction("Minimum")
+            .has_disjunction("Maximum")
+            .has_implication("AlgebraicProduct")
+            .has_rules(
+                {"if Ambient is DARK then Power is HIGH",
+                 "if Ambient is MEDIUM then Power is MEDIUM",
+                 "if Ambient is BRIGHT then Power is LOW"}
+            );
+    }
+
+    TEST_CASE("RuleBlock/Constructor/CopyAssignment", "[rule][block][constructor]") {
+        RuleBlock copy{
+            "Copy",
+            {new Rule{"if A then B"}, new Rule{"if B then A"}},
+            new First(2),
+            new EinsteinProduct,
+            new EinsteinSum,
+            new HamacherProduct
+        };
+        RuleBlock test = testRuleBlock();
+        copy = test;
+        AssertRuleBlock(std::make_unique<RuleBlock>(copy))
+            .is_enabled()
+            .has_name("Reactions")
+            .has_description("Reactions to the environment")
+            .has_activation("")
+            .has_conjunction("Minimum")
+            .has_disjunction("Maximum")
+            .has_implication("AlgebraicProduct")
+            .has_rules(
+                {"if Ambient is DARK then Power is HIGH",
+                 "if Ambient is MEDIUM then Power is MEDIUM",
+                 "if Ambient is BRIGHT then Power is LOW"}
+            );
+    }
+
+    TEST_CASE("RuleBlock/Constructor/Clone", "[rule][block][constructor]") {
+        std::unique_ptr<RuleBlock> clone(testRuleBlock().clone());
+        AssertRuleBlock(std::make_unique<RuleBlock>(*clone.get()))
+            .is_enabled()
+            .has_name("Reactions")
+            .has_description("Reactions to the environment")
+            .has_activation("")
+            .has_conjunction("Minimum")
+            .has_disjunction("Maximum")
+            .has_implication("AlgebraicProduct")
+            .has_rules(
+                {"if Ambient is DARK then Power is HIGH",
+                 "if Ambient is MEDIUM then Power is MEDIUM",
+                 "if Ambient is BRIGHT then Power is LOW"}
+            );
+    }
+    TEST_CASE("RuleBlock/ToString", "[rule][block]") {
+        RuleBlock block = testRuleBlock();
+        block.loadRules(engine.get());
+        CHECK(block.isLoaded());
+        
+        AssertRuleBlock(std::make_unique<RuleBlock>(testRuleBlock()));
     }
 
 }}

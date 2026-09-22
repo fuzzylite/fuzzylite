@@ -236,5 +236,59 @@ namespace fuzzylite { namespace test {
         }
     };
 
+    struct AssertRuleBlock {
+        std::unique_ptr<RuleBlock> rule_block;
+
+        AssertRuleBlock(std::unique_ptr<RuleBlock> rule_block) : rule_block(std::move(rule_block)) {}
+
+        AssertRuleBlock& is_enabled(bool enabled = true) {
+            CHECK(rule_block->isEnabled() == enabled);
+            return *this;
+        }
+
+        AssertRuleBlock& has_name(const std::string& name) {
+            CHECK(rule_block->getName() == name);
+            return *this;
+        }
+
+        AssertRuleBlock& has_description(const std::string& description) {
+            CHECK(rule_block->getDescription() == description);
+            return *this;
+        }
+
+        AssertRuleBlock& has_rules(const std::vector<std::string>& expected) {
+            std::vector<std::string> obtained;
+            obtained.reserve(rule_block->rules().size());
+            for (auto& rule : rule_block->rules())
+                obtained.push_back(rule->getText());
+            CHECK(obtained == expected);
+            return *this;
+        }
+
+        AssertRuleBlock& has_activation(const std::string& expected) {
+            const std::string obtained = rule_block->getActivation() ? rule_block->getActivation()->className() : "";
+            CHECK(obtained == expected);
+            return *this;
+        }
+
+        AssertRuleBlock& has_conjunction(const std::string& expected) {
+            const std::string obtained = rule_block->getConjunction() ? rule_block->getConjunction()->className() : "";
+            CHECK(obtained == expected);
+            return *this;
+        }
+
+        AssertRuleBlock& has_disjunction(const std::string& expected) {
+            const std::string obtained = rule_block->getDisjunction() ? rule_block->getDisjunction()->className() : "";
+            CHECK(obtained == expected);
+            return *this;
+        }
+
+        AssertRuleBlock& has_implication(const std::string& expected) {
+            const std::string obtained = rule_block->getImplication() ? rule_block->getImplication()->className() : "";
+            CHECK(obtained == expected);
+            return *this;
+        }
+    };
+
 }}
 #endif

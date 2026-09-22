@@ -169,6 +169,12 @@ namespace fuzzylite {
         virtual void reloadRules(const Engine* engine);
 
         /**
+           Gets whether all the enabled rules in the block are loaded
+         * @return whether all the enabled rules in the block are loaded
+         */
+        virtual bool isLoaded() const;
+
+        /**
           Returns a string representation of the rule block in the FuzzyLite
           Language
           @return a string representation of the rule block in the  FuzzyLite
@@ -266,4 +272,4 @@ namespace fuzzylite {
         virtual RuleBlock& activation(Activation* activation);
     };
 }
-#endif /* RULEBLOCK_H */
+#endif

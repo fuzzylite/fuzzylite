@@ -183,6 +183,14 @@ namespace fuzzylite {
         return this->_enabled;
     }
 
+    bool RuleBlock::isLoaded() const {
+        bool result = not _rules.empty();
+        for (std::size_t i = 0; i < _rules.size(); ++i)
+            if (_rules.at(i)->isEnabled() and not _rules.at(i)->isLoaded())
+                result &= false;
+        return result;
+    }
+
     std::string RuleBlock::toString() const {
         return FllExporter().toString(this);
     }
