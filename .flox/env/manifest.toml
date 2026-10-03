@@ -1,0 +1,28 @@
+schema-version = "1.17.0"
+
+[install]
+cmake.pkg-path = "cmake"
+gnumake.pkg-path = "gnumake"
+gnumake.outputs = "all"
+clang.pkg-path = "clang"
+doxygen.pkg-path = "doxygen" # nox -e docs, Makefile
+python.pkg-path = "python312" # tools/dev/pyproject.toml requires python ^3.9
+uv.pkg-path = "uv"
+
+[hook]
+on-activate = '''
+  # fuzzylite_devtools provides nox, clang-format, gcovr, ruff, etc. (tools/dev/pyproject.toml)
+  venv="$FLOX_ENV_PROJECT/.local/.venv"
+  if [ ! -d "$venv" ]; then
+    uv venv --python "$FLOX_ENV/bin/python3" "$venv" >&2 &&
+      uv pip install --quiet --python "$venv/bin/python" -e "$FLOX_ENV_PROJECT/tools/dev" >&2
+  fi
+'''
+
+[profile]
+common = '''
+  [ -f "$FLOX_ENV_PROJECT/.local/.venv/bin/activate" ] && . "$FLOX_ENV_PROJECT/.local/.venv/bin/activate"
+'''
+
+[options]
+systems = ["aarch64-darwin", "aarch64-linux", "x86_64-linux"]
