@@ -1,0 +1,38 @@
+# Hooks managed by prek (https://github.com/j178/prek), compatible with pre-commit.
+# Requires the devtools virtual environment to be active (see `make devtools`), as nox is run from it.
+#
+# Setup:
+#   > git config --local --unset core.hooksPath   # prek refuses to install while this is set
+#   > prek install
+#
+# Run manually: `prek run --all-files`
+repos:
+  - repo: local
+    hooks:
+      - id: lint-cmake
+        name: lint cmake
+        entry: nox -e lint_cmake
+        language: system
+        files: (^|/)CMakeLists\.txt$|\.cmake$
+        pass_filenames: false
+
+      - id: lint-md
+        name: lint markdown
+        entry: nox -e lint_md
+        language: system
+        files: \.md$
+        pass_filenames: false
+
+      - id: lint-cpp
+        name: lint c++
+        entry: nox -e lint_cpp
+        language: system
+        files: \.(h|hpp|cpp)$
+        pass_filenames: false
+
+      - id: lint-py
+        name: lint devtools (python)
+        entry: nox -e lint_py
+        language: system
+        files: ^(noxfile\.py|tools/dev/.*\.(py|toml))$
+        pass_filenames: false
